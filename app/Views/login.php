@@ -28,7 +28,7 @@
             integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
         <!--end::Third Party Plugin(Bootstrap Icons)-->
         <!--begin::Required Plugin(AdminLTE)-->
-        <link rel="stylesheet" href="<?php echo base_url('') ?>/css/adminlte.css" />
+        <link rel="stylesheet" href="<?php echo base_url('') ?>dashboard/css/adminlte.css" />
         <!--end::Required Plugin(AdminLTE)-->
     </head>
     <!--end::Head-->
@@ -43,13 +43,16 @@
             <div class="card">
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Harap login terlebih dahulu</p>
-                    <form action="../index3.html" method="post">
+                    <?php if(session()->getFlashdata('msg')): ?>
+                    <div><?php echo session()->getFlashdata('msg'); ?></div>
+                    <?php endif; ?>
+                    <form action="/loginProcess" method="post">
                         <div class="input-group mb-3">
-                            <input type="Username" class="form-control" placeholder="username" />
+                            <input name="username" type="text" class="form-control" placeholder="Username" />
                             <div class="input-group-text"><span class="bi bi-people"></span></div>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="Password" />
+                            <input name="password" type="password" class="form-control" placeholder="Password" />
                             <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
                         </div>
                         <!--begin::Row-->
@@ -90,7 +93,7 @@
         </script>
         <!--end::Required Plugin(Bootstrap 5)-->
         <!--begin::Required Plugin(AdminLTE)-->
-        <script src="<?php echo base_url('') ?>/js/adminlte.js"></script>
+        <script src="<?php echo base_url('') ?>dashboard/js/adminlte.js"></script>
         <!--end::Required Plugin(AdminLTE)-->
         <!--begin::OverlayScrollbars Configure-->
         <script>

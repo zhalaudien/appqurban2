@@ -30,7 +30,7 @@
 </script>
 <!--end::Required Plugin(Bootstrap 5)-->
 <!--begin::Required Plugin(AdminLTE)-->
-<script src="<?php echo base_url('') ?>/js/adminlte.js"></script>
+<script src="<?php echo base_url('') ?>dashboard/js/adminlte.js"></script>
 <!--end::Required Plugin(AdminLTE)-->
 <!--begin::OverlayScrollbars Configure-->
 <script>

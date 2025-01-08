@@ -13,7 +13,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <a href="#" class="btn btn-danger btn-flat float-end">Logout</a>
+                        <a href="/logout" class="btn btn-danger btn-flat float-end">Logout</a>
                     </ul>
                     <!--end::Start Navbar Links-->
                     <!--end::End Navbar Links-->
@@ -28,7 +28,7 @@
                     <!--begin::Brand Link-->
                     <a href="./index.html" class="brand-link">
                         <!--begin::Brand Image-->
-                        <img src="<?php echo base_url('') ?>/assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                        <img src="<?php echo base_url('') ?>dashboard/assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
                             class="brand-image opacity-75 shadow" />
                         <!--end::Brand Image-->
                         <!--begin::Brand Text-->
@@ -45,7 +45,7 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
+                                <a href="/admin" class="nav-link active">
                                     <i class="nav-icon bi-speedometer"></i>
                                     <p>Dashboard</p>
                                 </a>
@@ -60,21 +60,15 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="./widgets/small-box.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                        <a href="/cabang" class="nav-link">
+                                            <i class="nav-icon bi bi-building"></i>
                                             <p>Data Cabang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="./widgets/info-box.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                        <a href="/panitia" class="nav-link">
+                                            <i class="nav-icon bi bi-people"></i>
                                             <p>Data Panitia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="./widgets/cards.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Data Qurban</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -91,7 +85,7 @@
                                     <li class="nav-item">
                                         <a href="./layout/unfixed-sidebar.html" class="nav-link">
                                             <i class="nav-icon bi bi-circle"></i>
-                                            <p>Data Hewan</p>
+                                            <p>Data Qurban Cabang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -129,23 +123,29 @@
                                             <p>Hewan Masuk</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="./layout/unfixed-sidebar.html" class="nav-link">
+                                            <i class="nav-icon bi bi-sheep"></i>
+                                            <p>Data Sapi</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="./index.html" class="nav-link">
-                                    <i class="nav-icon bi-speedometer"></i>
+                                    <i class="nav-icon bi-box-seam-fill"></i>
                                     <p>Kandang</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="./index.html" class="nav-link">
-                                    <i class="nav-icon bi-speedometer"></i>
+                                    <i class="nav-icon bi-box-seam-fill"></i>
                                     <p>Produksi Besek</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                                    <i class="nav-icon bi bi-book"></i>
                                     <p>
                                         Master Surat
                                         <i class="nav-arrow bi bi-chevron-right"></i>
@@ -154,25 +154,25 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                            <i class="nav-icon bi bi-clipboard-fill"></i>
                                             <p>Surat Jalan Besek</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                            <i class="nav-icon bi bi-clipboard-fill"></i>
                                             <p>Surat Jalan Kulit</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                            <i class="nav-icon bi bi-clipboard-fill"></i>
                                             <p>Surat Muspika</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
+                                            <i class="nav-icon bi bi-clipboard-fill"></i>
                                             <p>Surat Rekomendasi</p>
                                         </a>
                                     </li>
