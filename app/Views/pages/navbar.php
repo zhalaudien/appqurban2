@@ -56,7 +56,7 @@ use PhpParser\Node\Stmt\Echo_;
                     </li>
                     <li class="nav-item <?= $navbar == 'data' ? 'menu-open' : '' ?>">
                         <a href="#" class="nav-link ">
-                            <i class="nav-icon bi bi-box-seam-fill"></i>
+                            <i class="nav-icon fas fa-database"></i>
                             <p>
                                 Data
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -65,19 +65,19 @@ use PhpParser\Node\Stmt\Echo_;
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/cabang" class="nav-link <?= $active == 'cabang' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-building"></i>
+                                    <i class="nav-icon fas fa-building"></i>
                                     <p>Data Cabang</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/panitia" class="nav-link <?= $active == 'panitia' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-people"></i>
+                                    <i class="nav-icon fas fa-user"></i>
                                     <p>Data Panitia</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/muspika" class="nav-link <?= $active == 'muspika' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-people"></i>
+                                    <i class="nav-icon fas fa-user-tie"></i>
                                     <p>Data Muspika</p>
                                 </a>
                             </li>
@@ -85,7 +85,7 @@ use PhpParser\Node\Stmt\Echo_;
                     </li>
                     <li class="nav-item <?= $navbar == 'qurban' ? 'menu-open' : '' ?>">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon bi bi-clipboard-fill"></i>
+                            <i class="nav-icon fas fa-brain"></i>
                             <p>
                                 Master Qurban
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -94,25 +94,25 @@ use PhpParser\Node\Stmt\Echo_;
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/qurban" class="nav-link <?= $active == 'qurban' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    <i class="nav-icon fas fa-server"></i>
                                     <p>Data Qurban Cabang</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/amprah" class="nav-link <?= $active == 'amprah' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    <i class="nav-icon fas fa-server"></i>
                                     <p>Amprah Besek</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/realisasi" class="nav-link <?= $active == 'realisasi' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    <i class="nav-icon fas fa-server"></i>
                                     <p>Realisasi Besek</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/jadwal" class="nav-link <?= $active == 'jadwal' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    <i class="nav-icon fas fa-server"></i>
                                     <p>Jadwal Pengiriman</p>
                                 </a>
                             </li>
@@ -120,7 +120,7 @@ use PhpParser\Node\Stmt\Echo_;
                     </li>
                     <li class="nav-item <?= $navbar == 'penerimaan' ? 'menu-open' : '' ?>">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon bi bi-clipboard-fill"></i>
+                            <i class="nav-icon fas fa-book-open"></i>
                             <p>
                                 Penerimaan
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -129,13 +129,13 @@ use PhpParser\Node\Stmt\Echo_;
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/penerimaan" class="nav-link <?= $active == 'penerimaan' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    <i class="nav-icon fas fa-paw"></i>
                                     <p>Hewan Masuk</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/datasapi" class="nav-link <?= $active == 'datasapi' ? 'active' : '' ?>">
-                                    <i class="nav-icon bi bi-sheep"></i>
+                                    <i class="nav-icon fas fa-paw"></i>
                                     <p>Data Sapi</p>
                                 </a>
                             </li>
@@ -161,7 +161,7 @@ use PhpParser\Node\Stmt\Echo_;
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon bi bi-book"></i>
+                            <i class="nav-icon fas fa-envelope"></i>
                             <p>
                                 Master Surat
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -170,25 +170,25 @@ use PhpParser\Node\Stmt\Echo_;
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                                    <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Jalan Besek</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                                    <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Jalan Kulit</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                                    <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Muspika</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                                    <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Rekomendasi</p>
                                 </a>
                             </li>
