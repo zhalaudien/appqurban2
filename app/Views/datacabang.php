@@ -12,7 +12,7 @@
                       <div>
                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                               data-bs-target="#inputdata">Input Data</button>
-                          <button type="button" class="btn btn-success">Exsport Exel</button>
+                          <a href="/cabang/export" type="button" class="btn btn-success">Exsport Exel</a>
                       </div>
                       <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">

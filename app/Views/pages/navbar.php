@@ -118,13 +118,13 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="./layout/unfixed-sidebar.html" class="nav-link">
+                                        <a href="/penerimaan" class="nav-link">
                                             <i class="nav-icon bi bi-circle"></i>
                                             <p>Hewan Masuk</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="./layout/unfixed-sidebar.html" class="nav-link">
+                                        <a href="/datasapi" class="nav-link">
                                             <i class="nav-icon bi bi-sheep"></i>
                                             <p>Data Sapi</p>
                                         </a>
@@ -132,13 +132,13 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link">
+                                <a href="/kandang" class="nav-link">
                                     <i class="nav-icon bi-box-seam-fill"></i>
                                     <p>Kandang</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link">
+                                <a href="/besek" class="nav-link">
                                     <i class="nav-icon bi-box-seam-fill"></i>
                                     <p>Produksi Besek</p>
                                 </a>
