@@ -21,6 +21,12 @@ $routes->post('/cabang/edit', 'Data::editcabang', ['filter' => 'auth']);
 $routes->get('/cabang/hapus/(:num)', 'Data::hapuscabang/$1', ['filter' => 'auth']);
 $routes->get('/cabang/export', 'Data::exportcabang', ['filter' => 'auth']);
 
+$routes->get('/muspika', 'Data::muspika', ['filter' => 'auth']);
+$routes->post('/muspika/tambah', 'Data::tambahmuspika', ['filter' => 'auth']);
+$routes->post('/muspika/edit', 'Data::editmuspika', ['filter' => 'auth']);
+$routes->get('/muspika/hapus/(:num)', 'Data::hapusmuspika/$1', ['filter' => 'auth']);
+$routes->get('/muspika/export', 'Data::exportmuspika', ['filter' => 'auth']);
+
 $routes->get('/penerimaan', 'Penerimaan::index', ['filter' => 'auth']);
 $routes->post('/penerimaan/tambah', 'Penerimaan::tambah', ['filter' => 'auth']);
 $routes->post('/penerimaan/edit', 'Penerimaan::edit', ['filter' => 'auth']);

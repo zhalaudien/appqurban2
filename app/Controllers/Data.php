@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\PanitiaModel;
 use App\Models\CabangModel;
+use App\Models\MuspikaModel;
 use CodeIgniter\Controller;
 use App\Models\IdpantiaModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -221,6 +222,102 @@ class Data extends Controller
 
         $writer = new Xlsx($spreadsheet);
         $fileName = 'Data Panitia '.$date;
+    
+        // Redirect hasil generate xlsx ke web client
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Cache-Control: max-age=0');
+    
+        $writer->save('php://output');
+    }
+
+    public function muspika()
+    {
+        $header = [
+            'title' => 'Data Muspika',
+            'navbar' => 'data',
+            'active' => 'muspika'
+        ];
+
+        $userModel = new MuspikaModel();
+        $data['viewmuspika'] = $userModel->orderBy('nama', 'ASC')->findAll();
+        
+        echo view("pages/header");
+        echo view("pages/navbar", $header);
+        echo view("datamuspika", $data, $header);
+        echo view("pages/footer");
+    }
+
+    public function tambahmuspika()
+    {
+        $model = new MuspikaModel;
+        $data = array(
+            'id'     => $this->request->getPost('id'),
+            'nama'   => $this->request->getPost('nama'),
+            'dinas'  => $this->request->getPost('dinas'),
+            'pj'     => $this->request->getPost('pj'),
+        );
+        $model->saveMuspika($data);
+        echo '<script>
+                alert("Sukses Tambah Data Muspika");
+                window.location="'.base_url('muspika').'"
+            </script>';
+    }
+
+    public function editmuspika()
+    {
+        $model = new MuspikaModel;
+        $id = $this->request->getPost('id');
+        $data = array(
+            'nama'   => $this->request->getPost('nama'),
+            'dinas'  => $this->request->getPost('dinas'),
+            'pj'     => $this->request->getPost('pj'),
+        );
+        $model->updateMuspika($data, $id);
+        echo '<script>
+                alert("Sukses Edit Data Muspika");
+                window.location="'.base_url('muspika').'"
+            </script>';
+    }
+
+    public function hapusmuspika($id = null)
+    {
+        $model = new MuspikaModel();
+        $data['user'] = $model->where('id', $id)->delete($id);
+        echo '<script>
+                alert("Sukses Hapus Data Muspika");
+                window.location="'.base_url('muspika').'"
+            </script>';
+    }
+
+    public function exportmuspika()
+    {
+        $userModel = new MuspikaModel();
+        $muspika = $userModel->orderBy('nama', 'ASC')->findAll();
+        $no = 1;
+        $date = date('d-m-Y');
+
+        $spreadsheet = new Spreadsheet();
+        // tulis header/nama kolom 
+        $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'No')
+                    ->setCellValue('B1', 'Nama')
+                    ->setCellValue('C1', 'Dinas')
+                    ->setCellValue('D1', 'PJ');
+        
+        $column = 2;
+        // tulis data mobil ke cell
+        foreach($muspika as $data) {
+            $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('A' . $column, $no++)
+                        ->setCellValue('B' . $column, $data['nama'])
+                        ->setCellValue('C' . $column, $data['dinas'])
+                        ->setCellValue('D' . $column, $data['pj']);
+            $column++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Data Muspika '.$date;
     
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
