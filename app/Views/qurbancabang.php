@@ -85,7 +85,7 @@
                                   <tr>
                                       <th style="width: 10px">No</th>
                                       <th>Cabang</th>
-                                      <th>Sapi BUMM/th>
+                                      <th>Sapi BUMM</th>
                                       <th>Sapi BUMM Orang</th>
                                       <th>Kambing BUMM</th>
                                       <th>Sapi Mandiri</th>

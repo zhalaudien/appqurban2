@@ -128,6 +128,7 @@ class Qurban extends Controller
             'navbar' => 'qurban',
             'active' => 'amprah'
         ];
+
         $userModel = new AmparahModel();
         $data['amprah'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
@@ -252,6 +253,17 @@ class Qurban extends Controller
             'active' => 'realisasi'
         ];
 
+        $db = \Config\Database::connect();
+        $builder = $db->table('dataqurban');
+        $builder->select('dataqurban.*, realisasi_besek.*, permohonan_besek.*');
+        $builder->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left');
+        $builder->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left');
+        $query = $builder->get();
+        $data['join'] = $query->getResultArray();
+
+        $userModel = new QurbanModel();
+        $data['dataqurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+
         $userModel = new RealisasiModel();
         $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
@@ -277,7 +289,7 @@ class Qurban extends Controller
             'kls' => $this->request->getPost('kls'),
             'realisasi' => $this->request->getPost('realisasi'),
         );
-        $model->save($data);
+        $model->saverealisasi($data);
         echo '<script>
                 alert("Sukses Tambah Data Realaisasi");
                 window.location="'.base_url('/realisasi').'"
@@ -287,7 +299,7 @@ class Qurban extends Controller
     public function editrealisasi()
     {
         $model = new RealisasiModel();
-        $id = $this->request->getPost('id');
+        $id = $this->request->getPost('cabang');
         $data = array(
             'cabang' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
@@ -301,7 +313,7 @@ class Qurban extends Controller
             'kls' => $this->request->getPost('kls'),
             'realisasi' => $this->request->getPost('realisasi'),
         );
-        $model->update($id, $data);
+        $model->updaterealisasi($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Realaisasi");
                 window.location="'.base_url('/realisasi').'"

@@ -10,15 +10,15 @@ class RealisasiModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['ts', 'tk', 'a', 'os', 'ok', 'ks', 'kb', 'kks', 'kls', 'realisasi', 'info_kirim', 'date_input'];
+    protected $allowedFields    = ['cabang', 'ts', 'tk', 'a', 'os', 'ok', 'ks', 'kb', 'kks', 'kls', 'realisasi', 'info_kirim', 'date_input'];
 
-    public function saveRealisasi($data)
+    public function saverealisasi($data)
     {
         $query = $this->db->table($this->table)->insert($data);
         return $query;
     }
 
-    public function updateRealisasi($data, $id)
+    public function updaterealisasi($data, $id)
     {
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
