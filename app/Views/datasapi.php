@@ -6,9 +6,6 @@
               <div class="container-fluid">
                   <!--begin::Row-->
                   <div class="row">
-                      <div class="col-sm-6">
-                          <h3 class="mb-0">Data Sapi</h3>
-                      </div>
                       <div>
                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                               data-bs-target="#inputdata">Input Data</button>

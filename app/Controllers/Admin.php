@@ -28,9 +28,15 @@ class Admin extends Controller
         $userModel = new QurbanModel();
         $data['kambing_mandiri'] = $userModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
 
+        $header = [
+            'title' => 'Dashboard',
+            'navbar' => 'dashboard',
+            'active' => 'dashboard'
+        ];
+
         echo view("pages/header");
-        echo view("pages/navbar");
-        echo view("index", $data);
+        echo view("pages/navbar", $header);
+        echo view("index", $data, $header);
         echo view("pages/footer");
     }
 }

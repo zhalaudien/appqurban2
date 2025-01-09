@@ -6,12 +6,10 @@
               <div class="container-fluid">
                   <!--begin::Row-->
                   <div class="row">
-                      <div class="col-sm-6">
-                      </div>
                       <div>
                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                               data-bs-target="#inputdata">Input Data</button>
-                          <a href="/cabang/export" type="button" class="btn btn-success">Exsport Exel</a>
+                          <a href="/realisasi/export" type="button" class="btn btn-success">Exsport Exel</a>
                       </div>
                       <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">
@@ -23,7 +21,7 @@
                                           aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                      <form action="/cabang/tambah" method="post">
+                                      <form action="/realisasi/tambah" method="post">
                                           <div class="mb-3">
                                               <label for="cabang" class="form-label">cabang</label>
                                               <input type="text" class="form-control" name="cabang">
@@ -94,28 +92,37 @@
                                   <tr>
                                       <th style="width: 10px">No</th>
                                       <th>Cabang</th>
-                                      <th>Ketua Cabang</th>
-                                      <th>No HP</th>
-                                      <th>cabang Cabang</th>
-                                      <th>No HP</th>
-                                      <th>Alamat</th>
-                                      <th>Perwakilan</th>
+                                      <th>TS</th>
+                                      <th>TK</th>
+                                      <th>M</th>
+                                      <th>OS</th>
+                                      <th>OK</th>
+                                      <th>K Sapi</th>
+                                      <th>K Kambing</th>
+                                      <th>KK Sapi</th>
+                                      <th>KL Sapi</th>
+                                      <th>Realisasi</th>
                                       <th>Action</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php $no = 1; ?>
-                                  <?php if($viewcabang): ?>
-                                  <?php foreach($viewcabang as $cabang): ?>
+                                  <?php if($realisasi): ?>
+                                  <?php foreach($realisasi as $cabang): ?>
                                   <tr class="align-middle">
                                       <td><?= $no++; ?></td>
                                       <td><?php echo $cabang['cabang']; ?></td>
-                                      <td><?php echo $cabang['ketua_cabang']; ?></td>
-                                      <td><?php echo $cabang['no_hp']; ?></td>
-                                      <td><?php echo $cabang['panitia_qurban']; ?></td>
-                                      <td><?php echo $cabang['no2_hp']; ?></td>
-                                      <td><?php echo $cabang['alamat']; ?></td>
-                                      <td><?php echo $cabang['perwakilan']; ?></td>
+                                      <td><?php echo $cabang['ts']; ?></td>
+                                      <td><?php echo $cabang['tk']; ?></td>
+                                      <td><?php echo $cabang['a']; ?></td>
+                                      <td><?php echo $cabang['os']; ?></td>
+                                      <td><?php echo $cabang['ok']; ?></td>
+                                      <td><?php echo $cabang['ks']; ?></td>
+                                      <td><?php echo $cabang['kb']; ?></td>
+                                      <td><?php echo $cabang['kks']; ?></td>
+                                      <td><?php echo $cabang['kls']; ?></td>
+                                      <td><?php echo $cabang['realisasi']; ?></td>
+
                                       <td>
                                           <div class="btn-group mb-2" role="group"
                                               aria-label="Basic mixed styles example">
@@ -127,7 +134,7 @@
                                                   <div class="modal-dialog">
                                                       <div class="modal-content">
                                                           <div class="modal-body">
-                                                              <form action="<?= site_url('/cabang/edit') ?>"
+                                                              <form action="<?= site_url('/realisasi/edit') ?>"
                                                                   method="post">
                                                                   <div class="mb-3">
                                                                       <input type="hidden" id="id"
@@ -140,43 +147,61 @@
                                                                           value="<?php echo $cabang['cabang']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="ketua_cabang" class="form-label">Ketua
-                                                                          Cabang</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="ketua_cabang"
-                                                                          value="<?php echo $cabang['ketua_cabang']; ?>">
+                                                                      <label for="ts" class="form-label">TS
+                                                                      </label>
+                                                                      <input type="text" class="form-control" name="ts"
+                                                                          value="<?php echo $cabang['ts']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="no_hp" class="form-label">No
-                                                                          HP</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="no_hp"
-                                                                          value="<?php echo $cabang['no_hp']; ?>">
+                                                                      <label for="tk" class="form-label">Tk</label>
+                                                                      <input type="text" class="form-control" name="tk"
+                                                                          value="<?php echo $cabang['tk']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="pantia_qurban"
-                                                                          class="form-label">Panitia Cabang</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="pantia_qurban"
-                                                                          value="<?php echo $cabang['panitia_qurban']; ?>">
+                                                                      <label for="a" class="form-label">M</label>
+                                                                      <input type="text" class="form-control" name="a"
+                                                                          value="<?php echo $cabang['a']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="no2_hp" class="form-label">No
-                                                                          HP</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="no2_hp"
-                                                                          value="<?php echo $cabang['no2_hp']; ?>">
+                                                                      <label for="os" class="form-label">OS</label>
+                                                                      <input type="text" class="form-control" name="os"
+                                                                          value="<?php echo $cabang['os']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="perwakilan"
-                                                                          class="form-label">Perwakilan</label>
-                                                                      <select class="form-select" name="perwakilan">
+                                                                      <label for="ok" class="form-label">Ok</label>
+                                                                      <input type="text" class="form-control" name="ok"
+                                                                          value="<?php echo $cabang['ok']; ?>">
+                                                                  </div>
+                                                                  <div class="mb-3">
+                                                                      <label for="ks" class="form-label">KS</label>
+                                                                      <input type="text" class="form-control" name="ks"
+                                                                          value="<?php echo $cabang['ks']; ?>">
+                                                                  </div>
+                                                                  <div class="mb-3">
+                                                                      <label for="kb" class="form-label">KB</label>
+                                                                      <input type="text" class="form-control" name="kb"
+                                                                          value="<?php echo $cabang['kb']; ?>">
+                                                                  </div>
+                                                                  <div class="mb-3">
+                                                                      <label for="kks" class="form-label">KKS</label>
+                                                                      <input type="text" class="form-control" name="kks"
+                                                                          value="<?php echo $cabang['kks']; ?>">
+                                                                  </div>
+                                                                  <div class="mb-3">
+                                                                      <label for="kls" class="form-label">KLS</label>
+                                                                      <input type="text" class="form-control" name="kls"
+                                                                          value="<?php echo $cabang['kls']; ?>">
+                                                                  </div>
+                                                                  <div class="mb-3">
+                                                                      <label for="realisasi"
+                                                                          class="form-label">INFO</label>
+                                                                      <select class="form-select" name="realisasi">
                                                                           <option
-                                                                              value="<?php echo $cabang['perwakilan']; ?>">
-                                                                              <?php echo $cabang['perwakilan']; ?>
+                                                                              value="<?php echo $cabang['realisasi']; ?>">
+                                                                              <?php echo $cabang['realisasi']; ?>
                                                                           </option>
-                                                                          <option value="sragen">Sragen</option>
-                                                                          <option value="karanganyar">Karanganyar
+                                                                          <option value="Sudah">Sudah</option>
+                                                                          <option value="Belum">Belum
                                                                           </option>
                                                                       </select>
                                                                   </div>
@@ -209,7 +234,7 @@
                                                       <div class="modal-footer">
                                                           <button type="button" class="btn btn-warning"
                                                               data-bs-dismiss="modal">Batal</button>
-                                                          <a href="<?= base_url('/cabang/hapus/'.$cabang['id']) ?>"
+                                                          <a href="<?= base_url('/realisasi/hapus/'.$cabang['id']) ?>"
                                                               type="button" class="btn btn-danger">Hapus</a>
                                                       </div>
                                                   </div>

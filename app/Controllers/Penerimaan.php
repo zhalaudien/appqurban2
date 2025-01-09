@@ -13,6 +13,11 @@ class Penerimaan extends Controller
 {
     public function index()
     {
+        $header = [
+            'title' => 'Penerimaan Hewan',
+            'navbar' => 'penerimaan',
+            'active' => 'penerimaan'
+        ];
         $userModel = new PenerimaanModel();
         $data['viewpenerimaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
 
@@ -20,8 +25,8 @@ class Penerimaan extends Controller
         $data['viewcabang'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         echo view("pages/header");
-        echo view("pages/navbar");
-        echo view("penerimaan", $data);
+        echo view("pages/navbar", $header);
+        echo view("penerimaan", $data, $header);
         echo view("pages/footer");
     }
 
@@ -119,6 +124,12 @@ class Penerimaan extends Controller
 
     public function datasapi()
     {
+        $header = [
+            'title' => 'Data Sapi',
+            'navbar' => 'penerimaan',
+            'active' => 'datasapi'
+        ];
+
         $userModel = new SapiModel();
         $data['viewsapi'] = $userModel->orderBy('date_input', 'DESC')->findAll();
 
@@ -126,8 +137,8 @@ class Penerimaan extends Controller
         $data['viewcabang'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         echo view("pages/header");
-        echo view("pages/navbar");
-        echo view("datasapi", $data);
+        echo view("pages/navbar", $header);
+        echo view("datasapi", $data, $header);
         echo view("pages/footer");
     }
 
