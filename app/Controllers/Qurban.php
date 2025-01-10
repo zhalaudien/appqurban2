@@ -8,6 +8,7 @@ use App\Models\RealisasiModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class Qurban extends Controller
 {
@@ -253,13 +254,12 @@ class Qurban extends Controller
             'active' => 'realisasi'
         ];
 
-        $db = \Config\Database::connect();
-        $builder = $db->table('dataqurban');
-        $builder->select('dataqurban.*, realisasi_besek.*, permohonan_besek.*');
-        $builder->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left');
-        $builder->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left');
-        $query = $builder->get();
-        $data['join'] = $query->getResultArray();
+        $userModel = new QurbanModel();
+        $data['join'] = $userModel->select('dataqurban.*, realisasi_besek.*, permohonan_besek.*')
+                ->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left')
+                ->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left')
+                ->orderBy('dataqurban.cabang', 'ASC')
+                ->findAll();
 
         $userModel = new QurbanModel();
         $data['dataqurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
@@ -269,7 +269,7 @@ class Qurban extends Controller
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
-        echo view("realisasibesek", $data, $header);
+        echo view("realisasibesek", $data, $header,);
         echo view("pages/footer");
     }
 
@@ -298,9 +298,9 @@ class Qurban extends Controller
 
     public function editrealisasi()
     {
-        $model = new RealisasiModel();
-        $id = $this->request->getPost('cabang');
-        $data = array(
+        $userModel = new RealisasiModel();
+        $id = $this->request->getPost('id');
+        $data = [
             'cabang' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
             'tk' => $this->request->getPost('tk'),
@@ -312,8 +312,9 @@ class Qurban extends Controller
             'kks' => $this->request->getPost('kks'),
             'kls' => $this->request->getPost('kls'),
             'realisasi' => $this->request->getPost('realisasi'),
-        );
-        $model->updaterealisasi($id, $data);
+        ];
+
+        $userModel->editrealisasi($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Realaisasi");
                 window.location="'.base_url('/realisasi').'"

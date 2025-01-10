@@ -160,9 +160,12 @@
                                                                   action="<?= site_url('/realisasi/edit') ?>"
                                                                   method="post">
                                                                   <div class="row g-3">
+                                                                      <input type="hidden" id="id"
+                                                                          value="<?php echo $cabang['id']; ?>"
+                                                                          name="id">
                                                                       <input type="hidden" id="cabang"
                                                                           value="<?php echo $cabang['cabang']; ?>"
-                                                                          name="cabang" readonly>
+                                                                          name="cabang">
                                                                       <div class="col-md-4">
                                                                           <label for="validationCustom01"
                                                                               class="form-label">Amprah</label>

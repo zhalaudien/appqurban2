@@ -18,10 +18,14 @@ class RealisasiModel extends Model
         return $query;
     }
 
-    public function updaterealisasi($data, $id)
+    public function editrealisasi($id, $data)
     {
-        $query = $this->db->table($this->table)->update($data, array('id' => $id));
-        return $query;
+        // Pastikan $data memiliki kunci string
+        if (!is_array($data) || array_keys($data) !== array_filter(array_keys($data), 'is_string')) {
+            throw new \InvalidArgumentException('Invalid data format. Keys must be strings.');
+        }
+
+        return $this->db->table($this->table)->update($data, ['id' => $id]);
     }
 
 }
