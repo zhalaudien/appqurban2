@@ -126,7 +126,8 @@
                                                                           class="form-label">Cabang</label>
                                                                       <input type="text" class="form-control"
                                                                           name="cabang"
-                                                                          value="<?php echo $cabang['cabang']; ?>">
+                                                                          value="<?php echo $cabang['cabang']; ?>"
+                                                                          disabled>
                                                                   </div>
                                                                   <div class="mb-3">
                                                                       <label for="sapi_bumm" class="form-label">Sapi

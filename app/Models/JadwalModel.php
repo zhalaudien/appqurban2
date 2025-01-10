@@ -6,41 +6,30 @@ use CodeIgniter\Model;
 
 class JadwalModel extends Model
 {
-    protected $table            = 'jadwals';
+    protected $table            = 'jadwalpengiriman';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['cabang', 'antrian', 'kirim_hewan', 'kirim_besek', 'date_input'];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
+    public function savejadwal($data)
+    {
+        return $this->db->table($this->table)->insert($data);
+        return $query;
+    }
 
-    protected array $casts = [];
-    protected array $castHandlers = [];
-
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
-
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function updatejadwal($data, $id)
+    {
+        // Pastikan data adalah array dan kunci adalah string
+        if (!is_array($data) || array_keys($data) !== array_filter(array_keys($data), 'is_string')) {
+            throw new \InvalidArgumentException('Invalid data format. Keys must be strings.');
+        }
+    
+        // Pastikan ID valid dan berupa string atau integer
+        if (!is_int($id) && !is_string($id)) {
+            throw new \InvalidArgumentException('Invalid ID format.');
+        }
+    
+        return $this->db->table($this->table)->update($data, ['id' => $id]);
+    }
 }

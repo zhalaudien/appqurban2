@@ -6,13 +6,10 @@
               <div class="container-fluid">
                   <!--begin::Row-->
                   <div class="row">
-                      <div class="col-sm-6">
-                          <h3 class="mb-0">Data cabang</h3>
-                      </div>
                       <div>
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#inputdata">Input Data</button>
-                          <a href="/cabang/export" type="button" class="btn btn-success">Exsport Exel</a>
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Input
+                              Data</button>
+                          <a href="/jadwal/export" type="button" class="btn btn-success">Exsport Exel</a>
                       </div>
                       <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">
@@ -24,37 +21,30 @@
                                           aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                      <form action="/cabang/tambah" method="post">
+                                      <form action="/jadwal/tambah" method="post">
                                           <div class="mb-3">
                                               <label for="cabang" class="form-label">cabang</label>
                                               <input type="text" class="form-control" name="cabang">
                                           </div>
                                           <div class="mb-3">
-                                              <label for="ketua_cabang" class="form-label">Ketua Cabang</label>
-                                              <input type="text" class="form-control" name="ketua_cabang">
+                                              <label for="sapi_bumm" class="form-label">Sapi BUMM</label>
+                                              <input type="text" class="form-control" name="sapi_bumm">
                                           </div>
                                           <div class="mb-3">
-                                              <label for="no_hp" class="form-label">No HP</label>
-                                              <input type="text" class="form-control" name="no_hp">
+                                              <label for="sapib_bumm" class="form-label">Sapi BUMM Orang</label>
+                                              <input type="text" class="form-control" name="sapib_bumm">
                                           </div>
                                           <div class="mb-3">
-                                              <label for="cabang_qurban" class="form-label">cabang Cabang</label>
-                                              <input type="text" class="form-control" name="cabang_qurban">
+                                              <label for="kambing_bumm" class="form-label">Kambing BUMM</label>
+                                              <input type="text" class="form-control" name="kambing_bumm">
                                           </div>
                                           <div class="mb-3">
-                                              <label for="no2_hp" class="form-label">No HP</label>
-                                              <input type="text" class="form-control" name="no2_hp">
+                                              <label for="sapi_mandiri" class="form-label">Sapi Mandiri</label>
+                                              <input type="text" class="form-control" name="sapi_mandiri">
                                           </div>
                                           <div class="mb-3">
-                                              <label for="alamat" class="form-label">Alamat</label>
+                                              <label for="kambing_mandiri" class="form-label">KAmbing Mandiri</label>
                                               <input type="text" class="form-control" name="alamat">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="perwakilan" class="form-label">Perwakilan</label>
-                                              <select class="form-select" name="perwakilan">
-                                                  <option value="sragen">Sragen</option>
-                                                  <option value="karanganyar">Karanganyar</option>
-                                              </select>
                                           </div>
                                           <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary"
@@ -95,91 +85,104 @@
                                   <tr>
                                       <th style="width: 10px">No</th>
                                       <th>Cabang</th>
-                                      <th>Ketua Cabang</th>
-                                      <th>No HP</th>
-                                      <th>cabang Cabang</th>
-                                      <th>No HP</th>
-                                      <th>Alamat</th>
-                                      <th>Perwakilan</th>
+                                      <th>Sapi BUMM</th>
+                                      <th>Sapi BUMM Orang</th>
+                                      <th>Kambing BUMM</th>
+                                      <th>Sapi Cabang</th>
+                                      <th>Kambing Cabang</th>
+                                      <th>No Antrian</th>
+                                      <th>Kirim Hewan</th>
+                                      <th>Kirim Besek</th>
                                       <th>Action</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php $no = 1; ?>
-                                  <?php if($viewcabang): ?>
-                                  <?php foreach($viewcabang as $cabang): ?>
+                                  <?php if($jadwal): ?>
+                                  <?php foreach($jadwal as $cabang): ?>
                                   <tr class="align-middle">
                                       <td><?= $no++; ?></td>
-                                      <td><?php echo $cabang['cabang']; ?></td>
-                                      <td><?php echo $cabang['ketua_cabang']; ?></td>
-                                      <td><?php echo $cabang['no_hp']; ?></td>
-                                      <td><?php echo $cabang['panitia_qurban']; ?></td>
-                                      <td><?php echo $cabang['no2_hp']; ?></td>
-                                      <td><?php echo $cabang['alamat']; ?></td>
-                                      <td><?php echo $cabang['perwakilan']; ?></td>
+                                      <td><?= $cabang['cabang']; ?></td>
+                                      <td><?= $cabang['sapi_bumm']; ?></td>
+                                      <td><?= $cabang['sapib_bumm']; ?></td>
+                                      <td><?= $cabang['kambing_bumm']; ?></td>
+                                      <td><?= $cabang['sapi_mandiri']; ?></td>
+                                      <td><?= $cabang['kambing_mandiri']; ?></td>
+                                      <td><?= $cabang['antrian']; ?></td>
+                                      <td><?= $cabang['kirim_hewan']; ?></td>
+                                      <td><?= $cabang['kirim_besek']; ?></td>
                                       <td>
                                           <div class="btn-group mb-2" role="group"
                                               aria-label="Basic mixed styles example">
                                               <a type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                  data-bs-target="#edit<?php echo $cabang['id']; ?>">
+                                                  data-bs-target="#edit<?= $cabang['id']; ?>">
                                                   Edit</a>
-                                              <div class="modal fade" id="edit<?php echo $cabang['id']; ?>"
-                                                  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                              <div class="modal fade" id="edit<?= $cabang['id']; ?>" tabindex="-1"
+                                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                   <div class="modal-dialog">
                                                       <div class="modal-content">
                                                           <div class="modal-body">
-                                                              <form action="<?= site_url('/cabang/edit') ?>"
+                                                              <form action="<?= site_url('/jadwal/edit') ?>"
                                                                   method="post">
+                                                                  <input type="hidden" value="<?= $cabang['id']; ?>"
+                                                                      name="id">
                                                                   <div class="mb-3">
-                                                                      <input type="hidden" id="id"
-                                                                          value="<?php echo $cabang['id']; ?>" name="id"
-                                                                          readonly>
                                                                       <label for="cabang"
                                                                           class="form-label">Cabang</label>
                                                                       <input type="text" class="form-control"
                                                                           name="cabang"
-                                                                          value="<?php echo $cabang['cabang']; ?>">
+                                                                          value="<?= $cabang['cabang']; ?>" readonly>
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="ketua_cabang" class="form-label">Ketua
-                                                                          Cabang</label>
+                                                                      <label for="antrian" class="form-label">No
+                                                                          Antrian</label>
                                                                       <input type="text" class="form-control"
-                                                                          name="ketua_cabang"
-                                                                          value="<?php echo $cabang['ketua_cabang']; ?>">
+                                                                          name="antrian"
+                                                                          value="<?= $cabang['antrian']; ?>">
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="no_hp" class="form-label">No
-                                                                          HP</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="no_hp"
-                                                                          value="<?php echo $cabang['no_hp']; ?>">
+                                                                      <label for="ket" class="form-label">Jadwal
+                                                                          Kirim Hewan</label>
+                                                                      <div class="form-group">
+                                                                          <select id="kirim_hewan" name="kirim_hewan"
+                                                                              class="form-control">
+                                                                              <option
+                                                                                  value="<?= $cabang['kirim_hewan']; ?>">
+                                                                                  <?= $cabang['kirim_hewan']; ?>
+                                                                              </option>
+                                                                              <option value="H-1 15 Juni 2024 Siang">H-1
+                                                                                  15 Juni 2024 Siang</option>
+                                                                              <option value="H1 16 Juni 2024 Pagi">H1 16
+                                                                                  Juni 2024 Pagi</option>
+                                                                              <option value="H1 16 Juni 2024 Siang">H1
+                                                                                  16 Juni 2024 Siang</option>
+                                                                              <option value="H2 17 Juni 2024 Pagi">H2 17
+                                                                                  Juni 2024 Pagi</option>
+                                                                              <option value="H2 17 Juni 2024 Siang">H2
+                                                                                  17 Juni 2024 Siang</option>
+                                                                              <option value="H3 18 Juni 2024 Pagi">H3 18
+                                                                                  Juni 2024 Pagi</option>
+                                                                          </select>
+                                                                      </div>
                                                                   </div>
                                                                   <div class="mb-3">
-                                                                      <label for="pantia_qurban"
-                                                                          class="form-label">Panitia Cabang</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="pantia_qurban"
-                                                                          value="<?php echo $cabang['panitia_qurban']; ?>">
-                                                                  </div>
-                                                                  <div class="mb-3">
-                                                                      <label for="no2_hp" class="form-label">No
-                                                                          HP</label>
-                                                                      <input type="text" class="form-control"
-                                                                          name="no2_hp"
-                                                                          value="<?php echo $cabang['no2_hp']; ?>">
-                                                                  </div>
-                                                                  <div class="mb-3">
-                                                                      <label for="perwakilan"
-                                                                          class="form-label">Perwakilan</label>
-                                                                      <select class="form-select" name="perwakilan">
-                                                                          <option
-                                                                              value="<?php echo $cabang['perwakilan']; ?>">
-                                                                              <?php echo $cabang['perwakilan']; ?>
-                                                                          </option>
-                                                                          <option value="sragen">Sragen</option>
-                                                                          <option value="karanganyar">Karanganyar
-                                                                          </option>
-                                                                      </select>
+                                                                      <label for="ket" class="form-label">Jadwal
+                                                                          Kirim Besek</label>
+                                                                      <div class="form-group">
+                                                                          <select id="kirim_besek" name="kirim_besek"
+                                                                              class="form-control">
+                                                                              <option
+                                                                                  value="<?= $cabang['kirim_besek']; ?>">
+                                                                                  H<?= $cabang['kirim_besek']; ?>
+                                                                              </option>
+                                                                              <option value="H1 16 Juni 2024">H1
+                                                                                  16 Juni 2024</option>
+                                                                              <option value="H2 17 Juni 2024">H2
+                                                                                  17 Juni 2024</option>
+                                                                              <option value="H3 18 Juni 2024 Pagi">H3 18
+                                                                                  Juni 2024</option>
+                                                                          </select>
+                                                                      </div>
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                       <button type="button" class="btn btn-secondary"
@@ -192,31 +195,203 @@
                                                   </div>
                                               </div>
                                               <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                  data-bs-target="#hapusdata<?php echo $cabang['id']; ?>">
+                                                  data-bs-target="#<?= $cabang['id']; ?>">
                                                   Hapus
                                               </a>
                                           </div>
                                           <!-- Modal -->
-                                          <div class="modal fade" id="hapusdata<?php echo $cabang['id']; ?>"
-                                              tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                          <div class="modal fade" id="hapusdata<?= $cabang['id']; ?>" tabindex="-1"
+                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
                                                   <div class="modal-content">
                                                       <div class="modal-body">
                                                           <h2 class="h2">Apakah anda yakin ?</h2>
                                                           <p>Menghapus data
-                                                              <?php echo $cabang['cabang']; ?>
+                                                              <?= $cabang['cabang']; ?>
                                                           </p>
                                                       </div>
                                                       <div class="modal-footer">
                                                           <button type="button" class="btn btn-warning"
                                                               data-bs-dismiss="modal">Batal</button>
-                                                          <a href="<?= base_url('/cabang/hapus/'.$cabang['id']) ?>"
+                                                          <a href="<?= base_url('/qurban/hapus/'.$cabang['id']) ?>"
                                                               type="button" class="btn btn-danger">Hapus</a>
                                                       </div>
                                                   </div>
                                               </div>
                                           </div>
                                       </td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                  <?php endif; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+              </div>
+              <!--end::Container-->
+          </div>
+          <div class="app-content">
+              <!--begin::Container-->
+              <div class="container-fluid">
+                  <div class="card mb-4">
+                      <div class="card-header">
+                          <h2 class="card-title">Jadwal H1</h2>
+                          <div class="card-tools">
+                              <ul class="pagination pagination-sm float-end">
+                                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th style="width: 10px">No</th>
+                                      <th>Cabang</th>
+                                      <th>Sapi BUMM</th>
+                                      <th>Kambing BUMM</th>
+                                      <th>Sapi Cabang</th>
+                                      <th>Kambing Cabang</th>
+                                      <th>No Antrian</th>
+                                      <th>Kirim Hewan</th>
+                                      <th>Kirim Besek</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php $no = 1; ?>
+                                  <?php if($h1): ?>
+                                  <?php foreach($h1 as $cabang): ?>
+                                  <tr class="align-middle">
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $cabang['cabang']; ?></td>
+                                      <td><?= $cabang['sapi_bumm']; ?></td>
+                                      <td><?= $cabang['kambing_bumm']; ?></td>
+                                      <td><?= $cabang['sapi_mandiri']; ?></td>
+                                      <td><?= $cabang['kambing_mandiri']; ?></td>
+                                      <td><?= $cabang['antrian']; ?></td>
+                                      <td><?= $cabang['kirim_hewan']; ?></td>
+                                      <td><?= $cabang['kirim_besek']; ?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                  <?php endif; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+              </div>
+              <!--end::Container-->
+          </div>
+          <div class="app-content">
+              <!--begin::Container-->
+              <div class="container-fluid">
+                  <div class="card mb-4">
+                      <div class="card-header">
+                          <h2 class="card-title">Jadwal H2</h2>
+                          <div class="card-tools">
+                              <ul class="pagination pagination-sm float-end">
+                                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th style="width: 10px">No</th>
+                                      <th>Cabang</th>
+                                      <th>Sapi BUMM</th>
+                                      <th>Kambing BUMM</th>
+                                      <th>Sapi Cabang</th>
+                                      <th>Kambing Cabang</th>
+                                      <th>No Antrian</th>
+                                      <th>Kirim Hewan</th>
+                                      <th>Kirim Besek</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php $no = 1; ?>
+                                  <?php if($h2): ?>
+                                  <?php foreach($h2 as $cabang): ?>
+                                  <tr class="align-middle">
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $cabang['cabang']; ?></td>
+                                      <td><?= $cabang['sapi_bumm']; ?></td>
+                                      <td><?= $cabang['kambing_bumm']; ?></td>
+                                      <td><?= $cabang['sapi_mandiri']; ?></td>
+                                      <td><?= $cabang['kambing_mandiri']; ?></td>
+                                      <td><?= $cabang['antrian']; ?></td>
+                                      <td><?= $cabang['kirim_hewan']; ?></td>
+                                      <td><?= $cabang['kirim_besek']; ?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                  <?php endif; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+              </div>
+              <!--end::Container-->
+          </div>
+          <div class="app-content">
+              <!--begin::Container-->
+              <div class="container-fluid">
+                  <div class="card mb-4">
+                      <div class="card-header">
+                          <h2 class="card-title">Jadwal H3</h2>
+                          <div class="card-tools">
+                              <ul class="pagination pagination-sm float-end">
+                                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th style="width: 10px">No</th>
+                                      <th>Cabang</th>
+                                      <th>Sapi BUMM</th>
+                                      <th>Sapi BUMM Orang</th>
+                                      <th>Kambing BUMM</th>
+                                      <th>Sapi Cabang</th>
+                                      <th>Kambing Cabang</th>
+                                      <th>No Antrian</th>
+                                      <th>Kirim Hewan</th>
+                                      <th>Kirim Besek</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php $no = 1; ?>
+                                  <?php if($h3): ?>
+                                  <?php foreach($h3 as $cabang): ?>
+                                  <tr class="align-middle">
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $cabang['cabang']; ?></td>
+                                      <td><?= $cabang['sapi_bumm']; ?></td>
+                                      <td><?= $cabang['kambing_bumm']; ?></td>
+                                      <td><?= $cabang['sapi_mandiri']; ?></td>
+                                      <td><?= $cabang['kambing_mandiri']; ?></td>
+                                      <td><?= $cabang['antrian']; ?></td>
+                                      <td><?= $cabang['kirim_hewan']; ?></td>
+                                      <td><?= $cabang['kirim_besek']; ?></td>
                                   </tr>
                                   <?php endforeach; ?>
                                   <?php endif; ?>
