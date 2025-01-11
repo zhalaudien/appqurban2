@@ -20,9 +20,23 @@ class Penerimaan extends Controller
         ];
         $userModel = new PenerimaanModel();
         $data['viewpenerimaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
+        $data['total_sapi_bumm'] = $userModel->where('cabang', 'BUMM Sragen')->selectSum('sapi')->get()->getRow()->sapi;
+        $data['total_sapi_cabang'] = $userModel->where('cabang !=', 'BUMM Sragen')->selectSum('sapi')->get()->getRow()->sapi;
+        $data['total_kambing_bumm'] = $userModel->where('cabang', 'BUMM Sragen')->selectSum('kambing')->get()->getRow()->kambing;
+        $data['total_kambing_cabang'] = $userModel->where('cabang !=', 'BUMM Sragen')->selectSum('kambing')->get()->getRow()->kambing;
+        $data['uang_bumm'] = $userModel->where('cabang', 'BUMM Sragen')->selectSum('pembayaran')->get()->getRow()->pembayaran;
+        $data['uang_cabang'] = $userModel->where('cabang !=', 'BUMM Sragen')->selectSum('pembayaran')->get()->getRow()->pembayaran;
+        $data['shadaqoh'] = $userModel->selectSum('shadaqoh')->get()->getRow()->shadaqoh;
 
-        $userModel = new CabangModel();
-        $data['viewcabang'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $cabangModel = new CabangModel();
+        $data['viewcabang'] = $cabangModel->orderBy('cabang', 'ASC')->findAll();
+
+        $qurbanModel = new QurbanModel();
+        $data['sapi_bumm'] = $qurbanModel->selectSum('sapi_bumm')->get()->getRow()->sapi_bumm;
+        $data['sapib_bumm'] = $qurbanModel->selectSum('sapib_bumm')->get()->getRow()->sapib_bumm;
+        $data['kambing_bumm'] = $qurbanModel->selectSum('kambing_bumm')->get()->getRow()->kambing_bumm;
+        $data['sapi_mandiri'] = $qurbanModel->selectSum('sapi_mandiri')->get()->getRow()->sapi_mandiri;
+        $data['kambing_mandiri'] = $qurbanModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);

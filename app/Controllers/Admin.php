@@ -19,13 +19,9 @@ class Admin extends Controller
 
         $userModel = new QurbanModel();
         $data['sapi_bumm'] = $userModel->selectSum('sapi_bumm')->get()->getRow()->sapi_bumm;
-        $userModel = new QurbanModel();
         $data['sapib_bumm'] = $userModel->selectSum('sapib_bumm')->get()->getRow()->sapib_bumm;
-        $userModel = new QurbanModel();
         $data['kambing_bumm'] = $userModel->selectSum('kambing_bumm')->get()->getRow()->kambing_bumm;
-        $userModel = new QurbanModel();
         $data['sapi_mandiri'] = $userModel->selectSum('sapi_mandiri')->get()->getRow()->sapi_mandiri;
-        $userModel = new QurbanModel();
         $data['kambing_mandiri'] = $userModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
 
         $header = [
