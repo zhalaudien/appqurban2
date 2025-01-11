@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Models\KandangModel;
+use App\Models\PenerimaanModel;
+use App\Models\QurbanModel;
 use CodeIgniter\Controller;
 use App\Models\K3Model;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -17,8 +19,14 @@ class Kandang extends Controller
             'active' => 'kandang'
         ];
 
+        $userModel = new PenerimaanModel();
+        $data['total_sapi'] = $userModel->selectSum('sapi')->get()->getRow()->sapi;
+        $data['total_kambing'] = $userModel->selectSum('kambing')->get()->getRow()->kambing;
+
         $userModel = new KandangModel();
         $data['viewkandang'] = $userModel->orderBy('date_input', 'DESC')->findAll();
+        $data['disembelih_sapi'] = $userModel->selectSum('sapi')->get()->getRow()->sapi;
+        $data['disembelih_kambing'] = $userModel->selectSum('kambing')->get()->getRow()->kambing;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);

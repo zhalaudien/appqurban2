@@ -142,13 +142,13 @@ use PhpParser\Node\Stmt\Echo_;
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/kandang" class="nav-link">
+                        <a href="/kandang" class="nav-link <?= $active == 'kandang' ? 'active' : '' ?>">
                             <i class="nav-icon bi-box-seam-fill"></i>
                             <p>Kandang</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/besek" class="nav-link">
+                        <a href="/besek" class="nav-link <?= $active == 'besek' ? 'active' : '' ?>">
                             <i class="nav-icon bi-box-seam-fill"></i>
                             <p>Produksi Besek</p>
                         </a>
@@ -159,7 +159,7 @@ use PhpParser\Node\Stmt\Echo_;
                             <p>K3</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item <?= $navbar == 'surat' ? 'menu-open' : '' ?>">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-envelope"></i>
                             <p>
@@ -169,25 +169,26 @@ use PhpParser\Node\Stmt\Echo_;
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./layout/fixed-sidebar.html" class="nav-link">
+                                <a href="/kirimbesek" class="nav-link <?= $active == 'kirimbesek' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-envelope-open"></i>
-                                    <p>Surat Jalan Besek</p>
+                                    <p>Kirim Besek</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./layout/fixed-sidebar.html" class="nav-link">
+                                <a href="/kirimkulit" class="nav-link <?= $active == 'kirimkulit' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-envelope-open"></i>
-                                    <p>Surat Jalan Kulit</p>
+                                    <p>Kirim Kulit</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./layout/fixed-sidebar.html" class="nav-link">
+                                <a href="/suratmuspika"
+                                    class="nav-link <?= $active == 'suratmuspika' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Muspika</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./layout/fixed-sidebar.html" class="nav-link">
+                                <a href="/rekomendasi" class="nav-link <?= $active == 'rekomendasi' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-envelope-open"></i>
                                     <p>Surat Rekomendasi</p>
                                 </a>

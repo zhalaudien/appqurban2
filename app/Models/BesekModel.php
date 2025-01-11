@@ -10,7 +10,7 @@ class BesekModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['date_input', 'ts', 'tk', 'm', 'os', 'ok'];
+    protected $allowedFields    = ['date_input', 'ts', 'tk', 'a', 'os', 'ok'];
 
     public function saveBesek($data)
     {
