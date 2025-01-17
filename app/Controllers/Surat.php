@@ -40,7 +40,7 @@ class Surat extends Controller
         $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         $userModel = new PermintaanModel();
-        $data['permintaan'] = $userModel->orderBy('date_input', 'ASC')->findAll();
+        $data['permintaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
@@ -50,7 +50,7 @@ class Surat extends Controller
 
     public function tambah()
     {
-        $model = new PenerimaanModel();
+        $model = new PermintaanModel();
         $data = array(
             'cabang' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
@@ -303,6 +303,80 @@ class Surat extends Controller
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         echo $content;
         exit;
+    }
+
+    public function printpermintaan($id)
+    {
+        // Ambil data berdasarkan ID cabang
+        $userModel = new PermintaanModel();
+        $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
+
+        if (!$cabang) {
+            return 'Cabang tidak ditemukan';
+        }
+
+        $data = [
+            'cabang' => $cabang['cabang'],  // Misalnya nama cabang
+            'ts' => $cabang['ts'],
+            'tk' => $cabang['tk'],
+            'a' => $cabang['a'],
+            'ok' => $cabang['ok'],
+            'os' => $cabang['os'],
+            'ks' => $cabang['ks'],
+            'kb' => $cabang['kb'],
+            'kks' => $cabang['kks'],
+            'kls' => $cabang['kls'],
+        ];
+
+        // Lokasi template
+        $templatePath = FCPATH . 'templates/surat-jalan.docx';
+
+        // Cek apakah template ada
+        if (!file_exists($templatePath)) {
+            return 'Template file tidak ditemukan.';
+        }
+
+        // Memuat template Word
+        try {
+            $templateProcessor = new TemplateProcessor($templatePath);
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat memuat template: ' . $e->getMessage());
+            return 'Terjadi kesalahan saat memuat template.';
+        }
+
+        // Ganti placeholder dengan data
+        foreach ($data as $key => $value) {
+            $templateProcessor->setValue($key, $value);
+        }
+        
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
+        $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
+        $templateProcessor->setValue('date', $date);
+
+        // Nama file Word yang akan diunduh
+        $date = date('Y-m-d_H-i-s');
+        $fileName = 'Surat_Jalan_' . $data['cabang'] . '_' . $date . '.docx';
+
+        // Output file Word
+        ob_start();
+        $templateProcessor->saveAs("php://output");
+        $content = ob_get_clean();
+
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        echo $content;
+        exit;
+    }
+
+    public function hapuspermintaan($id)
+    {
+        $model = new PermintaanModel();
+        $data['user'] = $model->where('id', $id)->delete($id);
+        echo '<script>
+                alert("Sukses Hapus Data Permintaan");
+                window.location="'.base_url('/kirimbesek').'"
+            </script>';
     }
 
 }

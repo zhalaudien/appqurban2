@@ -345,9 +345,10 @@
                                                       <div class="btn-group mb-2" role="group"
                                                           aria-label="Basic mixed styles example">
                                                           <a type="button" class="btn btn-success"
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target="#edit<?php echo $cabang['id']; ?>">
-                                                              Print</a>
+                                                              href="<?= base_url('/kirimbesek/permintaan/'.$cabang['id']) ?>"
+                                                              target="_blank">
+                                                              Print
+                                                          </a>
                                                           <a type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                               data-bs-target="#hapusdata<?php echo $cabang['id']; ?>">
                                                               Hapus
@@ -368,7 +369,7 @@
                                                                   <div class="modal-footer">
                                                                       <button type="button" class="btn btn-warning"
                                                                           data-bs-dismiss="modal">Batal</button>
-                                                                      <a href="<?= base_url('/krimbesek/hapus/'.$cabang['id']) ?>"
+                                                                      <a href="<?= base_url('/kirimbesek/permintaanhapus/'.$cabang['id']) ?>"
                                                                           type="button" class="btn btn-danger">Hapus</a>
                                                                   </div>
                                                               </div>

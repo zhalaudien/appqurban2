@@ -92,3 +92,6 @@ $routes->post('/kirimbesek/edit', 'Surat::updatekirim', ['filter' => 'auth']);
 $routes->get('/kirimbesek/hapus/(:num)', 'Surat::hapus/$1', ['filter' => 'auth']);
 $routes->get('/kirimbesek/export', 'Surat::export', ['filter' => 'auth']);
 $routes->get('/kirimbesek/print/(:num)', 'Surat::printsurat/$1', ['filter' => 'auth']);
+
+$routes->get('/kirimbesek/permintaan/(:num)', 'Surat::printpermintaan/$1', ['filter' => 'auth']);
+$routes->get('/kirimbesek/permintaanhapus/(:num)', 'Surat::hapuspermintaan/$1', ['filter' => 'auth']);
