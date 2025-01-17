@@ -282,6 +282,20 @@
                                           <?php endforeach; ?>
                                           <?php endif; ?>
                                       </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <th style="width: 10px"></th>
+                                              <th>Jumlah</th>
+                                              <th><?= number_format($sapi_bumm_h1+($sapib_bumm_h1/7), 1, '.', '') ?>
+                                              </th>
+                                              <th><?= $kambing_bumm_h1 ?></th>
+                                              <th><?= $sapi_mandiri_h1 ?></th>
+                                              <th><?= $kambing_mandiri_h1 ?></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                          </tr>
+                                      </tfoot>
                                   </table>
                               </div>
                               <!-- /.card-body -->
@@ -326,6 +340,20 @@
                                           <?php endforeach; ?>
                                           <?php endif; ?>
                                       </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <th style="width: 10px"></th>
+                                              <th>Jumlah</th>
+                                              <th><?= number_format($sapi_bumm_h2+($sapib_bumm_h2/7), 1, '.', '') ?>
+                                              </th>
+                                              <th><?= $kambing_bumm_h2 ?></th>
+                                              <th><?= $sapi_mandiri_h2 ?></th>
+                                              <th><?= $kambing_mandiri_h2 ?></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                          </tr>
+                                      </tfoot>
                                   </table>
                               </div>
                               <!-- /.card-body -->
@@ -370,6 +398,20 @@
                                           <?php endforeach; ?>
                                           <?php endif; ?>
                                       </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <th style="width: 10px"></th>
+                                              <th>Jumlah</th>
+                                              <th><?= number_format($sapi_bumm_h3+($sapib_bumm_h3/7), 1, '.', '') ?>
+                                              </th>
+                                              <th><?= $kambing_bumm_h3 ?></th>
+                                              <th><?= $sapi_mandiri_h3 ?></th>
+                                              <th><?= $kambing_mandiri_h3 ?></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                          </tr>
+                                      </tfoot>
                                   </table>
                               </div>
                               <!-- /.card-body -->

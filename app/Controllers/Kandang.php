@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\KandangModel;
 use App\Models\PenerimaanModel;
 use App\Models\QurbanModel;
+use App\Models\RealisasiModel;
 use CodeIgniter\Controller;
 use App\Models\K3Model;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -110,11 +111,28 @@ class Kandang extends Controller
 
     public function viewk3()
     {
+        $header = [
+            'title' => 'Data K3',
+            'navbar' => 'k3',
+            'active' => 'k3'
+        ];
+
+        $userModel = new RealisasiModel();
+        $data['t_ks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ks')->get()->getRow()->ks;
+        $data['t_kb'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kb')->get()->getRow()->kb;
+        $data['t_kks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kks')->get()->getRow()->kks;
+        $data['t_kls'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kls')->get()->getRow()->kls;
+
         $userModel = new K3Model();
-        $data = $userModel->orderBy('date_input', 'DESC')->findAll();
+        $data['viewk3'] = $userModel->orderBy('date_input', 'DESC')->findAll();
+        $data['ks'] = $userModel->selectSum('ks')->get()->getRow()->ks;
+        $data['kb'] = $userModel->selectSum('kb')->get()->getRow()->kb;
+        $data['kks'] = $userModel->selectSum('kks')->get()->getRow()->kks;
+        $data['kls'] = $userModel->selectSum('kls')->get()->getRow()->kls;
+
 
         echo view("pages/header");
-        echo view("pages/navbar");
+        echo view("pages/navbar", $header);
         echo view("k3", $data);
         echo view("pages/footer");
     }
@@ -123,11 +141,11 @@ class Kandang extends Controller
     {
         $model = new K3Model;
         $data = array(
-            'kepala_sapi' => $this->request->getPost('kepala_sapi'),
-            'kepala_kambing' => $this->request->getPost('kepala_kambing'),
-            'kulit_kambing' => $this->request->getPost('kulit_kambing'),
-            'kulit_sapi' => $this->request->getPost('kulit_sapi'),
-            'kaki_sapi' => $this->request->getPost('kaki_sapi'),
+            'ks' => $this->request->getPost('ks'),
+            'kb' => $this->request->getPost('kb'),
+            'kks' => $this->request->getPost('kks'),
+            'kls' => $this->request->getPost('kls'),
+            'klsb' => $this->request->getPost('klsb'),
         );
         $model->savek3($data);
         echo '<script>

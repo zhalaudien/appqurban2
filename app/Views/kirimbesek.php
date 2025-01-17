@@ -279,8 +279,8 @@
                                                               </div>
                                                           </div>
                                                           <a type="button" class="btn btn-success"
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target="#<?php echo $cabang['id']; ?>">
+                                                              href="<?= base_url('/kirimbesek/print/'.$cabang['id']) ?>"
+                                                              target="_blank">
                                                               Print
                                                           </a>
                                                       </div>

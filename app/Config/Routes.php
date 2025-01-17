@@ -6,6 +6,7 @@ use CodeIgniter\Router\Router;
 /**
  * @var RouteCollection $routes
  */
+
 $routes->get('/', 'Home::index');
 $routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
 
@@ -90,3 +91,4 @@ $routes->post('/kirimbesek/tambah', 'Surat::tambah', ['filter' => 'auth']);
 $routes->post('/kirimbesek/edit', 'Surat::updatekirim', ['filter' => 'auth']);
 $routes->get('/kirimbesek/hapus/(:num)', 'Surat::hapus/$1', ['filter' => 'auth']);
 $routes->get('/kirimbesek/export', 'Surat::export', ['filter' => 'auth']);
+$routes->get('/kirimbesek/print/(:num)', 'Surat::printsurat/$1', ['filter' => 'auth']);

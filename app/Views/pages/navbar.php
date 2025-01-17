@@ -31,9 +31,9 @@ use PhpParser\Node\Stmt\Echo_;
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
             <!--begin::Brand Link-->
-            <a href="./index.html" class="brand-link">
+            <a href="<?php echo base_url('') ?>/admin" class="brand-link">
                 <!--begin::Brand Image-->
-                <img src="<?php echo base_url('') ?>dashboard/assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                <img src="<?php echo base_url('') ?>logo.png" alt="AdminLTE Logo"
                     class="brand-image opacity-75 shadow" />
                 <!--end::Brand Image-->
                 <!--begin::Brand Text-->
@@ -154,7 +154,7 @@ use PhpParser\Node\Stmt\Echo_;
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/k3" class="nav-link">
+                        <a href="/k3" class="nav-link <?= $active == 'k3' ? 'active' : '' ?>">
                             <i class="nav-icon bi-box-seam-fill"></i>
                             <p>K3</p>
                         </a>

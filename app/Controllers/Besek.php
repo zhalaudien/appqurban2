@@ -5,6 +5,7 @@ use App\Models\BesekModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\RealisasiModel;
 
 class Besek extends Controller
 {
@@ -24,6 +25,13 @@ class Besek extends Controller
         $data['a'] = $userModel->selectSum('a')->get()->getRow()->a;
         $data['os'] = $userModel->selectSum('os')->get()->getRow()->os;
         $data['ok'] = $userModel->selectSum('ok')->get()->getRow()->ok;
+
+        $userModel = new RealisasiModel();
+        $data['t_ts'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ts')->get()->getRow()->ts;
+        $data['t_tk'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('tk')->get()->getRow()->tk;
+        $data['t_a'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('a')->get()->getRow()->a;
+        $data['t_os'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('os')->get()->getRow()->os;
+        $data['t_ok'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ok')->get()->getRow()->ok;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);

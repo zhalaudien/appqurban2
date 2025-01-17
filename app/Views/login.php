@@ -37,6 +37,7 @@
     <body class="login-page bg-body-secondary">
         <div class="login-box">
             <div class="login-logo">
+                <div><img src="<?php echo base_url('') ?>logo.png" class="" style="width: 100px; height: auto;" /></div>
                 <a href="../index2.html"><b>APP Qurban Pusat 7</a>
             </div>
             <!-- /.login-logo -->

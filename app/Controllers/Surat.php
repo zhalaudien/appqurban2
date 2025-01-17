@@ -7,10 +7,13 @@ use App\Models\PenerimaanModel;
 use App\Models\JadwalModel;
 use App\Models\RealisasiModel;
 use App\Models\PermintaanModel;
+use App\Models\UserModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+use PhpOffice\PhpWord\TemplateProcessor;
+use TCPDF;
 
 class Surat extends Controller
 {
@@ -71,6 +74,13 @@ class Surat extends Controller
     {
         $userModel = new RealisasiModel();
         $id = $this->request->getPost('id');
+        if (!$id) {
+            echo '<script>
+                    alert("ID tidak ditemukan.");
+                    window.location="'.base_url('/kirimbesek').'"
+                </script>';
+            return;
+        }
         $data = [
             'cabang' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
@@ -230,4 +240,69 @@ class Surat extends Controller
 
         $writer->save('php://output');
     }
+
+    public function printsurat($id)
+    {
+        // Ambil data berdasarkan ID cabang
+        $userModel = new RealisasiModel();
+        $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
+
+        if (!$cabang) {
+            return 'Cabang tidak ditemukan';
+        }
+
+        $data = [
+            'cabang' => $cabang['cabang'],  // Misalnya nama cabang
+            'ts' => $cabang['ts'],
+            'tk' => $cabang['tk'],
+            'a' => $cabang['a'],
+            'ok' => $cabang['ok'],
+            'os' => $cabang['os'],
+            'ks' => $cabang['ks'],
+            'kb' => $cabang['kb'],
+            'kks' => $cabang['kks'],
+            'kls' => $cabang['kls'],
+        ];
+
+        // Lokasi template
+        $templatePath = FCPATH . 'templates/surat-jalan.docx';
+
+        // Cek apakah template ada
+        if (!file_exists($templatePath)) {
+            return 'Template file tidak ditemukan.';
+        }
+
+        // Memuat template Word
+        try {
+            $templateProcessor = new TemplateProcessor($templatePath);
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat memuat template: ' . $e->getMessage());
+            return 'Terjadi kesalahan saat memuat template.';
+        }
+
+        // Ganti placeholder dengan data
+        foreach ($data as $key => $value) {
+            $templateProcessor->setValue($key, $value);
+        }
+        
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
+        $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
+        $templateProcessor->setValue('date', $date);
+
+        // Nama file Word yang akan diunduh
+        $date = date('Y-m-d_H-i-s');
+        $fileName = 'Surat_Jalan_' . $data['cabang'] . '_' . $date . '.docx';
+
+        // Output file Word
+        ob_start();
+        $templateProcessor->saveAs("php://output");
+        $content = ob_get_clean();
+
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        echo $content;
+        exit;
+    }
+
 }

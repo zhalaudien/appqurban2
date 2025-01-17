@@ -82,7 +82,7 @@
                           </div>
                           <!--end::Col-->
                           <div class="col-lg-6 col-6">
-                              <div class="card card-outline card-primary collapsed-card mb-4">
+                              <div class="card card-outline card-primary collapsed-card mb-2">
                                   <div class="card-header">
                                       <h3 class="card-title">Data Hewan</h3>
                                       <div class="card-tools">
@@ -135,7 +135,7 @@
                                   </div>
                                   <!-- /.card-body -->
                               </div>
-                              <div class="card card-outline card-warning mb-4 ">
+                              <div class="card card-outline card-warning mb-2 ">
                                   <div class="card-header">
                                       <h3 class="card-title">Uang Masuk</h3>
                                       <div class="card-tools">
@@ -171,21 +171,17 @@
                                           </tbody>
                                           <tfoot>
                                               <tr class="align-middle">
-                                                  <td>
-                                                      <h6>Total Uang Masuk</h6>
-                                                  </td>
-                                                  <td>
-                                                      <h6>Rp.
-                                                          <?= number_format(($uang_bumm+$uang_cabang+$shadaqoh), 0, ',', '.'); ?>
-                                                      </h6>
-                                                  </td>
+                                                  <th> Total Uang Masuk </th>
+                                                  <th> Rp.
+                                                      <?= number_format(($uang_bumm+$uang_cabang+$shadaqoh), 0, ',', '.'); ?>
+                                                  </th>
                                               </tr>
                                           </tfoot>
                                       </table>
                                   </div>
                                   <!-- /.card-body -->
                               </div>
-                              <div class="card-body mb-4">
+                              <div class="card-body mb-2">
                                   <div class="list-group">
                                       <a href="/penerimaan/export" type="button"
                                           class="btn list-group-item list-group-item-action active" aria-current="true">

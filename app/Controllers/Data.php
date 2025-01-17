@@ -8,6 +8,7 @@ use CodeIgniter\Controller;
 use App\Models\IdpantiaModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use TCPDF;
 
 class Data extends Controller
 {
@@ -118,6 +119,7 @@ class Data extends Controller
         $writer->save('php://output');
 
     }
+
 
     public function indexcabang()
     {

@@ -354,7 +354,33 @@ class Qurban extends Controller
                     ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
                     ->findAll();
             }
+
+        $qurbanModel = new QurbanModel();
+
+        // Daftar kategori dan tipe
+        $categories = [
+                'sapi_bumm' => 'sapi_bumm',
+                'sapib_bumm' => 'sapib_bumm',
+                'kambing_bumm' => 'kambing_bumm',
+                'sapi_mandiri' => 'sapi_mandiri',
+                'kambing_mandiri' => 'kambing_mandiri',
+            ];
             
+        // Daftar hari
+        $days = ['h1', 'h2', 'h3'];
+            
+        // Loop untuk memproses data
+        foreach ($categories as $key => $column) {
+            foreach ($days as $day) {
+                $data[$key . '_' . $day] = $qurbanModel->selectSum($column)
+                    ->join('jadwalpengiriman', 'jadwalpengiriman.cabang = dataqurban.cabang')
+                    ->like('jadwalpengiriman.kirim_besek', $day)
+                    ->get()
+                    ->getRow()
+                    ->$column;
+            }
+        }
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("jadwalpengiriman", $data, $header);
