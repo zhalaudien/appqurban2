@@ -11,7 +11,6 @@ use App\Models\UserModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use PhpOffice\PhpWord\TemplateProcessor;
 use TCPDF;
 

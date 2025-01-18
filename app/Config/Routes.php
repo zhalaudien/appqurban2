@@ -95,3 +95,10 @@ $routes->get('/kirimbesek/print/(:num)', 'Surat::printsurat/$1', ['filter' => 'a
 
 $routes->get('/kirimbesek/permintaan/(:num)', 'Surat::printpermintaan/$1', ['filter' => 'auth']);
 $routes->get('/kirimbesek/permintaanhapus/(:num)', 'Surat::hapuspermintaan/$1', ['filter' => 'auth']);
+
+$routes->get('/kirimkulit', 'Kulit::index', ['filter' => 'auth']);
+$routes->post('/kirimkulit/tambah', 'Kulit::tambah', ['filter' => 'auth']);
+$routes->post('/kirimkulit/edit', 'Kulit::updatekirim', ['filter' => 'auth']);
+$routes->get('/kirimkulit/hapus/(:num)', 'Kulit::hapus/$1', ['filter' => 'auth']);
+$routes->get('/kirimkulit/export', 'Kulit::export', ['filter' => 'auth']);
+$routes->get('/kirimkulit/print/(:num)', 'Kulit::printsurat/$1', ['filter' => 'auth']);
