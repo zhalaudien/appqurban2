@@ -79,7 +79,7 @@ class Admin extends Controller
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
-        echo view("index", $data, $header);
+        echo view("dashboard", $data, $header);
         echo view("pages/footer");
     }
 }
