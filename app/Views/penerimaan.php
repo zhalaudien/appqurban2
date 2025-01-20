@@ -232,16 +232,17 @@
                                                   <td><?php echo $terima['pengirim']; ?></td>
                                                   <td><?php echo $terima['sapi']; ?></td>
                                                   <td><?php echo $terima['kambing']; ?></td>
-                                                  <td><?php echo $terima['pembayaran']; ?></td>
-                                                  <td><?php echo $terima['shadaqoh']; ?></td>
+                                                  <td>Rp. <?= number_format($terima['pembayaran'], 0, ',', '.'); ?></td>
+                                                  <td>Rp. <?= number_format($terima['shadaqoh'], 0, ',', '.'); ?></td>
                                                   <td><?php echo $terima['date_input']; ?></td>
                                                   <td>
                                                       <div class="btn-group mb-2" role="group"
                                                           aria-label="Basic mixed styles example">
                                                           <a type="button" class="btn btn-success"
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target="#edit<?php echo $terima['id']; ?>">
-                                                              Print</a>
+                                                              href="<?= base_url('/penerimaan/print/'.$terima['id']) ?>"
+                                                              target="_blank">
+                                                              Print
+                                                          </a>
                                                           <a type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                               data-bs-target="#hapusdata<?php echo $terima['id']; ?>">
                                                               Hapus

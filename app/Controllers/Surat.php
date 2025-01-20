@@ -12,7 +12,6 @@ use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\TemplateProcessor;
-use TCPDF;
 
 class Surat extends Controller
 {

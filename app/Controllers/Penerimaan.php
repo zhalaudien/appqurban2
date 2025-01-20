@@ -8,6 +8,7 @@ use App\Models\QurbanModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class Penerimaan extends Controller
 {
@@ -134,6 +135,67 @@ class Penerimaan extends Controller
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
+    }
+
+    public function print($id)
+    {
+        // Ambil data berdasarkan ID cabang
+        $userModel = new PenerimaanModel();
+        $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
+
+        if (!$cabang) {
+            return 'Cabang tidak ditemukan';
+        }
+
+        $data = [
+            'id' => $cabang['id'],  // Misalnya nama cabang
+            'cabang' => $cabang['cabang'],
+            'pengirim' => $cabang['pengirim'],
+            'sapi' => $cabang['sapi'],
+            'kambing' => $cabang['kambing'],
+            'shadaqoh' => 'Rp. ' . number_format($cabang['shadaqoh'], 0, ',', '.'),
+            'pembayaran' => 'Rp. ' . number_format($cabang['pembayaran'], 0, ',', '.'),
+        ];
+
+        // Lokasi template
+        $templatePath = FCPATH . 'templates/nota.docx';
+
+        // Cek apakah template ada
+        if (!file_exists($templatePath)) {
+            return 'Template file tidak ditemukan.';
+        }
+
+        // Memuat template Word
+        try {
+            $templateProcessor = new TemplateProcessor($templatePath);
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat memuat template: ' . $e->getMessage());
+            return 'Terjadi kesalahan saat memuat template.';
+        }
+
+        // Ganti placeholder dengan data
+        foreach ($data as $key => $value) {
+            $templateProcessor->setValue($key, $value);
+        }
+        
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
+        $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
+        $templateProcessor->setValue('date', $date);
+
+        // Nama file Word yang akan diunduh
+        $date = date('Y-m-d_H-i-s');
+        $fileName = 'Nota_' . $data['cabang'] . '_' . $date . '.docx';
+
+        // Output file Word
+        ob_start();
+        $templateProcessor->saveAs("php://output");
+        $content = ob_get_clean();
+
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        echo $content;
+        exit;
     }
 
     public function datasapi()

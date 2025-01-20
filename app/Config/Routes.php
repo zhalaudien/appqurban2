@@ -33,6 +33,7 @@ $routes->post('/penerimaan/tambah', 'Penerimaan::tambah', ['filter' => 'auth']);
 $routes->post('/penerimaan/edit', 'Penerimaan::edit', ['filter' => 'auth']);
 $routes->get('/penerimaan/hapus/(:num)', 'Penerimaan::hapus/$1', ['filter' => 'auth']);
 $routes->get('/penerimaan/export', 'Penerimaan::export', ['filter' => 'auth']);
+$routes->get('/penerimaan/print/(:num)', 'Penerimaan::print/$1', ['filter' => 'auth']);
 
 $routes->get('/datasapi', 'Penerimaan::datasapi', ['filter' => 'auth']);
 $routes->post('/datasapi/tambah', 'Penerimaan::tambahdatasapi', ['filter' => 'auth']);
