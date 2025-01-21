@@ -25,3 +25,7 @@ Ini adalah pengembangan aplikasi web untuk memudahkan dalam managemen data panti
 - Pencatatan K3
 - Pencatatan produksi besek
 - Surat menyurat
+- Print surat pengiriman besek
+- Print nota penermiaan
+- Print surat pengiriman kulit
+- Homepage informasi
