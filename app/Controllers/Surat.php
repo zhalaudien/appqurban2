@@ -90,7 +90,7 @@ class Surat extends Controller
             'kb' => $this->request->getPost('kb'),
             'kks' => $this->request->getPost('kks'),
             'kls' => $this->request->getPost('kls'),
-            'realisasi' => $this->request->getPost('realisasi'),
+            'info_kirim' => $this->request->getPost('info_kirim'),
         ];
 
         $userModel->editrealisasi($id, $data);

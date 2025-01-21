@@ -124,8 +124,7 @@
                                                   <td><?php echo $cabang['kb']; ?></td>
                                                   <td><?php echo $cabang['kks']; ?></td>
                                                   <td><?php echo $cabang['kls']; ?></td>
-                                                  <td><?php echo $cabang['info_kirim']; ?>
-                                                  </td>
+                                                  <td><?php echo $cabang['info_kirim']; ?></td>
                                                   <td>
                                                       <div class="btn-group mb-2" role="group"
                                                           aria-label="Basic mixed styles example">
@@ -147,8 +146,7 @@
                                                                       </div>
                                                                       <div class="modal-body">
                                                                           <form class="row g-3 needs-validation"
-                                                                              action="<?= site_url('/kirimbesek/edit') ?>"
-                                                                              method="post">
+                                                                              action="/kirimbesek/edit" method="post">
                                                                               <div class="row g-3">
                                                                                   <input type="hidden" id="id"
                                                                                       value="<?php echo $cabang['id']; ?>"
