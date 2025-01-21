@@ -6,7 +6,7 @@
     <!--begin::Copyright-->
     <strong>
         Copyright &copy; 2025&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">Panitia Pusat 7 & Pemuda MTA Sragen</a>.
+        <a href="https://panitiapusat7.my.id" class="text-decoration-none">Panitia Pusat 7 & Pemuda MTA Sragen</a>.
     </strong>
     All rights reserved.
     <!--end::Copyright-->
