@@ -6,9 +6,9 @@
                   <!--begin::Container-->
                   <div class="container-fluid">
                       <!--begin::Row-->
-                      <div class="row">
+                      <div class="w-auto row">
                           <!--begin::Col-->
-                          <div class="col-lg-12 col-6">
+                          <div class="w-auto col-lg-12 col-6">
                               <!--begin::Small Box Widget 1-->
                               <div class="card card-info card-outline mb-4">
                                   <!--begin::Header-->
@@ -82,7 +82,7 @@
               <div class="app-content">
                   <!--begin::Container-->
                   <div class="container-fluid">
-                      <div class="card mb-4">
+                      <div class="w-auto card mb-4">
                           <div class="card-body">
                               <div class="row my-3">
                                   <div class="col-md">

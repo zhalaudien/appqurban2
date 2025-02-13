@@ -6,7 +6,7 @@
                   <div class="container-fluid">
                       <div class="row">
                           <!--begin::Col-->
-                          <div class="col-lg-6 col-6">
+                          <div class="w-auto col-lg-6 col-6">
                               <!--begin::Small Box Widget 1-->
                               <div class="card card-info card-outline mb-4">
                                   <!--begin::Header-->
@@ -53,7 +53,7 @@
               <div class="container-fluid">
                   <div class="card mb-4">
                       <div class="card-body">
-                          <div class="row my-3">
+                          <div class="w-auto row my-3">
                               <div class="col-md">
                                   <table id="datatablesSimple"
                                       class="table table-striped table-responsive table-hover text-left"

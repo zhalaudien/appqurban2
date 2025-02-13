@@ -75,7 +75,7 @@
           <div class="app-content">
               <!--begin::Container-->
               <div class="container-fluid">
-                  <div class="card mb-4">
+                  <div class="w-auto card mb-4">
                       <!-- /.card-header -->
                       <div class="card-body">
                           <div class="row my-3">

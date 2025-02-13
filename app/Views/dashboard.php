@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!--begin::Col-->
-                <div class="col-lg-6 col-6">
+                <div class="w-auto col-lg-6 col-6">
                     <!--begin::Small Box Widget 1-->
                     <div class="card card-info card-outline mb-4">
                         <!--begin::Header-->
@@ -61,7 +61,7 @@
                     <!--end::Small Box Widget 1-->
                 </div>
                 <!--end::Col-->
-                <div class="col-lg-6 col-6">
+                <div class="w-auto col-lg-6 col-6">
                     <div class="card card-outline card-warning mb-4 ">
                         <div class="card-header">
                             <h3 class="card-title">Uang Masuk</h3>
@@ -113,7 +113,7 @@
             </div>
             <div class="row">
                 <!--begin::Col-->
-                <div class="col-lg-6 col-6">
+                <div class="w-auto col-lg-6 col-6">
                     <!--begin::Small Box Widget 1-->
                     <div class="card card-outline card-success mb-4">
                         <!--begin::Header-->
@@ -210,7 +210,7 @@
                     <!--end::Small Box Widget 1-->
                 </div>
                 <!--end::Col-->
-                <div class="col-lg-6 col-6">
+                <div class="w-auto col-lg-6 col-6">
                     <div class="card card-outline card-danger mb-4 ">
                         <div class="card-header">
                             <h3 class="card-title">Data Hewan Kandang</h3>

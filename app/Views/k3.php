@@ -6,7 +6,7 @@
                   <div class="container-fluid">
                       <div class="row">
                           <!--begin::Col-->
-                          <div class="col-lg-6 col-6">
+                          <div class="w-auto col-lg-6 col-6">
                               <!--begin::Small Box Widget 1-->
                               <div class="card card-info card-outline mb-4">
                                   <!--begin::Header-->
@@ -58,7 +58,7 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
-                          <div class="col-lg-6 col-6">
+                          <div class="w-auto col-lg-6 col-6">
                               <div class="card card-outline card-primary mb-4">
                                   <div class="card-header">
                                       <h3 class="card-title">Data Besek</h3>
@@ -76,10 +76,10 @@
                                           <thead>
                                               <tr>
                                                   <th>K3</th>
-                                                  <th>Kepala Sapi</th>
-                                                  <th>Kepala Kambing</th>
-                                                  <th>Kaki Sapi</th>
-                                                  <th>Kulit Sapi</th>
+                                                  <th>KS</th>
+                                                  <th>KKB</th>
+                                                  <th>KKS</th>
+                                                  <th>KLS</th>
                                               </tr>
                                           </thead>
                                           <tbody>
@@ -124,18 +124,18 @@
                       <div class="card mb-4">
                           <div class="card-body">
                               <div class="row my-3">
-                                  <div class="col-md">
+                                  <div class="w-auto col-md">
                                       <table id="datatablesSimple"
                                           class="table table-striped table-responsive table-hover text-left"
                                           style="width:100%">
                                           <thead>
                                               <tr>
                                                   <th style="width: 10px">No</th>
-                                                  <th>Kepala Sapi</th>
-                                                  <th>Kepala Kambing</th>
-                                                  <th>Kaki Sapi</th>
-                                                  <th>Kulit Sapi</th>
-                                                  <th>Kulit Kambing</th>
+                                                  <th>K Sapi</th>
+                                                  <th>K Kambing</th>
+                                                  <th>KKS</th>
+                                                  <th>KLS</th>
+                                                  <th>KLK</th>
                                                   <th>Tanggal Input</th>
                                                   <th>Action</th>
                                               </tr>

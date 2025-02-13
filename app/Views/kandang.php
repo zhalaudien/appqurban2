@@ -7,7 +7,7 @@
                   <div class="container-fluid">
                       <div class="row">
                           <!--begin::Col-->
-                          <div class="col-lg-6 col-6">
+                          <div class="w-auto col-lg-6 col-6">
                               <!--begin::Small Box Widget 1-->
                               <div class="card card-info card-outline mb-4">
                                   <!--begin::Header-->
@@ -50,8 +50,8 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
-                          <div class="col-lg-6 col-6">
-                              <div class="card card-outline card-primary mb-4">
+                          <div class="w-auto col-lg-6 col-6">
+                              <div class="w-auto card card-outline card-primary mb-4">
                                   <div class="card-header">
                                       <h3 class="card-title">Data Hewan Kandang</h3>
                                       <div class="card-tools">
@@ -104,7 +104,7 @@
               <div class="app-content">
                   <!--begin::Container-->
                   <div class="container-fluid">
-                      <div class="card mb-4">
+                      <div class="w-auto card mb-4">
                           <div class="card-body">
                               <div class="row my-3">
                                   <div class="col-md">
