@@ -24,12 +24,18 @@
                         class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page"
-                                href="<?php echo base_url('') ?>">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?php echo base_url('') ?>">Jadwal Pengiriman</a>
+                        <li class="nav-item"><a class="nav-link <?= $active == 'home' ? 'active' : '' ?>"
+                                aria-current="page" href="<?php echo base_url('') ?>">Home</a></li>
+                        <li class="nav-item"><a class="nav-link <?= $active == 'jadwal' ? 'active' : '' ?>"
+                                href="<?php echo base_url('') ?>jadwal">Jadwal
+                                Pengiriman</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="<?php echo base_url('') ?>">Data Sapi</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?php echo base_url('') ?>">Data Qurban</a></li>
+                        <li class="nav-item"><a class="nav-link <?= $active == 'datasapi' ? 'active' : '' ?>"
+                                href="<?php echo base_url('') ?>datasapi">Data
+                                Sapi</a></li>
+                        <li class="nav-item"><a class="nav-link <?= $active == 'dataqurban' ? 'active' : '' ?>"
+                                href="<?php echo base_url('') ?>dataqurban">Data
+                                Qurban</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false" hidden>Dropdown</a>

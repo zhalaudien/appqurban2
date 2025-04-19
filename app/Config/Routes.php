@@ -8,6 +8,10 @@ use CodeIgniter\Router\Router;
  */
 
 $routes->get('/', 'Home::index');
+$routes->get('/jadwal', 'Home::jadwal');
+$routes->get('/datasapi', 'Home::datasapi');
+$routes->get('/dataqurban', 'Home::dataqurban');
+
 $routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
 
 $routes->get('/panitia', 'Data::index', ['filter' => 'auth']);
