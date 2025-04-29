@@ -195,6 +195,12 @@ use PhpParser\Node\Stmt\Echo_;
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="/seting" class="nav-link <?= $active == 'seting' ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-gear"></i>
+                            <p>Seting</p>
+                        </a>
+                    </li>
                 </ul>
                 <!--end::Sidebar Menu-->
             </nav>
