@@ -8,8 +8,8 @@ use CodeIgniter\Router\Router;
  */
 
 $routes->get('/', 'Home::index');
-$routes->get('/jadwal', 'Home::jadwal');
-$routes->get('/datasapi', 'Home::datasapi');
+$routes->get('/jadwal2', 'Home::jadwal');
+$routes->get('/datasapi2', 'Home::datasapi');
 $routes->get('/dataqurban', 'Home::dataqurban');
 
 $routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
@@ -107,3 +107,6 @@ $routes->post('/kirimkulit/edit', 'Kulit::updatekirim', ['filter' => 'auth']);
 $routes->get('/kirimkulit/hapus/(:num)', 'Kulit::hapus/$1', ['filter' => 'auth']);
 $routes->get('/kirimkulit/export', 'Kulit::export', ['filter' => 'auth']);
 $routes->get('/kirimkulit/print/(:num)', 'Kulit::printsurat/$1', ['filter' => 'auth']);
+
+$routes->get('/setting', 'Setting::index', ['filter' => 'auth']);
+$routes->post('/setting/edit', 'Setting::edit', ['filter' => 'auth']);

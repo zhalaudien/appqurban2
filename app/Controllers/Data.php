@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\PanitiaModel;
 use App\Models\CabangModel;
 use App\Models\MuspikaModel;
@@ -24,12 +25,11 @@ class Data extends Controller
             'navbar' => 'data',
             'active' => 'panitia'
         ];
-      
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("datapanitia", $data, $header);
         echo view("pages/footer");
-
     }
 
     public function tambah()
@@ -46,7 +46,7 @@ class Data extends Controller
         $model->savePanitia($data);
         echo '<script>
                 alert("Sukses Tambah Data Panitia");
-                window.location="'.base_url('panitia').'"
+                window.location="' . base_url('panitia') . '"
             </script>';
     }
 
@@ -64,7 +64,7 @@ class Data extends Controller
         $model->updatePanitia($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Panitia");
-                window.location="'.base_url('panitia').'"
+                window.location="' . base_url('panitia') . '"
             </script>';
     }
 
@@ -74,7 +74,7 @@ class Data extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Panitia");
-                window.location="'.base_url('panitia').'"
+                window.location="' . base_url('panitia') . '"
             </script>';
     }
 
@@ -88,36 +88,35 @@ class Data extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Nama')
-                    ->setCellValue('C1', 'Cabang')
-                    ->setCellValue('D1', 'No HP')
-                    ->setCellValue('E1', 'Seksi')
-                    ->setCellValue('F1', 'Ket');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama')
+            ->setCellValue('C1', 'Cabang')
+            ->setCellValue('D1', 'No HP')
+            ->setCellValue('E1', 'Seksi')
+            ->setCellValue('F1', 'Ket');
+
         $column = 2;
         // tulis data mobil ke cell
-        foreach($panitia as $data) {
+        foreach ($panitia as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['nama'])
-                        ->setCellValue('C' . $column, $data['cabang'])
-                        ->setCellValue('D' . $column, $data['no_hp'])
-                        ->setCellValue('E' . $column, $data['seksi'])
-                        ->setCellValue('F' . $column, $data['ket']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['nama'])
+                ->setCellValue('C' . $column, $data['cabang'])
+                ->setCellValue('D' . $column, $data['no_hp'])
+                ->setCellValue('E' . $column, $data['seksi'])
+                ->setCellValue('F' . $column, $data['ket']);
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Panitia '.$date;
-    
+        $fileName = 'Data Panitia ' . $date;
+
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
-    
-        $writer->save('php://output');
 
+        $writer->save('php://output');
     }
 
 
@@ -131,7 +130,7 @@ class Data extends Controller
             'navbar' => 'data',
             'active' => 'cabang'
         ];
-        
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("datacabang", $data, $header);
@@ -154,7 +153,7 @@ class Data extends Controller
         $model->saveCabang($data);
         echo '<script>
                 alert("Sukses Tambah Data Cabang");
-                window.location="'.base_url('cabang').'"
+                window.location="' . base_url('cabang') . '"
             </script>';
     }
 
@@ -174,7 +173,7 @@ class Data extends Controller
         $model->updateCabang($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Cabang");
-                window.location="'.base_url('cabang').'"
+                window.location="' . base_url('cabang') . '"
             </script>';
     }
 
@@ -184,7 +183,7 @@ class Data extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Cabang");
-                window.location="'.base_url('cabang').'"
+                window.location="' . base_url('cabang') . '"
             </script>';
     }
 
@@ -198,38 +197,38 @@ class Data extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Nama Cabang')
-                    ->setCellValue('C1', 'Ketua Cabang')
-                    ->setCellValue('D1', 'No HP')
-                    ->setCellValue('E1', 'Panitia Qurban')
-                    ->setCellValue('F1', 'No HP')
-                    ->setCellValue('G1', 'Alamat')
-                    ->setCellValue('H1', 'Perwakilan');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama Cabang')
+            ->setCellValue('C1', 'Ketua Cabang')
+            ->setCellValue('D1', 'No HP')
+            ->setCellValue('E1', 'Panitia Qurban')
+            ->setCellValue('F1', 'No HP')
+            ->setCellValue('G1', 'Alamat')
+            ->setCellValue('H1', 'Perwakilan');
+
         $column = 2;
         // tulis data mobil ke cell
-        foreach($cabang as $data) {
+        foreach ($cabang as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang']) 
-                        ->setCellValue('C' . $column, $data['ketua_cabang'])
-                        ->setCellValue('D' . $column, $data['no_hp'])
-                        ->setCellValue('E' . $column, $data['panitia_qurban'])
-                        ->setCellValue('F' . $column, $data['no2_hp'])
-                        ->setCellValue('G' . $column, $data['alamat'])
-                        ->setCellValue('H' . $column, $data['perwakilan']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['ketua_cabang'])
+                ->setCellValue('D' . $column, $data['no_hp'])
+                ->setCellValue('E' . $column, $data['panitia_qurban'])
+                ->setCellValue('F' . $column, $data['no2_hp'])
+                ->setCellValue('G' . $column, $data['alamat'])
+                ->setCellValue('H' . $column, $data['perwakilan']);
             $column++;
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Panitia '.$date;
-    
+        $fileName = 'Data Panitia ' . $date;
+
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
-    
+
         $writer->save('php://output');
     }
 
@@ -243,7 +242,7 @@ class Data extends Controller
 
         $userModel = new MuspikaModel();
         $data['viewmuspika'] = $userModel->orderBy('nama', 'ASC')->findAll();
-        
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("datamuspika", $data, $header);
@@ -262,7 +261,7 @@ class Data extends Controller
         $model->saveMuspika($data);
         echo '<script>
                 alert("Sukses Tambah Data Muspika");
-                window.location="'.base_url('muspika').'"
+                window.location="' . base_url('muspika') . '"
             </script>';
     }
 
@@ -278,7 +277,7 @@ class Data extends Controller
         $model->updateMuspika($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Muspika");
-                window.location="'.base_url('muspika').'"
+                window.location="' . base_url('muspika') . '"
             </script>';
     }
 
@@ -288,7 +287,7 @@ class Data extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Muspika");
-                window.location="'.base_url('muspika').'"
+                window.location="' . base_url('muspika') . '"
             </script>';
     }
 
@@ -302,30 +301,30 @@ class Data extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Nama')
-                    ->setCellValue('C1', 'Dinas')
-                    ->setCellValue('D1', 'PJ');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama')
+            ->setCellValue('C1', 'Dinas')
+            ->setCellValue('D1', 'PJ');
+
         $column = 2;
         // tulis data mobil ke cell
-        foreach($muspika as $data) {
+        foreach ($muspika as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['nama'])
-                        ->setCellValue('C' . $column, $data['dinas'])
-                        ->setCellValue('D' . $column, $data['pj']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['nama'])
+                ->setCellValue('C' . $column, $data['dinas'])
+                ->setCellValue('D' . $column, $data['pj']);
             $column++;
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Muspika '.$date;
-    
+        $fileName = 'Data Muspika ' . $date;
+
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
-    
+
         $writer->save('php://output');
     }
 }

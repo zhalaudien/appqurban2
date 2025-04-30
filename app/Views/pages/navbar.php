@@ -196,9 +196,9 @@ use PhpParser\Node\Stmt\Echo_;
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/seting" class="nav-link <?= $active == 'seting' ? 'active' : '' ?>">
+                        <a href="/setting" class="nav-link <?= $active == 'setting' ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-gear"></i>
-                            <p>Seting</p>
+                            <p>Setting</p>
                         </a>
                     </li>
                 </ul>
