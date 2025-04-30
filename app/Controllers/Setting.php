@@ -12,7 +12,7 @@ class Setting extends Controller
         $header = [
             'title' => 'Setting',
             'navbar' => 'setting',
-            'active' => 'seting'
+            'active' => 'setting'
         ];
 
         $userModel = new SettingModel();
