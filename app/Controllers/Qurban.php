@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\QurbanModel;
 use App\Models\AmparahModel;
 use App\Models\JadwalModel;
 use App\Models\RealisasiModel;
+use App\Models\SettingModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -43,7 +45,7 @@ class Qurban extends Controller
         $model->savesaveQurban($data);
         echo '<script>
                 alert("Sukses Tambah Data Qurban");
-                window.location="'.base_url('qurban').'"
+                window.location="' . base_url('qurban') . '"
             </script>';
     }
 
@@ -62,7 +64,7 @@ class Qurban extends Controller
         $model->updateQurban($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Qurban");
-                window.location="'.base_url('qurban').'"
+                window.location="' . base_url('qurban') . '"
             </script>';
     }
 
@@ -72,7 +74,7 @@ class Qurban extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Qurban");
-                window.location="'.base_url('qurban').'"
+                window.location="' . base_url('qurban') . '"
             </script>';
     }
 
@@ -86,36 +88,36 @@ class Qurban extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'Sapi BUMM')
-                    ->setCellValue('D1', 'Sapi BUMM orang')
-                    ->setCellValue('E1', 'Kambing BUMM')
-                    ->setCellValue('F1', 'Sapi Mandiri')
-                    ->setCellValue('G1', 'kambing Mandiri')
-                    ->setCellValue('H1', 'Tanggal Input');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'Sapi BUMM')
+            ->setCellValue('D1', 'Sapi BUMM orang')
+            ->setCellValue('E1', 'Kambing BUMM')
+            ->setCellValue('F1', 'Sapi Mandiri')
+            ->setCellValue('G1', 'kambing Mandiri')
+            ->setCellValue('H1', 'Tanggal Input');
+
         $column = 2;
         // tulis data penerimaan ke cell
-        foreach($penerimaan as $data) {
+        foreach ($penerimaan as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['sapi_bumm'])
-                        ->setCellValue('D' . $column, $data['sapib_bumm'])
-                        ->setCellValue('E' . $column, $data['kambing_bumm'])
-                        ->setCellValue('F' . $column, $data['sapi_mandiri'])
-                        ->setCellValue('G' . $column, $data['kambing_mandiri'])
-                        ->setCellValue('H' . $column, $data['date_input']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['sapi_bumm'])
+                ->setCellValue('D' . $column, $data['sapib_bumm'])
+                ->setCellValue('E' . $column, $data['kambing_bumm'])
+                ->setCellValue('F' . $column, $data['sapi_mandiri'])
+                ->setCellValue('G' . $column, $data['kambing_mandiri'])
+                ->setCellValue('H' . $column, $data['date_input']);
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data qurban '.$date;
+        $fileName = 'Data qurban ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
@@ -158,7 +160,7 @@ class Qurban extends Controller
         $model->saveamprah($data);
         echo '<script>
                 alert("Sukses Tambah Data Amprah");
-                window.location="'.base_url('/amprah').'"
+                window.location="' . base_url('/amprah') . '"
             </script>';
     }
 
@@ -182,7 +184,7 @@ class Qurban extends Controller
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Amprah");
-                window.location="'.base_url('/amprah').'"
+                window.location="' . base_url('/amprah') . '"
             </script>';
     }
 
@@ -192,7 +194,7 @@ class Qurban extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Amprah");
-                window.location="'.base_url('/amprah').'"
+                window.location="' . base_url('/amprah') . '"
             </script>';
     }
 
@@ -206,40 +208,40 @@ class Qurban extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'TS')
-                    ->setCellValue('D1', 'TK')
-                    ->setCellValue('E1', 'A')
-                    ->setCellValue('F1', 'OK')
-                    ->setCellValue('G1', 'OS')
-                    ->setCellValue('H1', 'KS')
-                    ->setCellValue('I1', 'KB')
-                    ->setCellValue('J1', 'KKS')
-                    ->setCellValue('K1', 'KLS')
-                    ->setCellValue('L1', 'Tanggal Input');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'TS')
+            ->setCellValue('D1', 'TK')
+            ->setCellValue('E1', 'A')
+            ->setCellValue('F1', 'OK')
+            ->setCellValue('G1', 'OS')
+            ->setCellValue('H1', 'KS')
+            ->setCellValue('I1', 'KB')
+            ->setCellValue('J1', 'KKS')
+            ->setCellValue('K1', 'KLS')
+            ->setCellValue('L1', 'Tanggal Input');
+
         $column = 2;
         // tulis data penerimaan ke cell
-        foreach($penerimaan as $data) {
+        foreach ($penerimaan as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['ts'])
-                        ->setCellValue('D' . $column, $data['tk'])
-                        ->setCellValue('E' . $column, $data['a'])
-                        ->setCellValue('F' . $column, $data['ok'])
-                        ->setCellValue('G' . $column, $data['os'])
-                        ->setCellValue('H' . $column, $data['ks'])
-                        ->setCellValue('I' . $column, $data['kb'])
-                        ->setCellValue('J' . $column, $data['kks'])
-                        ->setCellValue('K' . $column, $data['kls'])
-                        ->setCellValue('L' . $column, $data['date_input']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['ts'])
+                ->setCellValue('D' . $column, $data['tk'])
+                ->setCellValue('E' . $column, $data['a'])
+                ->setCellValue('F' . $column, $data['ok'])
+                ->setCellValue('G' . $column, $data['os'])
+                ->setCellValue('H' . $column, $data['ks'])
+                ->setCellValue('I' . $column, $data['kb'])
+                ->setCellValue('J' . $column, $data['kks'])
+                ->setCellValue('K' . $column, $data['kls'])
+                ->setCellValue('L' . $column, $data['date_input']);
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data amprah '.$date;
+        $fileName = 'Data amprah ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -256,16 +258,20 @@ class Qurban extends Controller
 
         $userModel = new QurbanModel();
         $data['join'] = $userModel->select('dataqurban.*, realisasi_besek.*, permohonan_besek.*')
-                ->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left')
-                ->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left')
-                ->orderBy('dataqurban.cabang', 'ASC')
-                ->findAll();
+            ->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left')
+            ->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left')
+            ->orderBy('dataqurban.cabang', 'ASC')
+            ->findAll();
 
         $userModel = new QurbanModel();
         $data['dataqurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         $userModel = new RealisasiModel();
         $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+
+        $userModel = new SettingModel();
+        $data['b_kb'] = $userModel->selectSum('b_kb')->get()->getRow()->b_kb;
+        $data['b_sapi'] = $userModel->selectSum('b_sapi')->get()->getRow()->b_sapi;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
@@ -292,7 +298,7 @@ class Qurban extends Controller
         $model->saverealisasi($data);
         echo '<script>
                 alert("Sukses Tambah Data Realaisasi");
-                window.location="'.base_url('/realisasi').'"
+                window.location="' . base_url('/realisasi') . '"
             </script>';
     }
 
@@ -317,7 +323,7 @@ class Qurban extends Controller
         $userModel->editrealisasi($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Realaisasi");
-                window.location="'.base_url('/realisasi').'"
+                window.location="' . base_url('/realisasi') . '"
             </script>';
     }
 
@@ -327,7 +333,7 @@ class Qurban extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Realaisasi");
-                window.location="'.base_url('/realisasi').'"
+                window.location="' . base_url('/realisasi') . '"
             </script>';
     }
 
@@ -339,36 +345,45 @@ class Qurban extends Controller
             'navbar' => 'qurban',
             'active' => 'jadwal'
         ];
-        
+
+        $userModel = new SettingModel();
+        $id = 1;
+        $data['j_h_1'] = $userModel->where('id', $id)->get()->getRow()->j_h_1;
+        $data['j_h'] = $userModel->where('id', $id)->get()->getRow()->j_h;
+        $data['j_h2'] = $userModel->where('id', $id)->get()->getRow()->j_h2;
+        $data['j_h3'] = $userModel->where('id', $id)->get()->getRow()->j_h3;
+        $data['j_h4'] = $userModel->where('id', $id)->get()->getRow()->j_h4;
+
+
         $userModel = new JadwalModel();
         $data['jadwal'] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                        ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                        ->orderBy('dataqurban.cabang', 'ASC')
-                        ->findAll();
+            ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+            ->orderBy('dataqurban.cabang', 'ASC')
+            ->findAll();
 
-        $keywords = ['H1', 'H2', 'H3'];
+        $keywords = ['H1', 'H2', 'H3', 'H4'];
         foreach ($keywords as $keyword) {
             $data[strtolower($keyword)] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                    ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                    ->like('jadwalpengiriman.kirim_besek', $keyword)
-                    ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
-                    ->findAll();
-            }
+                ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+                ->like('jadwalpengiriman.kirim_besek', $keyword)
+                ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
+                ->findAll();
+        }
 
         $qurbanModel = new QurbanModel();
 
         // Daftar kategori dan tipe
         $categories = [
-                'sapi_bumm' => 'sapi_bumm',
-                'sapib_bumm' => 'sapib_bumm',
-                'kambing_bumm' => 'kambing_bumm',
-                'sapi_mandiri' => 'sapi_mandiri',
-                'kambing_mandiri' => 'kambing_mandiri',
-            ];
-            
+            'sapi_bumm' => 'sapi_bumm',
+            'sapib_bumm' => 'sapib_bumm',
+            'kambing_bumm' => 'kambing_bumm',
+            'sapi_mandiri' => 'sapi_mandiri',
+            'kambing_mandiri' => 'kambing_mandiri',
+        ];
+
         // Daftar hari
-        $days = ['h1', 'h2', 'h3'];
-            
+        $days = ['h1', 'h2', 'h3', 'h4'];
+
         // Loop untuk memproses data
         foreach ($categories as $key => $column) {
             foreach ($days as $day) {
@@ -399,7 +414,7 @@ class Qurban extends Controller
         $model->savejadwal($data);
         echo '<script>
                 alert("Sukses Tambah Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
@@ -413,15 +428,15 @@ class Qurban extends Controller
             'kirim_hewan' => $this->request->getPost('kirim_hewan'),
             'kirim_besek' => $this->request->getPost('kirim_besek'),
         ];
-    
+
         if (!$id || !is_array($data)) {
             throw new \InvalidArgumentException('Data format is invalid or ID is missing.');
         }
-    
-        $model->updatejadwal($data, $id);  
+
+        $model->updatejadwal($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
@@ -431,7 +446,7 @@ class Qurban extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
@@ -439,48 +454,48 @@ class Qurban extends Controller
     {
         $userModel = new JadwalModel();
         $penerimaan = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                        ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                        ->orderBy('dataqurban.cabang', 'ASC')
-                        ->findAll();
+            ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+            ->orderBy('dataqurban.cabang', 'ASC')
+            ->findAll();
         $no = 1;
         $date = date('d-m-Y H:i:s');
 
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'Sapi BUMM')
-                    ->setCellValue('D1', 'Sapi BUMM orang')
-                    ->setCellValue('E1', 'Kambing BUMM')
-                    ->setCellValue('F1', 'Sapi Cabang')
-                    ->setCellValue('G1', 'kambing Cabang')
-                    ->setCellValue('H1', 'Kirim Hewan')
-                    ->setCellValue('I1', 'Kirim Besek');
-                    
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'Sapi BUMM')
+            ->setCellValue('D1', 'Sapi BUMM orang')
+            ->setCellValue('E1', 'Kambing BUMM')
+            ->setCellValue('F1', 'Sapi Cabang')
+            ->setCellValue('G1', 'kambing Cabang')
+            ->setCellValue('H1', 'Kirim Hewan')
+            ->setCellValue('I1', 'Kirim Besek');
+
         $column = 2;
         // tulis data penerimaan ke cell
-        foreach($penerimaan as $data) {
+        foreach ($penerimaan as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['sapi_bumm'])
-                        ->setCellValue('D' . $column, $data['sapib_bumm'])
-                        ->setCellValue('E' . $column, $data['kambing_bumm'])
-                        ->setCellValue('F' . $column, $data['sapi_mandiri'])
-                        ->setCellValue('G' . $column, $data['kambing_mandiri'])
-                        ->setCellValue('H' . $column, $data['kirim_hewan'])
-                        ->setCellValue('I' . $column, $data['kirim_besek']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['sapi_bumm'])
+                ->setCellValue('D' . $column, $data['sapib_bumm'])
+                ->setCellValue('E' . $column, $data['kambing_bumm'])
+                ->setCellValue('F' . $column, $data['sapi_mandiri'])
+                ->setCellValue('G' . $column, $data['kambing_mandiri'])
+                ->setCellValue('H' . $column, $data['kirim_hewan'])
+                ->setCellValue('I' . $column, $data['kirim_besek']);
 
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data jadwal '.$date;
+        $fileName = 'Data jadwal ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');

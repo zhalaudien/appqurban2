@@ -31,7 +31,7 @@ class Setting extends Controller
         $data = [
             'b_kb' => $this->request->getPost('b_kb'),
             'b_sapi' => $this->request->getPost('b_sapi'),
-            'j_h-1' => $this->request->getPost('j_h-1'),
+            'j_h_1' => $this->request->getPost('j_h_1'),
             'j_h' => $this->request->getPost('j_h'),
             'j_h2' => $this->request->getPost('j_h2'),
             'j_h3' => $this->request->getPost('j_h3'),

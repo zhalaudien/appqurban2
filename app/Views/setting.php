@@ -44,7 +44,7 @@
                                               <tbody>
                                                   <tr>
                                                       <td>Jadwal H-1</td>
-                                                      <td><?php echo $setting['j_h-1']; ?></td>
+                                                      <td><?php echo $setting['j_h_1']; ?></td>
                                                   </tr>
                                                   <tr>
                                                       <td>Jadwal H</td>
@@ -100,8 +100,8 @@
                                                                                   <label for="dinas"
                                                                                       class="form-label">Jadwal Hari ke -1</label>
                                                                                   <input type="text" class="form-control"
-                                                                                      name="j_h-1"
-                                                                                      value="<?php echo $setting['j_h-1']; ?>">
+                                                                                      name="j_h_1"
+                                                                                      value="<?php echo $setting['j_h_1']; ?>">
                                                                               </div>
                                                                               <div class="mb-3">
                                                                                   <label for="dinas"

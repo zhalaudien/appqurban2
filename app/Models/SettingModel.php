@@ -10,7 +10,7 @@ class SettingModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['b_kb', 'b_sapi', 'j_h-1', 'j_h', 'j_h2', 'j_h3', 'j_h4'];
+    protected $allowedFields    = ['b_kb', 'b_sapi', 'j_h_1', 'j_h', 'j_h2', 'j_h3', 'j_h4'];
 
     public function EditSetting($data, $id)
     {
