@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/jadwal2', 'Home::jadwal');
 $routes->get('/datasapi2', 'Home::datasapi');
 $routes->get('/dataqurban', 'Home::dataqurban');
+$routes->get('/realisasi', 'Home::realisasi');
 
 $routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
 

@@ -26,16 +26,18 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link <?= $active == 'home' ? 'active' : '' ?>"
                             aria-current="page" href="<?php echo base_url('') ?>">Home</a></li>
+                    <li class="nav-item"><a class="nav-link <?= $active == 'dataqurban' ? 'active' : '' ?>"
+                            href="<?php echo base_url('') ?>dataqurban">Data
+                            Qurban</a></li>
                     <li class="nav-item"><a class="nav-link <?= $active == 'jadwal2' ? 'active' : '' ?>"
                             href="<?php echo base_url('') ?>jadwal2">Jadwal
                             Pengiriman</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link <?= $active == 'realisasi' ? 'active' : '' ?>"
+                            href="<?php echo base_url('') ?>realisasi">Realisasi Besek</a></li>
                     <li class="nav-item"><a class="nav-link <?= $active == 'datasapi2' ? 'active' : '' ?>"
                             href="<?php echo base_url('') ?>datasapi2">Data
                             Sapi</a></li>
-                    <li class="nav-item"><a class="nav-link <?= $active == 'dataqurban' ? 'active' : '' ?>"
-                            href="<?php echo base_url('') ?>dataqurban">Data
-                            Qurban</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" hidden>Dropdown</a>

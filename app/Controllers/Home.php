@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\QurbanModel;
-use App\Models\JadwalModel;
 use CodeIgniter\Controller;
 use App\Models\SapiModel;
 
@@ -30,18 +29,13 @@ class Home extends Controller
             'active' => 'jadwal2'
         ];
 
-        $userModel = new JadwalModel();
-        $data['jadwal'] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-            ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-            ->orderBy('dataqurban.cabang', 'ASC')
-            ->findAll();
+        $userModel = new QurbanModel();
+        $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         $keywords = ['H1', 'H2', 'H3', 'H4'];
         foreach ($keywords as $keyword) {
-            $data[strtolower($keyword)] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                ->like('jadwalpengiriman.kirim_besek', $keyword)
-                ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
+            $data[strtolower($keyword)] = $userModel->like('kirim_besek', $keyword)
+                ->orderBy('kirim_hewan', 'ASC')
                 ->findAll();
         }
 
@@ -63,8 +57,7 @@ class Home extends Controller
         foreach ($categories as $key => $column) {
             foreach ($days as $day) {
                 $data[$key . '_' . $day] = $qurbanModel->selectSum($column)
-                    ->join('jadwalpengiriman', 'jadwalpengiriman.cabang = dataqurban.cabang')
-                    ->like('jadwalpengiriman.kirim_besek', $day)
+                    ->like('kirim_besek', $day)
                     ->get()
                     ->getRow()
                     ->$column;
@@ -105,6 +98,29 @@ class Home extends Controller
 
         echo view("homepage/header", $header);
         echo view("homepage/dataqurban", $data);
+        echo view("homepage/footer");
+    }
+
+    public function realisasi()
+    {
+        $header = [
+            'title' => 'Realisasi Besek',
+            'navbar' => 'realisasi',
+            'active' => 'realisasi'
+        ];
+
+        $userModel = new QurbanModel();
+        $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+
+        $keywords = ['H1', 'H2', 'H3', 'H4'];
+        foreach ($keywords as $keyword) {
+            $data[strtolower($keyword)] = $userModel->like('kirim_besek', $keyword)
+                ->orderBy('antrian', 'ASC')
+                ->findAll();
+        }
+
+        echo view("homepage/header", $header);
+        echo view("homepage/realisasi", $data);
         echo view("homepage/footer");
     }
 }

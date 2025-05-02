@@ -16,7 +16,7 @@
                                           <table class="table table-striped">
                                               <thead>
                                                   <tr>
-                                                      <th>Produksi Besek</th>
+                                                      <th>Perkiraan Produksi Besek</th>
                                                       <th> </th>
                                                       <th> </th>
                                                   </tr>
@@ -61,6 +61,19 @@
                                                   <tr>
                                                       <td>Jadwal H4</td>
                                                       <td><?php echo $setting['j_h4']; ?></td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                          <table class="table table-striped">
+                                              <thead>
+                                                  <tr>
+                                                      <th>Biaya Penyembelihan</th>
+                                                      <th> </th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr>
+                                                      <td>Rp. <?= number_format($setting['biaya'], 0, ',', '.'); ?></td>
                                                   </tr>
                                               </tbody>
                                           </table>
@@ -130,6 +143,13 @@
                                                                                   <input type="text" class="form-control"
                                                                                       name="j_h4"
                                                                                       value="<?php echo $setting['j_h4']; ?>">
+                                                                              </div>
+                                                                              <div class="mb-3">
+                                                                                  <label for="dinas"
+                                                                                      class="form-label">Biaya Penyembelihan</label>
+                                                                                  <input type="text" class="form-control"
+                                                                                      name="biaya"
+                                                                                      value="<?php echo $setting['biaya']; ?>">
                                                                               </div>
                                                                               <div class="modal-footer">
                                                                                   <button type="button"
