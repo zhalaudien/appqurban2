@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\BesekModel;
 use CodeIgniter\Controller;
+use App\Models\QurbanModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\RealisasiModel;
@@ -10,7 +12,7 @@ use App\Models\RealisasiModel;
 class Besek extends Controller
 {
     public function index()
-    
+
     {
         $header = [
             'title' => 'Data Besek',
@@ -26,12 +28,12 @@ class Besek extends Controller
         $data['os'] = $userModel->selectSum('os')->get()->getRow()->os;
         $data['ok'] = $userModel->selectSum('ok')->get()->getRow()->ok;
 
-        $userModel = new RealisasiModel();
-        $data['t_ts'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ts')->get()->getRow()->ts;
-        $data['t_tk'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('tk')->get()->getRow()->tk;
-        $data['t_a'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('a')->get()->getRow()->a;
-        $data['t_os'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('os')->get()->getRow()->os;
-        $data['t_ok'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ok')->get()->getRow()->ok;
+        $userModel = new QurbanModel();
+        $data['t_ts'] = $userModel->where('status', 'Dikirim')->selectSum('r_ts')->get()->getRow()->r_ts;
+        $data['t_tk'] = $userModel->where('status', 'Dikirim')->selectSum('r_tk')->get()->getRow()->r_tk;
+        $data['t_a'] = $userModel->where('status', 'Dikirim')->selectSum('r_a')->get()->getRow()->r_a;
+        $data['t_os'] = $userModel->where('status', 'Dikirim')->selectSum('r_os')->get()->getRow()->r_os;
+        $data['t_ok'] = $userModel->where('status', 'Dikirim')->selectSum('r_ok')->get()->getRow()->r_ok;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
@@ -52,7 +54,7 @@ class Besek extends Controller
         $model->save($data);
         echo '<script>
                 alert("Sukses Tambah Data Besek");
-                window.location="'.base_url('besek').'"
+                window.location="' . base_url('besek') . '"
             </script>';
     }
 
@@ -70,7 +72,7 @@ class Besek extends Controller
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Besek");
-                window.location="'.base_url('besek').'"
+                window.location="' . base_url('besek') . '"
             </script>';
     }
 
@@ -80,7 +82,7 @@ class Besek extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Besek");
-                window.location="'.base_url('besek').'"
+                window.location="' . base_url('besek') . '"
             </script>';
     }
 
@@ -118,10 +120,10 @@ class Besek extends Controller
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Besek '.$date;
+        $fileName = 'Data Besek ' . $date;
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');

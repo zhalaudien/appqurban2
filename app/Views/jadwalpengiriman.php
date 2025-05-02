@@ -5,58 +5,6 @@
               <!--begin::Container-->
               <div class="container-fluid">
                   <!--begin::Row-->
-                  <div class="row">
-                      <div>
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Input
-                              Data</button>
-                          <a href="/jadwal/export" type="button" class="btn btn-success">Exsport Exel</a>
-                      </div>
-                      <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="exampleModalLabel"
-                          aria-hidden="true">
-                          <div class="modal-dialog">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Input Data cabang</h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                      <form action="/jadwal/tambah" method="post">
-                                          <div class="mb-3">
-                                              <label for="cabang" class="form-label">cabang</label>
-                                              <input type="text" class="form-control" name="cabang">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="sapi_bumm" class="form-label">Sapi BUMM</label>
-                                              <input type="text" class="form-control" name="sapi_bumm">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="sapib_bumm" class="form-label">Sapi BUMM Orang</label>
-                                              <input type="text" class="form-control" name="sapib_bumm">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="kambing_bumm" class="form-label">Kambing BUMM</label>
-                                              <input type="text" class="form-control" name="kambing_bumm">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="sapi_mandiri" class="form-label">Sapi Mandiri</label>
-                                              <input type="text" class="form-control" name="sapi_mandiri">
-                                          </div>
-                                          <div class="mb-3">
-                                              <label for="kambing_mandiri" class="form-label">KAmbing Mandiri</label>
-                                              <input type="text" class="form-control" name="alamat">
-                                          </div>
-                                          <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary"
-                                                  data-bs-dismiss="modal">Close</button>
-                                              <button class="btn btn-primary">Simpan</button>
-                                          </div>
-                                      </form>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
                   <!--end::Row-->
               </div>
               <!--end::Container-->
@@ -104,110 +52,82 @@
                                                       <td><?= $cabang['kirim_hewan']; ?></td>
                                                       <td><?= $cabang['kirim_besek']; ?></td>
                                                       <td>
-                                                          <div class="btn-group mb-2" role="group"
-                                                              aria-label="Basic mixed styles example">
-                                                              <a type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                  data-bs-target="#edit<?= $cabang['id']; ?>">
-                                                                  Edit</a>
-                                                              <div class="modal fade" id="edit<?= $cabang['id']; ?>"
-                                                                  tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                  aria-hidden="true">
-                                                                  <div class="modal-dialog">
-                                                                      <div class="modal-content">
-                                                                          <div class="modal-body">
-                                                                              <form action="<?= site_url('/jadwal/edit') ?>"
-                                                                                  method="post">
-                                                                                  <input type="hidden"
-                                                                                      value="<?= $cabang['id']; ?>" name="id">
-                                                                                  <div class="mb-3">
-                                                                                      <label for="cabang"
-                                                                                          class="form-label">Cabang</label>
-                                                                                      <input type="text" class="form-control"
-                                                                                          name="cabang"
-                                                                                          value="<?= $cabang['cabang']; ?>"
-                                                                                          readonly>
-                                                                                  </div>
-                                                                                  <div class="mb-3">
-                                                                                      <label for="antrian" class="form-label">No
-                                                                                          Antrian</label>
-                                                                                      <input type="text" class="form-control"
-                                                                                          name="antrian"
-                                                                                          value="<?= $cabang['antrian']; ?>">
-                                                                                  </div>
-                                                                                  <div class="mb-3">
-                                                                                      <label for="ket" class="form-label">Jadwal
-                                                                                          Kirim Hewan</label>
-                                                                                      <div class="form-group">
-                                                                                          <select id="kirim_hewan"
-                                                                                              name="kirim_hewan"
-                                                                                              class="form-control">
-                                                                                              <option
-                                                                                                  value="<?= $cabang['kirim_hewan']; ?>">
-                                                                                                  <?= $cabang['kirim_hewan']; ?>
-                                                                                              </option>
-                                                                                              <option value="H-1 <?= $j_h_1; ?> Siang">H-1 <?= $j_h_1; ?> Siang</option>
-                                                                                              <option value="H1 <?= $j_h; ?> Pagi">H1 <?= $j_h; ?> Pagi</option>
-                                                                                              <option value="H1 <?= $j_h; ?> Siang">H1 <?= $j_h; ?> Siang</option>
-                                                                                              <option value="H2 <?= $j_h2; ?> Pagi">H2 <?= $j_h2; ?> Pagi</option>
-                                                                                              <option value="H2 <?= $j_h2; ?> Siang">H2 <?= $j_h2; ?> Siang</option>
-                                                                                              <option value="H3 <?= $j_h3; ?> Pagi">H3 <?= $j_h3; ?> Pagi</option>
-                                                                                              <option value="H3 <?= $j_h3; ?> Siang">H3 <?= $j_h3; ?> Siang</option>
-                                                                                              <option value="H4 <?= $j_h4; ?> Pagi">H4 <?= $j_h4; ?> Pagi</option>
-                                                                                          </select>
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="mb-3">
-                                                                                      <label for="ket" class="form-label">Jadwal
-                                                                                          Kirim Besek</label>
-                                                                                      <div class="form-group">
-                                                                                          <select id="kirim_besek"
-                                                                                              name="kirim_besek"
-                                                                                              class="form-control">
-                                                                                              <option
-                                                                                                  value="<?= $cabang['kirim_besek']; ?>">
-                                                                                                  <?= $cabang['kirim_besek']; ?>
-                                                                                              </option>
-                                                                                              <option value="H1 <?= $j_h; ?>">H1 <?= $j_h; ?></option>
-                                                                                              <option value="H2 <?= $j_h2; ?>">H2 <?= $j_h2; ?></option>
-                                                                                              <option value="H3 <?= $j_h3; ?>">H3 <?= $j_h3; ?></option>
-                                                                                              <option value="H4 <?= $j_h4; ?>">H4 <?= $j_h4; ?></option>
-                                                                                          </select>
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="modal-footer">
-                                                                                      <button type="button"
-                                                                                          class="btn btn-secondary"
-                                                                                          data-bs-dismiss="modal">Close</button>
-                                                                                      <button
-                                                                                          class="btn btn-primary">Update</button>
-                                                                                  </div>
-                                                                              </form>
-                                                                          </div>
-                                                                      </div>
-                                                                  </div>
-                                                              </div>
-                                                              <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                                  data-bs-target="#<?= $cabang['id']; ?>">
-                                                                  Hapus
-                                                              </a>
-                                                          </div>
-                                                          <!-- Modal -->
-                                                          <div class="modal fade" id="hapusdata<?= $cabang['id']; ?>"
+                                                          <a type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                              data-bs-target="#edit<?= $cabang['id']; ?>">
+                                                              Edit</a>
+                                                          <div class="modal fade" id="edit<?= $cabang['id']; ?>"
                                                               tabindex="-1" aria-labelledby="exampleModalLabel"
                                                               aria-hidden="true">
                                                               <div class="modal-dialog">
                                                                   <div class="modal-content">
                                                                       <div class="modal-body">
-                                                                          <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                          <p>Menghapus data
-                                                                              <?= $cabang['cabang']; ?>
-                                                                          </p>
-                                                                      </div>
-                                                                      <div class="modal-footer">
-                                                                          <button type="button" class="btn btn-warning"
-                                                                              data-bs-dismiss="modal">Batal</button>
-                                                                          <a href="<?= base_url('/qurban/hapus/' . $cabang['id']) ?>"
-                                                                              type="button" class="btn btn-danger">Hapus</a>
+                                                                          <form action="<?= site_url('/jadwal/edit') ?>"
+                                                                              method="post">
+                                                                              <input type="hidden"
+                                                                                  value="<?= $cabang['id']; ?>" name="id">
+                                                                              <div class="mb-3">
+                                                                                  <label for="cabang"
+                                                                                      class="form-label">Cabang</label>
+                                                                                  <input type="text" class="form-control"
+                                                                                      name="cabang"
+                                                                                      value="<?= $cabang['cabang']; ?>"
+                                                                                      readonly disabled>
+                                                                              </div>
+                                                                              <div class="mb-3">
+                                                                                  <label for="antrian" class="form-label">No
+                                                                                      Antrian</label>
+                                                                                  <input type="text" class="form-control"
+                                                                                      name="antrian"
+                                                                                      value="<?= $cabang['antrian']; ?>">
+                                                                              </div>
+                                                                              <div class="mb-3">
+                                                                                  <label for="ket" class="form-label">Jadwal
+                                                                                      Kirim Hewan</label>
+                                                                                  <div class="form-group">
+                                                                                      <select id="kirim_hewan"
+                                                                                          name="kirim_hewan"
+                                                                                          class="form-control">
+                                                                                          <option
+                                                                                              value="<?= $cabang['kirim_hewan']; ?>">
+                                                                                              <?= $cabang['kirim_hewan']; ?>
+                                                                                          </option>
+                                                                                          <option value="H-1 <?= $j_h_1; ?> Siang">H-1 <?= $j_h_1; ?> Siang</option>
+                                                                                          <option value="H1 <?= $j_h; ?> Pagi">H1 <?= $j_h; ?> Pagi</option>
+                                                                                          <option value="H1 <?= $j_h; ?> Siang">H1 <?= $j_h; ?> Siang</option>
+                                                                                          <option value="H2 <?= $j_h2; ?> Pagi">H2 <?= $j_h2; ?> Pagi</option>
+                                                                                          <option value="H2 <?= $j_h2; ?> Siang">H2 <?= $j_h2; ?> Siang</option>
+                                                                                          <option value="H3 <?= $j_h3; ?> Pagi">H3 <?= $j_h3; ?> Pagi</option>
+                                                                                          <option value="H3 <?= $j_h3; ?> Siang">H3 <?= $j_h3; ?> Siang</option>
+                                                                                          <option value="H4 <?= $j_h4; ?> Pagi">H4 <?= $j_h4; ?> Pagi</option>
+                                                                                      </select>
+                                                                                  </div>
+                                                                              </div>
+                                                                              <div class="mb-3">
+                                                                                  <label for="ket" class="form-label">Jadwal
+                                                                                      Kirim Besek</label>
+                                                                                  <div class="form-group">
+                                                                                      <select id="kirim_besek"
+                                                                                          name="kirim_besek"
+                                                                                          class="form-control">
+                                                                                          <option
+                                                                                              value="<?= $cabang['kirim_besek']; ?>">
+                                                                                              <?= $cabang['kirim_besek']; ?>
+                                                                                          </option>
+                                                                                          <option value="H1 <?= $j_h; ?>">H1 <?= $j_h; ?></option>
+                                                                                          <option value="H2 <?= $j_h2; ?>">H2 <?= $j_h2; ?></option>
+                                                                                          <option value="H3 <?= $j_h3; ?>">H3 <?= $j_h3; ?></option>
+                                                                                          <option value="H4 <?= $j_h4; ?>">H4 <?= $j_h4; ?></option>
+                                                                                      </select>
+                                                                                  </div>
+                                                                              </div>
+                                                                              <div class="modal-footer">
+                                                                                  <button type="button"
+                                                                                      class="btn btn-secondary"
+                                                                                      data-bs-dismiss="modal">Close</button>
+                                                                                  <button
+                                                                                      class="btn btn-primary">Update</button>
+                                                                              </div>
+                                                                          </form>
                                                                       </div>
                                                                   </div>
                                                               </div>

@@ -110,181 +110,181 @@
                                           </thead>
                                           <tbody>
                                               <?php $no = 1; ?>
-                                              <?php if($join): ?>
-                                              <?php foreach($join as $cabang): ?>
-                                              <tr class="align-middle">
-                                                  <td><?= $no++; ?></td>
-                                                  <td><?php echo $cabang['cabang']; ?></td>
-                                                  <td><?php echo $cabang['ts']; ?></td>
-                                                  <td><?php echo $cabang['tk']; ?></td>
-                                                  <td><?php echo $cabang['a']; ?></td>
-                                                  <td><?php echo $cabang['os']; ?></td>
-                                                  <td><?php echo $cabang['ok']; ?></td>
-                                                  <td><?php echo $cabang['ks']; ?></td>
-                                                  <td><?php echo $cabang['kb']; ?></td>
-                                                  <td><?php echo $cabang['kks']; ?></td>
-                                                  <td><?php echo $cabang['kls']; ?></td>
-                                                  <td><?php echo $cabang['info_kirim']; ?></td>
-                                                  <td>
-                                                      <div class="btn-group mb-2" role="group"
-                                                          aria-label="Basic mixed styles example">
-                                                          <a type="button" class="btn btn-warning"
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target="#edit<?php echo $cabang['id']; ?>">
-                                                              Edit</a>
-                                                          <div class="modal fade" id="edit<?php echo $cabang['id']; ?>"
-                                                              tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                              aria-hidden="true">
-                                                              <div class="modal-dialog">
-                                                                  <div class="modal-content">
-                                                                      <div class="modal-header">
-                                                                          <h5 class="modal-title">Cabang
-                                                                              <?php echo $cabang['cabang']; ?></h5>
-                                                                          <button type="button" class="btn-close"
-                                                                              data-bs-dismiss="modal"
-                                                                              aria-label="Close"></button>
-                                                                      </div>
-                                                                      <div class="modal-body">
-                                                                          <form class="row g-3 needs-validation"
-                                                                              action="/kirimbesek/edit" method="post">
-                                                                              <div class="row g-3">
-                                                                                  <input type="hidden" id="id"
-                                                                                      value="<?php echo $cabang['id']; ?>"
-                                                                                      name="id">
-                                                                                  <input type="hidden" id="cabang"
-                                                                                      value="<?php echo $cabang['cabang']; ?>"
-                                                                                      name="cabang">
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">TS</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="ts"
-                                                                                              value="<?php echo $cabang['ts']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">TK</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="tk"
-                                                                                              value="<?php echo $cabang['tk']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">M_</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="a"
-                                                                                              value="<?php echo $cabang['a']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">OS</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="os"
-                                                                                              value="<?php echo $cabang['os']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">OK</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="ok"
-                                                                                              value="<?php echo $cabang['ok']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">KS</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="ks"
-                                                                                              value="<?php echo $cabang['ks']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">KB</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="kb"
-                                                                                              value="<?php echo $cabang['kb']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">KKS</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="kks"
-                                                                                              value="<?php echo $cabang['kks']; ?>">
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="col-md-4">
-                                                                                      <div class="input-group">
-                                                                                          <span
-                                                                                              class="input-group-text">KLS</span>
-                                                                                          <input type="text"
-                                                                                              class="form-control"
-                                                                                              name="kls"
-                                                                                              value="<?php echo $cabang['kls']; ?>">
-                                                                                      </div>
-                                                                                  </div>
+                                              <?php if ($join): ?>
+                                                  <?php foreach ($join as $cabang): ?>
+                                                      <tr class="align-middle">
+                                                          <td><?= $no++; ?></td>
+                                                          <td><?php echo $cabang['cabang']; ?></td>
+                                                          <td><?php echo $cabang['r_ts']; ?></td>
+                                                          <td><?php echo $cabang['r_tk']; ?></td>
+                                                          <td><?php echo $cabang['r_a']; ?></td>
+                                                          <td><?php echo $cabang['r_os']; ?></td>
+                                                          <td><?php echo $cabang['r_ok']; ?></td>
+                                                          <td><?php echo $cabang['r_ks']; ?></td>
+                                                          <td><?php echo $cabang['r_kb']; ?></td>
+                                                          <td><?php echo $cabang['r_kks']; ?></td>
+                                                          <td><?php echo $cabang['r_kls']; ?></td>
+                                                          <td><?php echo $cabang['status']; ?></td>
+                                                          <td>
+                                                              <div class="btn-group mb-2" role="group"
+                                                                  aria-label="Basic mixed styles example">
+                                                                  <a type="button" class="btn btn-warning"
+                                                                      data-bs-toggle="modal"
+                                                                      data-bs-target="#edit<?php echo $cabang['id']; ?>">
+                                                                      Edit</a>
+                                                                  <div class="modal fade" id="edit<?php echo $cabang['id']; ?>"
+                                                                      tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                      aria-hidden="true">
+                                                                      <div class="modal-dialog">
+                                                                          <div class="modal-content">
+                                                                              <div class="modal-header">
+                                                                                  <h5 class="modal-title">Cabang
+                                                                                      <?php echo $cabang['cabang']; ?></h5>
+                                                                                  <button type="button" class="btn-close"
+                                                                                      data-bs-dismiss="modal"
+                                                                                      aria-label="Close"></button>
                                                                               </div>
-                                                                              <div class="mb-3">
-                                                                                  <label for="info_kirim"
-                                                                                      class="form-label">INFO</label>
-                                                                                  <select class="form-select"
-                                                                                      name="info_kirim">
-                                                                                      <option
-                                                                                          value="<?php echo $cabang['info_kirim']; ?>">
-                                                                                          <?php echo $cabang['info_kirim']; ?>
-                                                                                      </option>
-                                                                                      <option value="Dikirim">Dikirim
-                                                                                      </option>
-                                                                                      <option value="Belum Dikirim">
-                                                                                          Belum
-                                                                                          Dikirim
-                                                                                      </option>
-                                                                                      <option value="Pending">Pending
-                                                                                      </option>
-                                                                                  </select>
+                                                                              <div class="modal-body">
+                                                                                  <form class="row g-3 needs-validation"
+                                                                                      action="/kirimbesek/edit" method="post">
+                                                                                      <div class="row g-3">
+                                                                                          <input type="hidden" id="id"
+                                                                                              value="<?php echo $cabang['id']; ?>"
+                                                                                              name="id">
+                                                                                          <input type="hidden" id="cabang"
+                                                                                              value="<?php echo $cabang['cabang']; ?>"
+                                                                                              name="cabang">
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">TS</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_ts"
+                                                                                                      value="<?php echo $cabang['r_ts']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">TK</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_tk"
+                                                                                                      value="<?php echo $cabang['r_tk']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">M_</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_a"
+                                                                                                      value="<?php echo $cabang['r_a']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">OS</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_os"
+                                                                                                      value="<?php echo $cabang['r_os']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">OK</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_ok"
+                                                                                                      value="<?php echo $cabang['r_ok']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">KS</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_ks"
+                                                                                                      value="<?php echo $cabang['r_ks']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">KB</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_kb"
+                                                                                                      value="<?php echo $cabang['r_kb']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">KKS</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_kks"
+                                                                                                      value="<?php echo $cabang['r_kks']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                          <div class="col-md-4">
+                                                                                              <div class="input-group">
+                                                                                                  <span
+                                                                                                      class="input-group-text">KLS</span>
+                                                                                                  <input type="text"
+                                                                                                      class="form-control"
+                                                                                                      name="r_kls"
+                                                                                                      value="<?php echo $cabang['r_kls']; ?>">
+                                                                                              </div>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      <div class="mb-3">
+                                                                                          <label for="status"
+                                                                                              class="form-label">INFO</label>
+                                                                                          <select class="form-select"
+                                                                                              name="status">
+                                                                                              <option
+                                                                                                  value="<?php echo $cabang['status']; ?>">
+                                                                                                  <?php echo $cabang['status']; ?>
+                                                                                              </option>
+                                                                                              <option value="Dikirim">Dikirim
+                                                                                              </option>
+                                                                                              <option value="Belum Dikirim">
+                                                                                                  Belum
+                                                                                                  Dikirim
+                                                                                              </option>
+                                                                                              <option value="Pending">Pending
+                                                                                              </option>
+                                                                                          </select>
+                                                                                      </div>
+                                                                                      <div class="modal-footer">
+                                                                                          <button type="button"
+                                                                                              class="btn btn-secondary"
+                                                                                              data-bs-dismiss="modal">Close</button>
+                                                                                          <button
+                                                                                              class="btn btn-primary">Update</button>
+                                                                                      </div>
+                                                                                  </form>
                                                                               </div>
-                                                                              <div class="modal-footer">
-                                                                                  <button type="button"
-                                                                                      class="btn btn-secondary"
-                                                                                      data-bs-dismiss="modal">Close</button>
-                                                                                  <button
-                                                                                      class="btn btn-primary">Update</button>
-                                                                              </div>
-                                                                          </form>
+                                                                          </div>
                                                                       </div>
                                                                   </div>
+                                                                  <a type="button" class="btn btn-success"
+                                                                      href="<?= base_url('/kirimbesek/print/' . $cabang['id']) ?>"
+                                                                      target="_blank">
+                                                                      Print
+                                                                  </a>
                                                               </div>
-                                                          </div>
-                                                          <a type="button" class="btn btn-success"
-                                                              href="<?= base_url('/kirimbesek/print/'.$cabang['id']) ?>"
-                                                              target="_blank">
-                                                              Print
-                                                          </a>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                              <?php endforeach; ?>
+                                                          </td>
+                                                      </tr>
+                                                  <?php endforeach; ?>
                                               <?php endif; ?>
                                           </tbody>
                                       </table>
@@ -323,59 +323,59 @@
                                           </thead>
                                           <tbody>
                                               <?php $no = 1; ?>
-                                              <?php if($permintaan): ?>
-                                              <?php foreach($permintaan as $cabang): ?>
-                                              <tr class="align-middle">
-                                                  <td><?= $no++; ?></td>
-                                                  <td><?php echo $cabang['cabang']; ?></td>
-                                                  <td><?php echo $cabang['ts']; ?></td>
-                                                  <td><?php echo $cabang['tk']; ?></td>
-                                                  <td><?php echo $cabang['a']; ?></td>
-                                                  <td><?php echo $cabang['os']; ?></td>
-                                                  <td><?php echo $cabang['ok']; ?></td>
-                                                  <td><?php echo $cabang['ks']; ?></td>
-                                                  <td><?php echo $cabang['kb']; ?></td>
-                                                  <td><?php echo $cabang['kks']; ?></td>
-                                                  <td><?php echo $cabang['kls']; ?></td>
-                                                  <td><?php echo $cabang['date_input']; ?>
-                                                  </td>
-                                                  <td>
-                                                      <div class="btn-group mb-2" role="group"
-                                                          aria-label="Basic mixed styles example">
-                                                          <a type="button" class="btn btn-success"
-                                                              href="<?= base_url('/kirimbesek/permintaan/'.$cabang['id']) ?>"
-                                                              target="_blank">
-                                                              Print
-                                                          </a>
-                                                          <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                              data-bs-target="#hapusdata<?php echo $cabang['id']; ?>">
-                                                              Hapus
-                                                          </a>
-                                                      </div>
-                                                      <!-- Modal -->
-                                                      <div class="modal fade" id="hapusdata<?php echo $cabang['id']; ?>"
-                                                          tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                          aria-hidden="true">
-                                                          <div class="modal-dialog">
-                                                              <div class="modal-content">
-                                                                  <div class="modal-body">
-                                                                      <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                      <p>Menghapus data
-                                                                          <?php echo $cabang['cabang']; ?>
-                                                                      </p>
-                                                                  </div>
-                                                                  <div class="modal-footer">
-                                                                      <button type="button" class="btn btn-warning"
-                                                                          data-bs-dismiss="modal">Batal</button>
-                                                                      <a href="<?= base_url('/kirimbesek/permintaanhapus/'.$cabang['id']) ?>"
-                                                                          type="button" class="btn btn-danger">Hapus</a>
+                                              <?php if ($permintaan): ?>
+                                                  <?php foreach ($permintaan as $cabang): ?>
+                                                      <tr class="align-middle">
+                                                          <td><?= $no++; ?></td>
+                                                          <td><?php echo $cabang['cabang']; ?></td>
+                                                          <td><?php echo $cabang['ts']; ?></td>
+                                                          <td><?php echo $cabang['tk']; ?></td>
+                                                          <td><?php echo $cabang['a']; ?></td>
+                                                          <td><?php echo $cabang['os']; ?></td>
+                                                          <td><?php echo $cabang['ok']; ?></td>
+                                                          <td><?php echo $cabang['ks']; ?></td>
+                                                          <td><?php echo $cabang['kb']; ?></td>
+                                                          <td><?php echo $cabang['kks']; ?></td>
+                                                          <td><?php echo $cabang['kls']; ?></td>
+                                                          <td><?php echo $cabang['date_input']; ?>
+                                                          </td>
+                                                          <td>
+                                                              <div class="btn-group mb-2" role="group"
+                                                                  aria-label="Basic mixed styles example">
+                                                                  <a type="button" class="btn btn-success"
+                                                                      href="<?= base_url('/kirimbesek/permintaan/' . $cabang['id']) ?>"
+                                                                      target="_blank">
+                                                                      Print
+                                                                  </a>
+                                                                  <a type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                                      data-bs-target="#hapusdata<?php echo $cabang['id']; ?>">
+                                                                      Hapus
+                                                                  </a>
+                                                              </div>
+                                                              <!-- Modal -->
+                                                              <div class="modal fade" id="hapusdata<?php echo $cabang['id']; ?>"
+                                                                  tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                  aria-hidden="true">
+                                                                  <div class="modal-dialog">
+                                                                      <div class="modal-content">
+                                                                          <div class="modal-body">
+                                                                              <h2 class="h2">Apakah anda yakin ?</h2>
+                                                                              <p>Menghapus data
+                                                                                  <?php echo $cabang['cabang']; ?>
+                                                                              </p>
+                                                                          </div>
+                                                                          <div class="modal-footer">
+                                                                              <button type="button" class="btn btn-warning"
+                                                                                  data-bs-dismiss="modal">Batal</button>
+                                                                              <a href="<?= base_url('/kirimbesek/permintaanhapus/' . $cabang['id']) ?>"
+                                                                                  type="button" class="btn btn-danger">Hapus</a>
+                                                                          </div>
+                                                                      </div>
                                                                   </div>
                                                               </div>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                              <?php endforeach; ?>
+                                                          </td>
+                                                      </tr>
+                                                  <?php endforeach; ?>
                                               <?php endif; ?>
                                           </tbody>
                                       </table>

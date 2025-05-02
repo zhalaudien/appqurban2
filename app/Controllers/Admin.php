@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\PenerimaanModel;
 use App\Models\PanitiaModel;
 use App\Models\CabangModel;
@@ -8,13 +9,12 @@ use App\Models\QurbanModel;
 use CodeIgniter\Controller;
 use App\Models\KandangModel;
 use App\Models\BesekModel;
-use App\Models\RealisasiModel;
 use App\Models\K3Model;
 
 class Admin extends Controller
 {
     public function index()
-    
+
     {
         $userModel = new PanitiaModel();
         $data['jumlahpanitia'] = $userModel->get()->getNumRows();
@@ -28,6 +28,15 @@ class Admin extends Controller
         $data['kambing_bumm'] = $userModel->selectSum('kambing_bumm')->get()->getRow()->kambing_bumm;
         $data['sapi_mandiri'] = $userModel->selectSum('sapi_mandiri')->get()->getRow()->sapi_mandiri;
         $data['kambing_mandiri'] = $userModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
+        $data['t_ts'] = $userModel->selectSum('r_ts')->get()->getRow()->r_ts;
+        $data['t_tk'] = $userModel->selectSum('r_tk')->get()->getRow()->r_tk;
+        $data['t_a'] = $userModel->selectSum('r_a')->get()->getRow()->r_a;
+        $data['t_os'] = $userModel->selectSum('r_os')->get()->getRow()->r_os;
+        $data['t_ok'] = $userModel->selectSum('r_ok')->get()->getRow()->r_ok;
+        $data['t_ks'] = $userModel->selectSum('r_ks')->get()->getRow()->r_ks;
+        $data['t_kb'] = $userModel->selectSum('r_kb')->get()->getRow()->r_kb;
+        $data['t_kks'] = $userModel->selectSum('r_kks')->get()->getRow()->r_kks;
+        $data['t_kls'] = $userModel->selectSum('r_kls')->get()->getRow()->r_kls;
 
         $userModel = new PenerimaanModel();
         $data['viewpenerimaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
@@ -54,16 +63,6 @@ class Admin extends Controller
         $data['os'] = $userModel->selectSum('os')->get()->getRow()->os;
         $data['ok'] = $userModel->selectSum('ok')->get()->getRow()->ok;
 
-        $userModel = new RealisasiModel();
-        $data['t_ts'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ts')->get()->getRow()->ts;
-        $data['t_tk'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('tk')->get()->getRow()->tk;
-        $data['t_a'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('a')->get()->getRow()->a;
-        $data['t_os'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('os')->get()->getRow()->os;
-        $data['t_ok'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ok')->get()->getRow()->ok;
-        $data['t_ks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ks')->get()->getRow()->ks;
-        $data['t_kb'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kb')->get()->getRow()->kb;
-        $data['t_kks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kks')->get()->getRow()->kks;
-        $data['t_kls'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kls')->get()->getRow()->kls;
 
         $userModel = new K3Model();
         $data['ks'] = $userModel->selectSum('ks')->get()->getRow()->ks;

@@ -68,24 +68,12 @@ $routes->post('/qurban/tambah', 'Qurban::tambah', ['filter' => 'auth']);
 $routes->post('/qurban/edit', 'Qurban::edit', ['filter' => 'auth']);
 $routes->get('/qurban/hapus/(:num)', 'Qurban::hapus/$1', ['filter' => 'auth']);
 $routes->get('/qurban/export', 'Qurban::export', ['filter' => 'auth']);
-
 $routes->get('/amprah', 'Qurban::amprah', ['filter' => 'auth']);
-$routes->post('/amprah/tambah', 'Qurban::tambahamprah', ['filter' => 'auth']);
 $routes->post('/amprah/edit', 'Qurban::editamprah', ['filter' => 'auth']);
-$routes->get('/amprah/hapus/(:num)', 'Qurban::hapusamprah/$1', ['filter' => 'auth']);
-$routes->get('/amprah/export', 'Qurban::exportamprah', ['filter' => 'auth']);
-
 $routes->get('/realisasi', 'Qurban::realisasi', ['filter' => 'auth']);
-$routes->post('/realisasi/tambah', 'Qurban::tambahrealisasi', ['filter' => 'auth']);
 $routes->post('/realisasi/edit', 'Qurban::editrealisasi', ['filter' => 'auth']);
-$routes->get('/realisasi/hapus/(:num)', 'Qurban::hapusrealisasi/$1', ['filter' => 'auth']);
-$routes->get('/realisasi/export', 'Qurban::exportrealisasi', ['filter' => 'auth']);
-
 $routes->get('/jadwal', 'Qurban::jadwal', ['filter' => 'auth']);
-$routes->post('/jadwal/tambah', 'Qurban::tambahjadwal', ['filter' => 'auth']);
 $routes->post('/jadwal/edit', 'Qurban::editjadwal', ['filter' => 'auth']);
-$routes->get('/jadwal/hapus/(:num)', 'Qurban::hapusjadwal/$1', ['filter' => 'auth']);
-$routes->get('/jadwal/export', 'Qurban::exportjadwal', ['filter' => 'auth']);
 
 $routes->get('/login', 'Login::index');
 $routes->post('/loginProcess', 'Login::loginProcess');

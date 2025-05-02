@@ -1,13 +1,9 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\QurbanModel;
-use App\Models\AmparahModel;
-use App\Models\PenerimaanModel;
-use App\Models\JadwalModel;
-use App\Models\RealisasiModel;
 use App\Models\PermintaanModel;
-use App\Models\UserModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -25,16 +21,8 @@ class Surat extends Controller
         ];
 
         $userModel = new QurbanModel();
-        $data['join'] = $userModel->select('dataqurban.*, realisasi_besek.*, permohonan_besek.*')
-                ->join('realisasi_besek', 'realisasi_besek.cabang = dataqurban.cabang', 'left')
-                ->join('permohonan_besek', 'permohonan_besek.cabang = dataqurban.cabang', 'left')
-                ->orderBy('dataqurban.cabang', 'ASC')
-                ->findAll();
-
-        $userModel = new QurbanModel();
+        $data['join'] = $userModel->orderBy('cabang', 'ASC')->findAll();
         $data['dataqurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
-
-        $userModel = new RealisasiModel();
         $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         $userModel = new PermintaanModel();
@@ -64,49 +52,48 @@ class Surat extends Controller
         $model->savepermintaan($data);
         echo '<script>
                 alert("Sukses Tambah Data Realaisasi");
-                window.location="'.base_url('/kirimbesek').'"
+                window.location="' . base_url('/kirimbesek') . '"
             </script>';
     }
 
     public function updatekirim()
     {
-        $userModel = new RealisasiModel();
+        $userModel = new QurbanModel();
         $id = $this->request->getPost('id');
         if (!$id) {
             echo '<script>
                     alert("ID tidak ditemukan.");
-                    window.location="'.base_url('/kirimbesek').'"
+                    window.location="' . base_url('/kirimbesek') . '"
                 </script>';
             return;
         }
         $data = [
-            'cabang' => $this->request->getPost('cabang'),
-            'ts' => $this->request->getPost('ts'),
-            'tk' => $this->request->getPost('tk'),
-            'a' => $this->request->getPost('a'),
-            'ok' => $this->request->getPost('ok'),
-            'os' => $this->request->getPost('os'),
-            'ks' => $this->request->getPost('ks'),
-            'kb' => $this->request->getPost('kb'),
-            'kks' => $this->request->getPost('kks'),
-            'kls' => $this->request->getPost('kls'),
-            'info_kirim' => $this->request->getPost('info_kirim'),
+            'r_ts' => $this->request->getPost('r_ts'),
+            'r_tk' => $this->request->getPost('r_tk'),
+            'r_a' => $this->request->getPost('r_a'),
+            'r_ok' => $this->request->getPost('r_ok'),
+            'r_os' => $this->request->getPost('r_os'),
+            'r_ks' => $this->request->getPost('r_ks'),
+            'r_kb' => $this->request->getPost('r_kb'),
+            'r_kks' => $this->request->getPost('r_kks'),
+            'r_kls' => $this->request->getPost('r_kls'),
+            'status' => $this->request->getPost('status'),
         ];
 
-        $userModel->editrealisasi($id, $data);
+        $userModel->updateQurban($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Realaisasi");
-                window.location="'.base_url('/kirimbesek').'"
+                window.location="' . base_url('/kirimbesek') . '"
             </script>';
     }
 
     public function hapusrealaisasi($id)
     {
-        $model = new RealisasiModel();
+        $model = new QurbanModel();
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Realaisasi");
-                window.location="'.base_url('/realisasi').'"
+                window.location="' . base_url('/realisasi') . '"
             </script>';
     }
 
@@ -118,22 +105,22 @@ class Surat extends Controller
             'navbar' => 'qurban',
             'active' => 'jadwal'
         ];
-        
-        $userModel = new JadwalModel();
+
+        $userModel = new QurbanModel();
         $data['jadwal'] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                        ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                        ->orderBy('dataqurban.cabang', 'ASC')
-                        ->findAll();
+            ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+            ->orderBy('dataqurban.cabang', 'ASC')
+            ->findAll();
 
         $keywords = ['H1', 'H2', 'H3'];
         foreach ($keywords as $keyword) {
             $data[strtolower($keyword)] = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                    ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                    ->like('jadwalpengiriman.kirim_besek', $keyword)
-                    ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
-                    ->findAll();
-            }
-            
+                ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+                ->like('jadwalpengiriman.kirim_besek', $keyword)
+                ->orderBy('jadwalpengiriman.kirim_hewan', 'ASC')
+                ->findAll();
+        }
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("jadwalpengiriman", $data, $header);
@@ -142,7 +129,7 @@ class Surat extends Controller
 
     public function tambahjadwal()
     {
-        $model = new JadwalModel();
+        $model = new QurbanModel();
         $data = array(
             'cabang' => $this->request->getPost('cabang'),
             'antrian' => $this->request->getPost('antrian'),
@@ -152,13 +139,13 @@ class Surat extends Controller
         $model->savejadwal($data);
         echo '<script>
                 alert("Sukses Tambah Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
     public function editjadwal()
     {
-        $model = new JadwalModel();
+        $model = new QurbanModel();
         $id = $this->request->getPost('id');
         $data = [
             'cabang' => $this->request->getPost('cabang'),
@@ -166,74 +153,74 @@ class Surat extends Controller
             'kirim_hewan' => $this->request->getPost('kirim_hewan'),
             'kirim_besek' => $this->request->getPost('kirim_besek'),
         ];
-    
+
         if (!$id || !is_array($data)) {
             throw new \InvalidArgumentException('Data format is invalid or ID is missing.');
         }
-    
-        $model->updatejadwal($data, $id);  
+
+        $model->updatejadwal($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
     public function hapusjadwal($id)
     {
-        $model = new JadwalModel();
+        $model = new QurbanModel();
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Jadwal");
-                window.location="'.base_url('/jadwal').'"
+                window.location="' . base_url('/jadwal') . '"
             </script>';
     }
 
     public function exportjadwal()
     {
-        $userModel = new JadwalModel();
+        $userModel = new QurbanModel();
         $penerimaan = $userModel->select('jadwalpengiriman.*, dataqurban.*')
-                        ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
-                        ->orderBy('dataqurban.cabang', 'ASC')
-                        ->findAll();
+            ->join('dataqurban', 'jadwalpengiriman.cabang = dataqurban.cabang', 'left')
+            ->orderBy('dataqurban.cabang', 'ASC')
+            ->findAll();
         $no = 1;
         $date = date('d-m-Y H:i:s');
 
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'Sapi BUMM')
-                    ->setCellValue('D1', 'Sapi BUMM orang')
-                    ->setCellValue('E1', 'Kambing BUMM')
-                    ->setCellValue('F1', 'Sapi Cabang')
-                    ->setCellValue('G1', 'kambing Cabang')
-                    ->setCellValue('H1', 'Kirim Hewan')
-                    ->setCellValue('I1', 'Kirim Besek');
-                    
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'Sapi BUMM')
+            ->setCellValue('D1', 'Sapi BUMM orang')
+            ->setCellValue('E1', 'Kambing BUMM')
+            ->setCellValue('F1', 'Sapi Cabang')
+            ->setCellValue('G1', 'kambing Cabang')
+            ->setCellValue('H1', 'Kirim Hewan')
+            ->setCellValue('I1', 'Kirim Besek');
+
         $column = 2;
         // tulis data penerimaan ke cell
-        foreach($penerimaan as $data) {
+        foreach ($penerimaan as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['sapi_bumm'])
-                        ->setCellValue('D' . $column, $data['sapib_bumm'])
-                        ->setCellValue('E' . $column, $data['kambing_bumm'])
-                        ->setCellValue('F' . $column, $data['sapi_mandiri'])
-                        ->setCellValue('G' . $column, $data['kambing_mandiri'])
-                        ->setCellValue('H' . $column, $data['kirim_hewan'])
-                        ->setCellValue('I' . $column, $data['kirim_besek']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['sapi_bumm'])
+                ->setCellValue('D' . $column, $data['sapib_bumm'])
+                ->setCellValue('E' . $column, $data['kambing_bumm'])
+                ->setCellValue('F' . $column, $data['sapi_mandiri'])
+                ->setCellValue('G' . $column, $data['kambing_mandiri'])
+                ->setCellValue('H' . $column, $data['kirim_hewan'])
+                ->setCellValue('I' . $column, $data['kirim_besek']);
 
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data jadwal '.$date;
+        $fileName = 'Data jadwal ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
@@ -242,7 +229,7 @@ class Surat extends Controller
     public function printsurat($id)
     {
         // Ambil data berdasarkan ID cabang
-        $userModel = new RealisasiModel();
+        $userModel = new QurbanModel();
         $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
 
         if (!$cabang) {
@@ -282,7 +269,7 @@ class Surat extends Controller
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
         }
-        
+
         $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
         $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
         $templateProcessor->setValue('date', $date);
@@ -306,7 +293,7 @@ class Surat extends Controller
     public function printpermintaan($id)
     {
         // Ambil data berdasarkan ID cabang
-        $userModel = new PermintaanModel();
+        $userModel = new QurbanModel();
         $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
 
         if (!$cabang) {
@@ -346,7 +333,7 @@ class Surat extends Controller
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
         }
-        
+
         $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
         $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
         $templateProcessor->setValue('date', $date);
@@ -373,8 +360,7 @@ class Surat extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Permintaan");
-                window.location="'.base_url('/kirimbesek').'"
+                window.location="' . base_url('/kirimbesek') . '"
             </script>';
     }
-
 }

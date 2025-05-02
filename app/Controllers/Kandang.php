@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\KandangModel;
 use App\Models\PenerimaanModel;
 use App\Models\QurbanModel;
@@ -45,7 +46,7 @@ class Kandang extends Controller
         $model->save($data);
         echo '<script>
                 alert("Sukses Tambah Data Kandang");
-                window.location="'.base_url('kandang').'"
+                window.location="' . base_url('kandang') . '"
             </script>';
     }
 
@@ -60,7 +61,7 @@ class Kandang extends Controller
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Kandang");
-                window.location="'.base_url('kandang').'"
+                window.location="' . base_url('kandang') . '"
             </script>';
     }
 
@@ -70,7 +71,7 @@ class Kandang extends Controller
         $data['kandang'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Kandang");
-                window.location="'.base_url('kandang').'"
+                window.location="' . base_url('kandang') . '"
             </script>';
     }
 
@@ -99,13 +100,13 @@ class Kandang extends Controller
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data kandang '.$date;
-    
+        $fileName = 'Data kandang ' . $date;
+
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
-    
+
         $writer->save('php://output');
     }
 
@@ -117,11 +118,11 @@ class Kandang extends Controller
             'active' => 'k3'
         ];
 
-        $userModel = new RealisasiModel();
-        $data['t_ks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('ks')->get()->getRow()->ks;
-        $data['t_kb'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kb')->get()->getRow()->kb;
-        $data['t_kks'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kks')->get()->getRow()->kks;
-        $data['t_kls'] = $userModel->where('info_kirim', 'Dikirim')->selectSum('kls')->get()->getRow()->kls;
+        $userModel = new QurbanModel();
+        $data['t_ks'] = $userModel->where('status', 'Dikirim')->selectSum('r_ks')->get()->getRow()->r_ks;
+        $data['t_kb'] = $userModel->where('status', 'Dikirim')->selectSum('r_kb')->get()->getRow()->r_kb;
+        $data['t_kks'] = $userModel->where('status', 'Dikirim')->selectSum('r_kks')->get()->getRow()->r_kks;
+        $data['t_kls'] = $userModel->where('status', 'Dikirim')->selectSum('r_kls')->get()->getRow()->r_kls;
 
         $userModel = new K3Model();
         $data['viewk3'] = $userModel->orderBy('date_input', 'DESC')->findAll();
@@ -150,7 +151,7 @@ class Kandang extends Controller
         $model->savek3($data);
         echo '<script>
                 alert("Sukses Tambah Data K3");
-                window.location="'.base_url('k3').'"
+                window.location="' . base_url('k3') . '"
             </script>';
     }
 
@@ -168,7 +169,7 @@ class Kandang extends Controller
         $model->updatek3($id, $data);
         echo '<script>
                 alert("Sukses Edit Data K3");
-                window.location="'.base_url('k3').'"
+                window.location="' . base_url('k3') . '"
             </script>';
     }
 
@@ -178,7 +179,7 @@ class Kandang extends Controller
         $data['k3'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data K3");
-                window.location="'.base_url('k3').'"
+                window.location="' . base_url('k3') . '"
             </script>';
     }
 
@@ -213,13 +214,13 @@ class Kandang extends Controller
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data k3 '.$date;
-    
+        $fileName = 'Data k3 ' . $date;
+
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
-    
+
         $writer->save('php://output');
     }
 }
