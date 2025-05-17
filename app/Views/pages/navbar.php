@@ -76,6 +76,12 @@ use PhpParser\Node\Stmt\Echo_;
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="/presensi" class="nav-link <?= $active == 'presensi' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>Presensi Panitia</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="/muspika" class="nav-link <?= $active == 'muspika' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-user-tie"></i>
                                     <p>Data Muspika</p>

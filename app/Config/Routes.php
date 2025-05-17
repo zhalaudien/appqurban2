@@ -11,7 +11,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/jadwal2', 'Home::jadwal');
 $routes->get('/datasapi2', 'Home::datasapi');
 $routes->get('/dataqurban', 'Home::dataqurban');
-$routes->get('/realisasi', 'Home::realisasi');
+$routes->get('/realisasi2', 'Home::realisasi');
 
 $routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
 
@@ -20,6 +20,10 @@ $routes->post('/panitia/tambah', 'Data::tambah', ['filter' => 'auth']);
 $routes->post('/panitia/edit', 'Data::edit', ['filter' => 'auth']);
 $routes->get('/panitia/hapus/(:num)', 'Data::hapus/$1', ['filter' => 'auth']);
 $routes->get('/panitia/export', 'Data::export', ['filter' => 'auth']);
+
+$routes->get('/presensi', 'Presensi::index', ['filter' => 'auth']);
+$routes->get('/presensi/simpan', 'Presensi::index', ['filter' => 'auth']);
+
 
 $routes->get('/cabang', 'Data::indexcabang', ['filter' => 'auth']);
 $routes->post('/cabang/tambah', 'Data::tambahcabang', ['filter' => 'auth']);

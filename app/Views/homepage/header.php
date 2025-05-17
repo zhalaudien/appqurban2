@@ -34,7 +34,7 @@
                             Pengiriman</a>
                     </li>
                     <li class="nav-item"><a class="nav-link <?= $active == 'realisasi' ? 'active' : '' ?>"
-                            href="<?php echo base_url('') ?>realisasi">Realisasi Besek</a></li>
+                            href="<?php echo base_url('') ?>realisasi2">Realisasi Besek</a></li>
                     <li class="nav-item"><a class="nav-link <?= $active == 'datasapi2' ? 'active' : '' ?>"
                             href="<?php echo base_url('') ?>datasapi2">Data
                             Sapi</a></li>
