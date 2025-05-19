@@ -5,7 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\IdpantiaModel;
 use App\Models\PanitiaModel;
-use App\Models\Presensi;
+use App\Models\PresensiModel;
 
 class Presensi extends Controller
 {
@@ -35,27 +35,28 @@ class Presensi extends Controller
 
     public function simpan()
     {
+        $request = $this->request;
+        $dataPresensi = $request->getPost('data');
 
-        $presensiModel = new Presensi();
-        $panitiaModel = new PanitiaModel();
-
-        $seksi = $panitiaModel->getPost('seksi');
-        $presensiInput = $presensiModel->getPost('presensi'); // array: [id_panitia => 1]
-
-        // Ambil semua panitia di seksi ini
-        $panitias = $panitiaModel->where('seksi', $seksi)->findAll();
-
-        foreach ($panitias as $panitia) {
-            $id = $panitia['id'];
-            $status = isset($presensiInput[$id]) ? 1 : 0;
-
-            $presensiModel->insert([
-                'id_panitia'   => $id,
-                'seksi'        => $seksi,
-                'status_hadir' => $status
-            ]);
+        if (!$dataPresensi || !is_array($dataPresensi)) {
+            return redirect()->back()->with('error', 'Tidak ada data presensi yang dikirim.');
         }
 
-        return redirect()->to('/presensi')->with('message', 'Presensi berhasil disimpan.');
+        $presensiModel = new PresensiModel();
+
+        foreach ($dataPresensi as $item) {
+            $status = isset($item['presensi']) && $item['presensi'] === 'hadir' ? 'hadir' : 'tidak hadir';
+
+            $presensiModel->insert([
+                'nama'     => $item['nama'],
+                'cabang'   => $item['cabang'],
+                'seksi'    => $item['seksi'],
+                'presensi' => $item['presensi']
+            ]);
+        }
+        echo '<script>
+                alert("Sukses Tambah Data Presensi");
+                window.location="' . base_url('presensi') . '"
+            </script>';
     }
 }

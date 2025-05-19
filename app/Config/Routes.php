@@ -22,7 +22,7 @@ $routes->get('/panitia/hapus/(:num)', 'Data::hapus/$1', ['filter' => 'auth']);
 $routes->get('/panitia/export', 'Data::export', ['filter' => 'auth']);
 
 $routes->get('/presensi', 'Presensi::index', ['filter' => 'auth']);
-$routes->get('/presensi/simpan', 'Presensi::index', ['filter' => 'auth']);
+$routes->post('/presensi/simpan', 'Presensi::simpan', ['filter' => 'auth']);
 
 
 $routes->get('/cabang', 'Data::indexcabang', ['filter' => 'auth']);

@@ -38,7 +38,7 @@
                                                           <h5 class="modal-title">Presensi <?= esc($id['seksi']) ?></h5>
                                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                       </div>
-                                                      <form method="post" action="<?= site_url('presensi/simpan') ?>">
+                                                      <form method="post" action="<?= site_url('/presensi/simpan') ?>">
                                                           <div class="modal-body">
                                                               <table class="table">
                                                                   <thead>
@@ -51,40 +51,61 @@
                                                                       </tr>
                                                                   </thead>
                                                                   <tbody>
-                                                                      <tr class="align-middle">
-                                                                          <?php
-                                                                            $ada = false;
-                                                                            $no = 1;
-                                                                            foreach ($panitia as $data):
-                                                                                if ($data['seksi'] === $id['seksi']):
-                                                                                    $ada = true;
-                                                                            ?>
+                                                                      <?php
+                                                                        $ada = false;
+                                                                        $no = 1;
+                                                                        foreach ($panitia as $data):
+                                                                            if ($data['seksi'] === $id['seksi']):
+                                                                                $ada = true;
+                                                                        ?>
+                                                                              <tr class="align-middle">
                                                                                   <td><?= $no++; ?></td>
-                                                                                  <td><?= esc($data['nama']) ?></td>
-                                                                                  <td><?= esc($data['cabang']) ?></td>
-                                                                                  <td style="display: none;"><?= esc($data['seksi']) ?></td>
-                                                                                  <td><?= esc($data['ket']) ?></td>
                                                                                   <td>
-                                                                                      <div class="form-check form-switch">
-                                                                                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                                                                      </div>
-                                                                      </tr>
-                                                                  <?php
-                                                                                endif;
-                                                                            endforeach;
+                                                                                      <?= esc($data['nama']) ?>
+                                                                                      <input type="hidden" name="data[<?= esc($data['id']) ?>][nama]" value="<?= esc($data['nama']) ?>">
+                                                                                  </td>
+                                                                                  <td>
+                                                                                      <?= esc($data['cabang']) ?>
+                                                                                      <input type="hidden" name="data[<?= esc($data['id']) ?>][cabang]" value="<?= esc($data['cabang']) ?>">
+                                                                                  </td>
+                                                                                  <td>
+                                                                                      <?= esc($data['ket']) ?>
+                                                                                      <input type="hidden" name="data[<?= esc($data['id']) ?>][ket]" value="<?= esc($data['ket']) ?>">
+                                                                                      <input type="hidden" name="data[<?= esc($data['id']) ?>][seksi]" value="<?= esc($data['seksi']) ?>">
+                                                                                  </td>
+                                                                                  <td>
+                                                                                      <!-- Hidden input agar default selalu "tidak hadir" -->
+                                                                                      <input type="hidden" name="data[<?= $data['id'] ?>][presensi]" value="tidak hadir">
 
-                                                                            if (!$ada): ?>
-                                                                  <p><em>Belum ada panitia di seksi ini.</em></p>
-                                                              <?php endif; ?>
+                                                                                      <!-- Checkbox yang akan override jika dicentang -->
+                                                                                      <div class="form-check form-switch">
+                                                                                          <input name="data[<?= $data['id'] ?>][presensi]"
+                                                                                              class="form-check-input"
+                                                                                              type="checkbox"
+                                                                                              id="presensi<?= $data['id'] ?>"
+                                                                                              value="hadir"
+                                                                                              <?= ($data['ket'] === 'hadir') ? 'checked' : '' ?>>
+                                                                                      </div>
+                                                                                  </td>
+                                                                              </tr>
+                                                                          <?php
+                                                                            endif;
+                                                                        endforeach;
+                                                                        if (!$ada):
+                                                                            ?>
+                                                                          <tr>
+                                                                              <td colspan="5"><em>Belum ada panitia di seksi ini.</em></td>
+                                                                          </tr>
+                                                                      <?php endif; ?>
                                                                   </tbody>
                                                               </table>
-
                                                           </div>
                                                           <div class="modal-footer">
                                                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                              <button type="button" class="btn btn-primary">Save changes</button>
+                                                              <button type="submit" class="btn btn-primary">Simpan</button>
                                                           </div>
                                                       </form>
+
                                                   </div>
                                               </div>
                                           </div>
