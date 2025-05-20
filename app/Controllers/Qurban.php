@@ -34,19 +34,36 @@ class Qurban extends Controller
     public function tambah()
     {
         $model = new QurbanModel;
+
+        $cabang = $this->request->getPost('cabang');
+
+        // Cek apakah nama cabang sudah ada
+        $existing = $model->where('cabang', $cabang)->first();
+
+        if ($existing) {
+            // Jika sudah ada, tampilkan pesan error
+            echo '<script>
+                alert("Gagal: Nama cabang sudah ada!");
+                window.location="' . base_url('qurban') . '"
+              </script>';
+            return;
+        }
+
+        // Jika belum ada, simpan data
         $data = array(
-            'cabang' => $this->request->getPost('cabang'),
+            'cabang' => $cabang,
             'sapi_bumm' => $this->request->getPost('sapi_bumm'),
             'sapib_bumm' => $this->request->getPost('sapib_bumm'),
             'kambing_bumm' => $this->request->getPost('kambing_bumm'),
             'sapi_mandiri' => $this->request->getPost('sapi_mandiri'),
             'kambing_mandiri' => $this->request->getPost('kambing_mandiri'),
         );
+
         $model->saveQurban($data);
         echo '<script>
-                alert("Sukses Tambah Data Qurban");
-                window.location="' . base_url('qurban') . '"
-            </script>';
+            alert("Sukses Tambah Data Qurban");
+            window.location="' . base_url('qurban') . '"
+          </script>';
     }
 
     public function edit()
