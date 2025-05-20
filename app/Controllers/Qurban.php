@@ -54,14 +54,13 @@ class Qurban extends Controller
         $model = new QurbanModel;
         $id = $this->request->getPost('id');
         $data = array(
-            'cabang' => $this->request->getPost('cabang'),
             'sapi_bumm' => $this->request->getPost('sapi_bumm'),
             'sapib_bumm' => $this->request->getPost('sapib_bumm'),
             'kambing_bumm' => $this->request->getPost('kambing_bumm'),
             'sapi_mandiri' => $this->request->getPost('sapi_mandiri'),
             'kambing_mandiri' => $this->request->getPost('kambing_mandiri'),
         );
-        $model->updateQurban($id, $data);
+        $model->updateQurban($data, $id);
         echo '<script>
                 alert("Sukses Edit Data Qurban");
                 window.location="' . base_url('qurban') . '"
