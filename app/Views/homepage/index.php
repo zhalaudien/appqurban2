@@ -42,39 +42,19 @@
                                                 <td>Data Muspika</td>
                                                 <td><?= $jumlahmuspika ?></td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!--end::Form-->
-                            </div>
-                            <!--end::Small Box Widget 1-->
-                        </div>
-                        <div>
-                            <!--begin::Small Box Widget 1-->
-                            <div class="card card-info card-outline mb-4">
-                                <!--begin::Header-->
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Hewan</th>
-                                                <th>Jumlah</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
                                             <tr class="align-middle">
                                                 <td>Sapi BUMM</td>
                                                 <td><?= number_format($sapi_bumm + ($sapib_bumm / 7), 1, '.', '') ?></td>
                                             </tr>
                                             <tr class="align-middle">
-                                                <td>Sapi Cabang</td>
-                                                <td><?= $sapi_mandiri ?></td>
-                                            </tr>
-                                            <tr class="align-middle">
                                                 <td>Kambing BUMM</td>
                                                 <td><?= $kambing_bumm ?></td>
                                             </tr>
+                                            <tr class="align-middle">
+                                                <td>Sapi Cabang</td>
+                                                <td><?= $sapi_mandiri ?></td>
+                                            </tr>
+
                                             <tr class="align-middle">
                                                 <td>Kambing Cabang</td>
                                                 <td><?= $kambing_mandiri ?></td>

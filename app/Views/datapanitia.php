@@ -145,7 +145,7 @@
                                                                                       <label for="seksi"
                                                                                           class="form-label">Seksi</label>
                                                                                       <select class="form-select" name="seksi">
-                                                                                          <option
+                                                                                          <option selected
                                                                                               value="<?php echo $panitia['seksi']; ?>">
                                                                                               <?php echo $panitia['seksi']; ?>
                                                                                           </option>
