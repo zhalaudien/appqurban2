@@ -13,7 +13,7 @@ class Presensi extends Controller
     {
         $header = [
             'title' => 'Presensi Panitia',
-            'navbar' => 'presensi',
+            'navbar' => 'data',
             'active' => 'presensi'
         ];
 
