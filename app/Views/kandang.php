@@ -5,14 +5,13 @@
               <div class="app-content">
                   <!--begin::Container-->
                   <div class="container-fluid">
-                      <div class="row">
-                          <!--begin::Col-->
-                          <div class="w-auto col-lg-6 col-6">
-                              <!--begin::Small Box Widget 1-->
-                              <div class="card card-info card-outline mb-4">
+                      <div class="row g-4">
+                          <!-- Form Input Hewan -->
+                          <div class="col-12 col-lg-6">
+                              <div class="card shadow-sm">
                                   <!--begin::Header-->
-                                  <div class="card-header">
-                                      <div class="card-title">Input Hewan Disembelih</div>
+                                  <div class="card-header bg-info text-white">
+                                      <h6 class="mb-0">Input Hewan Disembelih</h6>
                                   </div>
                                   <!--end::Header-->
                                   <!--begin::Form-->
@@ -50,16 +49,11 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
-                          <div class="w-auto col-lg-6 col-6">
-                              <div class="w-auto card card-outline card-primary mb-4">
-                                  <div class="card-header">
-                                      <h3 class="card-title">Data Hewan Kandang</h3>
-                                      <div class="card-tools">
-                                          <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                                              <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                              <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                          </button>
-                                      </div>
+                          <div class="col-12 col-lg-6">
+                              <div class="card shadow-sm">
+                                  <!--begin::Header-->
+                                  <div class="card-header bg-warning text-white">
+                                      <h6 class="mb-0">Data Hewan Kandang</h6>
                                       <!-- /.card-tools -->
                                   </div>
                                   <!-- /.card-header -->
@@ -78,13 +72,13 @@
                                                   <td>Sapi</td>
                                                   <td><?= $total_sapi ?></td>
                                                   <td><?= $disembelih_sapi ?></td>
-                                                  <td><?= $total_sapi-$disembelih_sapi ?></td>
+                                                  <td><?= $total_sapi - $disembelih_sapi ?></td>
                                               </tr>
                                               <tr class="align-middle">
                                                   <td>Kambing</td>
                                                   <td><?= $total_kambing ?></td>
                                                   <td><?= $disembelih_kambing ?></td>
-                                                  <td><?= $total_kambing-$disembelih_kambing ?></td>
+                                                  <td><?= $total_kambing - $disembelih_kambing ?></td>
                                               </tr>
                                           </tbody>
                                       </table>
@@ -94,79 +88,74 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
-                      </div>
-                      <!--end::Row-->
-                  </div>
-                  <!--end::Container-->
-              </div>
-              <!--end::App Content Header-->
-              <!--begin::App Content-->
-              <div class="app-content">
-                  <!--begin::Container-->
-                  <div class="container-fluid">
-                      <div class="w-auto card mb-4">
-                          <div class="card-body">
-                              <div class="row my-3">
-                                  <div class="col-md">
-                                      <table id="datatablesSimple"
-                                          class="table table-striped table-responsive table-hover text-left"
-                                          style="width:100%">
-                                          <thead>
-                                              <tr>
-                                                  <th style="width: 10px">No</th>
-                                                  <th>Sapi</th>
-                                                  <th>Kambing</th>
-                                                  <th>Tanggal Input</th>
-                                                  <th>Action</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                              <?php $no = 1; ?>
-                                              <?php if($viewkandang): ?>
-                                              <?php foreach($viewkandang as $kandang): ?>
-                                              <tr class="align-middle">
-                                                  <td><?= $no++; ?></td>
-                                                  <td><?php echo $kandang['sapi']; ?></td>
-                                                  <td><?php echo $kandang['kambing']; ?></td>
-                                                  <td><?php echo $kandang['date_input']; ?></td>
-                                                  <td>
-                                                      <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                          data-bs-target="#hapusdata<?php echo $kandang['id']; ?>">
-                                                          Hapus
-                                                      </a>
-                                                      <!-- Modal -->
-                                                      <div class="modal fade"
-                                                          id="hapusdata<?php echo $kandang['id']; ?>" tabindex="-1"
-                                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                          <div class="modal-dialog">
-                                                              <div class="modal-content">
-                                                                  <div class="modal-body">
-                                                                      <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                      <p>Menghapus data kandang
-                                                                          <?php echo $kandang['date_input']; ?>
-                                                                      </p>
-                                                                  </div>
-                                                                  <div class="modal-footer">
-                                                                      <button type="button" class="btn btn-warning"
-                                                                          data-bs-dismiss="modal">Batal</button>
-                                                                      <a href="<?= base_url('/kandang/hapus/'.$kandang['id']) ?>"
-                                                                          type="button" class="btn btn-danger">Hapus</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                              <?php endforeach; ?>
-                                              <?php endif; ?>
-                                          </tbody>
-                                      </table>
+                          <div class="col-12 col-lg-12">
+                              <div class="row g-4">
+                                  <!-- Data Hewan -->
+                                  <div class="col-12">
+                                      <div class="card border-success shadow-sm">
+                                          <div class="card-header bg-success text-dark">
+                                              <h6 class="mb-0"></h6>
+                                          </div>
+                                          <div class="card-body p-2">
+                                              <table id="datatablesSimple"
+                                                  class="table table-striped table-responsive table-hover text-left"
+                                                  style="width:100%">
+                                                  <thead>
+                                                      <tr>
+                                                          <th style="width: 10px">No</th>
+                                                          <th>Sapi</th>
+                                                          <th>Kambing</th>
+                                                          <th>Tanggal Input</th>
+                                                          <th>Action</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <?php $no = 1; ?>
+                                                      <?php if ($viewkandang): ?>
+                                                          <?php foreach ($viewkandang as $kandang): ?>
+                                                              <tr class="align-middle">
+                                                                  <td><?= $no++; ?></td>
+                                                                  <td><?php echo $kandang['sapi']; ?></td>
+                                                                  <td><?php echo $kandang['kambing']; ?></td>
+                                                                  <td><?php echo $kandang['date_input']; ?></td>
+                                                                  <td>
+                                                                      <a type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                                          data-bs-target="#hapusdata<?php echo $kandang['id']; ?>">
+                                                                          Hapus
+                                                                      </a>
+                                                                      <!-- Modal -->
+                                                                      <div class="modal fade"
+                                                                          id="hapusdata<?php echo $kandang['id']; ?>" tabindex="-1"
+                                                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                          <div class="modal-dialog">
+                                                                              <div class="modal-content">
+                                                                                  <div class="modal-body">
+                                                                                      <h2 class="h2">Apakah anda yakin ?</h2>
+                                                                                      <p>Menghapus data kandang
+                                                                                          <?php echo $kandang['date_input']; ?>
+                                                                                      </p>
+                                                                                  </div>
+                                                                                  <div class="modal-footer">
+                                                                                      <button type="button" class="btn btn-warning"
+                                                                                          data-bs-dismiss="modal">Batal</button>
+                                                                                      <a href="<?= base_url('/kandang/hapus/' . $kandang['id']) ?>"
+                                                                                          type="button" class="btn btn-danger">Hapus</a>
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </td>
+                                                              </tr>
+                                                          <?php endforeach; ?>
+                                                      <?php endif; ?>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                          <!-- /.card-body -->
+                                      </div>
                                   </div>
-                                  <!-- /.card-body -->
+                                  <!--end::Container-->
                               </div>
-                          </div>
-                          <!--end::Container-->
-                      </div>
-                      <!--end::App Content-->
+                              <!--end::App Content-->
       </main>
       <!--end::App Main-->

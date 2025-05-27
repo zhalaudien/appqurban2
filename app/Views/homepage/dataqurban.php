@@ -1,55 +1,51 @@
-<!-- Page content-->
+<!-- Page content -->
 <div class="container">
-    <div class="text-center mt-5">
-        <h1>Data Qurban Cabang Pusat 7</h1>
+    <div class="text-center mt-5 mb-4">
+        <h1 class="fw-bold">Data Qurban Cabang Pusat 7</h1>
     </div>
 </div>
+
 <!--begin::App Main-->
-<main class="app-main">
-    <div class="app-content">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row my-3">
-                        <div class="col-md">
-                            <table id="datatablesSimple"
-                                class="table table-striped table-responsive table-hover text-left"
-                                style="width:100%">
-                                <thead>
+<main class="app-main py-4">
+    <div class="container-fluid">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="datatablesSimple" class="table table-bordered table-hover align-middle">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th>Cabang</th>
+                                <th>Sapi BUMM</th>
+                                <th>Sapi BUMM<br><small>(Orang)</small></th>
+                                <th>Kambing BUMM</th>
+                                <th>Sapi Mandiri</th>
+                                <th>Kambing Mandiri</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            <?php if ($qurban): ?>
+                                <?php foreach ($qurban as $cabang): ?>
                                     <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>Sapi BUMM</th>
-                                        <th>Sapi BUMM Orang</th>
-                                        <th>Kambing BUMM</th>
-                                        <th>Sapi Mandiri</th>
-                                        <th>Kambing Mandiri</th>
+                                        <td class="text-center"><?= $no++; ?></td>
+                                        <td><?= $cabang['cabang']; ?></td>
+                                        <td class="text-center"><?= $cabang['sapi_bumm']; ?></td>
+                                        <td class="text-center"><?= $cabang['sapib_bumm']; ?></td>
+                                        <td class="text-center"><?= $cabang['kambing_bumm']; ?></td>
+                                        <td class="text-center"><?= $cabang['sapi_mandiri']; ?></td>
+                                        <td class="text-center"><?= $cabang['kambing_mandiri']; ?></td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($qurban): ?>
-                                        <?php foreach ($qurban as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?php echo $cabang['cabang']; ?></td>
-                                                <td><?php echo $cabang['sapi_bumm']; ?></td>
-                                                <td><?php echo $cabang['sapib_bumm']; ?></td>
-                                                <td><?php echo $cabang['kambing_bumm']; ?></td>
-                                                <td><?php echo $cabang['sapi_mandiri']; ?></td>
-                                                <td><?php echo $cabang['kambing_mandiri']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">Tidak ada data tersedia.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Container-->
             </div>
-            <!--end::App Content-->
+        </div>
+    </div>
 </main>
-<!--end::App Main-->

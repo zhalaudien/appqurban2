@@ -4,14 +4,13 @@
           <div class="app-content-header">
               <div class="app-content">
                   <div class="container-fluid">
-                      <div class="row">
-                          <!--begin::Col-->
-                          <div class="w-auto col-lg-6 col-6">
-                              <!--begin::Small Box Widget 1-->
-                              <div class="card card-info card-outline mb-4">
+                      <div class="row g-4">
+                          <!-- Form Input Hewan -->
+                          <div class="col-12 col-lg-6">
+                              <div class="card shadow-sm">
                                   <!--begin::Header-->
-                                  <div class="card-header">
-                                      <div class="card-title">Input Besek</div>
+                                  <div class="card-header bg-info text-white">
+                                      <h6 class="mb-0">Input K3</h6>
                                   </div>
                                   <!--end::Header-->
                                   <!--begin::Form-->
@@ -58,30 +57,23 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
-                          <div class="w-auto col-lg-6 col-6">
-                              <div class="card card-outline card-primary mb-4">
-                                  <div class="card-header">
-                                      <h3 class="card-title">Data Besek</h3>
-                                      <div class="card-tools">
-                                          <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                                              <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                              <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                          </button>
-                                      </div>
-                                      <!-- /.card-tools -->
+                          <div class="col-12 col-lg-6">
+                              <div class="card border-warning shadow-sm">
+                                  <div class="card-header bg-warning text-dark">
+                                      <h6 class="mb-0">Stock K3</h6>
                                   </div>
-                                  <!-- /.card-header -->
-                                  <div class="card-body">
-                                      <table class="table table-striped">
-                                          <thead>
-                                              <tr>
-                                                  <th>K3</th>
-                                                  <th>KS</th>
-                                                  <th>KKB</th>
-                                                  <th>KKS</th>
-                                                  <th>KLS</th>
-                                              </tr>
-                                          </thead>
+                                  <div class="card-body p-2">
+                                      <table class="table table-bordered table-sm mb-0 text-center">
+                                          <thead class="table-light">
+                                              <thead>
+                                                  <tr>
+                                                      <th>K3</th>
+                                                      <th>KS</th>
+                                                      <th>KKB</th>
+                                                      <th>KKS</th>
+                                                      <th>KLS</th>
+                                                  </tr>
+                                              </thead>
                                           <tbody>
                                               <tr class="align-middle">
                                                   <td>Masuk</td>
@@ -101,10 +93,10 @@
                                           <tfoot>
                                               <tr>
                                                   <th>Stock</th>
-                                                  <td><?= $ks-$t_ks ?></td>
-                                                  <td><?= $kb-$t_kb ?></td>
-                                                  <td><?= $kks-$t_kks ?></td>
-                                                  <td><?= $kls-$t_kls ?></td>
+                                                  <td><?= $ks - $t_ks ?></td>
+                                                  <td><?= $kb - $t_kb ?></td>
+                                                  <td><?= $kks - $t_kks ?></td>
+                                                  <td><?= $kls - $t_kls ?></td>
                                               </tr>
                                           </tfoot>
                                       </table>
@@ -114,82 +106,85 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
+                          <div class="col-12 col-lg-12">
+                              <div class="row g-4">
+                                  <!-- Data Hewan -->
+                                  <div class="col-12">
+                                      <div class="card border-success shadow-sm">
+                                          <div class="card-header bg-success text-dark">
+                                              <h6 class="mb-0"></h6>
+                                          </div>
+                                          <div class="card-body p-2">
+                                              <table id="datatablesSimple"
+                                                  class="table table-striped table-responsive table-hover text-left"
+                                                  style="width:100%">
+                                                  <thead>
+                                                      <tr>
+                                                          <th style="width: 10px">No</th>
+                                                          <th>K Sapi</th>
+                                                          <th>K Kambing</th>
+                                                          <th>KKS</th>
+                                                          <th>KLS</th>
+                                                          <th>KLK</th>
+                                                          <th>Tanggal Input</th>
+                                                          <th>Action</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <?php $no = 1; ?>
+                                                      <?php if ($viewk3): ?>
+                                                          <?php foreach ($viewk3 as $k3): ?>
+                                                              <tr class="align-middle">
+                                                                  <td><?= $no++; ?></td>
+                                                                  <td><?php echo $k3['ks']; ?></td>
+                                                                  <td><?php echo $k3['kb']; ?></td>
+                                                                  <td><?php echo $k3['kks']; ?></td>
+                                                                  <td><?php echo $k3['kls']; ?></td>
+                                                                  <td><?php echo $k3['klsb']; ?></td>
+                                                                  <td><?php echo $k3['date_input']; ?></td>
+                                                                  <td>
+                                                                      <a type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                                          data-bs-target="#hapusdata<?php echo $k3['id']; ?>">
+                                                                          Hapus
+                                                                      </a>
+                                                                      <!-- Modal -->
+                                                                      <div class="modal fade" id="hapusdata<?php echo $k3['id']; ?>"
+                                                                          tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                          aria-hidden="true">
+                                                                          <div class="modal-dialog">
+                                                                              <div class="modal-content">
+                                                                                  <div class="modal-body">
+                                                                                      <h2 class="h2">Apakah anda yakin ?</h2>
+                                                                                      <p>Menghapus data K3
+                                                                                          <?php echo $k3['date_input']; ?>
+                                                                                      </p>
+                                                                                  </div>
+                                                                                  <div class="modal-footer">
+                                                                                      <button type="button" class="btn btn-warning"
+                                                                                          data-bs-dismiss="modal">Batal</button>
+                                                                                      <a href="<?= base_url('/k3/hapus/' . $k3['id']) ?>"
+                                                                                          type="button" class="btn btn-danger">Hapus</a>
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </td>
+                                                              </tr>
+                                                          <?php endforeach; ?>
+                                                      <?php endif; ?>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                          <!-- /.card-body -->
+                                      </div>
+                                  </div>
+                                  <!--end::Container-->
+                              </div>
+                              <!--end::App Content-->
+                          </div>
                       </div>
-                      <!--end::Row-->
                   </div>
               </div>
-              <div class="app-content">
-                  <!--begin::Container-->
-                  <div class="container-fluid">
-                      <div class="card mb-4">
-                          <div class="card-body">
-                              <div class="row my-3">
-                                  <div class="w-auto col-md">
-                                      <table id="datatablesSimple"
-                                          class="table table-striped table-responsive table-hover text-left"
-                                          style="width:100%">
-                                          <thead>
-                                              <tr>
-                                                  <th style="width: 10px">No</th>
-                                                  <th>K Sapi</th>
-                                                  <th>K Kambing</th>
-                                                  <th>KKS</th>
-                                                  <th>KLS</th>
-                                                  <th>KLK</th>
-                                                  <th>Tanggal Input</th>
-                                                  <th>Action</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                              <?php $no = 1; ?>
-                                              <?php if($viewk3): ?>
-                                              <?php foreach($viewk3 as $k3): ?>
-                                              <tr class="align-middle">
-                                                  <td><?= $no++; ?></td>
-                                                  <td><?php echo $k3['ks']; ?></td>
-                                                  <td><?php echo $k3['kb']; ?></td>
-                                                  <td><?php echo $k3['kks']; ?></td>
-                                                  <td><?php echo $k3['kls']; ?></td>
-                                                  <td><?php echo $k3['klsb']; ?></td>
-                                                  <td><?php echo $k3['date_input']; ?></td>
-                                                  <td>
-                                                      <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                          data-bs-target="#hapusdata<?php echo $k3['id']; ?>">
-                                                          Hapus
-                                                      </a>
-                                                      <!-- Modal -->
-                                                      <div class="modal fade" id="hapusdata<?php echo $k3['id']; ?>"
-                                                          tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                          aria-hidden="true">
-                                                          <div class="modal-dialog">
-                                                              <div class="modal-content">
-                                                                  <div class="modal-body">
-                                                                      <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                      <p>Menghapus data K3
-                                                                          <?php echo $k3['date_input']; ?>
-                                                                      </p>
-                                                                  </div>
-                                                                  <div class="modal-footer">
-                                                                      <button type="button" class="btn btn-warning"
-                                                                          data-bs-dismiss="modal">Batal</button>
-                                                                      <a href="<?= base_url('/k3/hapus/'.$k3['id']) ?>"
-                                                                          type="button" class="btn btn-danger">Hapus</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                              <?php endforeach; ?>
-                                              <?php endif; ?>
-                                          </tbody>
-                                      </table>
-                                  </div>
-                                  <!-- /.card-body -->
-                              </div>
-                          </div>
-                          <!--end::Container-->
-                      </div>
-                      <!--end::App Content-->
+          </div>
       </main>
       <!--end::App Main-->

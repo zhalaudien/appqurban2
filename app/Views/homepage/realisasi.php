@@ -1,66 +1,66 @@
-<!-- Page content-->
+<!-- Page content -->
 <div class="container">
-    <div class="text-center mt-5">
-        <h1>Realisasi Besek Pusat 7 <?= date('d-m-Y') ?></h1>
+    <div class="text-center mt-5 mb-4">
+        <h1 class="fw-bold">Realisasi Besek Pusat 7</h1>
     </div>
 </div>
+
 <!--begin::App Main-->
-<main class="app-main">
-    <div class="app-content">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <!-- /.card-header -->
-                        <div class="card-body p-0">
-                            <table class="table">
-                                <thead>
+<main class="app-main py-4">
+    <div class="container-fluid">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mb-0 align-middle">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th style="width: 40px;">No</th>
+                                <th>Cabang</th>
+                                <th>TS</th>
+                                <th>TK</th>
+                                <th>M</th>
+                                <th>OS</th>
+                                <th>OK</th>
+                                <th>K Sapi</th>
+                                <th>K Kambing</th>
+                                <th>KK Sapi</th>
+                                <th>KL Sapi</th>
+                                <th>Antrian</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            <?php if (!empty($h1)): ?>
+                                <?php foreach ($h1 as $cabang): ?>
                                     <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>TS</th>
-                                        <th>TK</th>
-                                        <th>M</th>
-                                        <th>OS</th>
-                                        <th>OK</th>
-                                        <th>K Sapi</th>
-                                        <th>K Kambing</th>
-                                        <th>KK Sapi</th>
-                                        <th>KL Sapi</th>
-                                        <th>Antrian</th>
-                                        <th>Status</th>
+                                        <td class="text-center"><?= $no++; ?></td>
+                                        <td><?= $cabang['cabang']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_ts']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_tk']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_a']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_os']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_ok']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_ks']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_kb']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_kks']; ?></td>
+                                        <td class="text-center"><?= $cabang['r_kls']; ?></td>
+                                        <td class="text-center"><?= $cabang['antrian']; ?></td>
+                                        <td class="text-center"><?= $cabang['status']; ?></td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($h1): ?>
-                                        <?php foreach ($h1 as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?php echo $cabang['cabang']; ?></td>
-                                                <td><?php echo $cabang['r_ts']; ?></td>
-                                                <td><?php echo $cabang['r_tk']; ?></td>
-                                                <td><?php echo $cabang['r_a']; ?></td>
-                                                <td><?php echo $cabang['r_os']; ?></td>
-                                                <td><?php echo $cabang['r_ok']; ?></td>
-                                                <td><?php echo $cabang['r_ks']; ?></td>
-                                                <td><?php echo $cabang['r_kb']; ?></td>
-                                                <td><?php echo $cabang['r_kks']; ?></td>
-                                                <td><?php echo $cabang['r_kls']; ?></td>
-                                                <td><?php echo $cabang['antrian']; ?></td>
-                                                <td><?php echo $cabang['status']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="13" class="text-center text-muted py-3">
+                                        Belum ada data realisasi hari ini.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Container-->
             </div>
+        </div>
+    </div>
 </main>
 <!--end::App Main-->

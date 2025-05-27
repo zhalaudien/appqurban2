@@ -1,239 +1,82 @@
-<!-- Page content-->
+<!-- Page content -->
 <div class="container">
-    <div class="text-center mt-5">
-        <h1>Jadwal Pengiriman Hewan dan Besek Pusat 7</h1>
+    <div class="text-center mt-5 mb-4">
+        <h1 class="fw-bold">Jadwal Pengiriman Hewan dan Besek Pusat 7</h1>
     </div>
 </div>
-<!--begin::App Main-->
-<main class="app-main">
-    <div class="app-content">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <!-- /.card-header -->
-                        <div class="card-body p-0">
-                            <table class="table">
-                                <thead>
+
+<!-- Begin::App Main -->
+<main class="app-main py-4">
+    <div class="container-fluid">
+
+        <?php
+        $harian = [
+            'Hari ke-1' => [$h1, $sapi_bumm_h1, $sapib_bumm_h1, $kambing_bumm_h1, $sapi_mandiri_h1, $kambing_mandiri_h1],
+            'Hari ke-2' => [$h2, $sapi_bumm_h2, $sapib_bumm_h2, $kambing_bumm_h2, $sapi_mandiri_h2, $kambing_mandiri_h2],
+            'Hari ke-3' => [$h3, $sapi_bumm_h3, $sapib_bumm_h3, $kambing_bumm_h3, $sapi_mandiri_h3, $kambing_mandiri_h3],
+            'Hari ke-4' => [$h4, $sapi_bumm_h4, $sapib_bumm_h4, $kambing_bumm_h4, $sapi_mandiri_h4, $kambing_mandiri_h4],
+        ];
+        ?>
+
+        <?php foreach ($harian as $hari => [$data, $sapi_bumm, $sapib_bumm, $kambing_bumm, $sapi_mandiri, $kambing_mandiri]): ?>
+            <div class="card mb-5 shadow-sm border-0">
+                <div class="card-header bg-primary text-white fw-bold">
+                    <?= $hari ?>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle m-0">
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th style="width: 50px;">No</th>
+                                    <th>Cabang</th>
+                                    <th>Sapi BUMM</th>
+                                    <th>Kambing BUMM</th>
+                                    <th>Sapi Cabang</th>
+                                    <th>Kambing Cabang</th>
+                                    <th>Kirim Hewan</th>
+                                    <th>Kirim Besek</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1; ?>
+                                <?php if ($data): ?>
+                                    <?php foreach ($data as $cabang): ?>
+                                        <tr>
+                                            <td class="text-center"><?= $no++; ?></td>
+                                            <td><?= $cabang['cabang']; ?></td>
+                                            <td class="text-center"><?= $cabang['sapi_bumm']; ?></td>
+                                            <td class="text-center"><?= $cabang['kambing_bumm']; ?></td>
+                                            <td class="text-center"><?= $cabang['sapi_mandiri']; ?></td>
+                                            <td class="text-center"><?= $cabang['kambing_mandiri']; ?></td>
+                                            <td class="text-center"><?= $cabang['kirim_hewan']; ?></td>
+                                            <td class="text-center"><?= $cabang['kirim_besek']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
                                     <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>Sapi BUMM</th>
-                                        <th>Kambing BUMM</th>
-                                        <th>Sapi Cabang</th>
-                                        <th>Kambing Cabang</th>
-                                        <th>Kirim Hewan</th>
-                                        <th>Kirim Besek</th>
+                                        <td colspan="8" class="text-center text-muted">Belum ada data tersedia.</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($h1): ?>
-                                        <?php foreach ($h1 as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $cabang['cabang']; ?></td>
-                                                <td><?= $cabang['sapi_bumm']; ?></td>
-                                                <td><?= $cabang['kambing_bumm']; ?></td>
-                                                <td><?= $cabang['sapi_mandiri']; ?></td>
-                                                <td><?= $cabang['kambing_mandiri']; ?></td>
-                                                <td><?= $cabang['kirim_hewan']; ?></td>
-                                                <td><?= $cabang['kirim_besek']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th style="width: 10px"></th>
-                                        <th>Jumlah</th>
-                                        <th><?= number_format($sapi_bumm_h1 + ($sapib_bumm_h1 / 7), 1, '.', '') ?>
-                                        </th>
-                                        <th><?= $kambing_bumm_h1 ?></th>
-                                        <th><?= $sapi_mandiri_h1 ?></th>
-                                        <th><?= $kambing_mandiri_h1 ?></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+                                <?php endif; ?>
+                            </tbody>
+                            <tfoot class="table-secondary text-center fw-semibold">
+                                <tr>
+                                    <td></td>
+                                    <td>Jumlah</td>
+                                    <td><?= number_format($sapi_bumm + ($sapib_bumm / 7), 1, '.', '') ?></td>
+                                    <td><?= $kambing_bumm ?></td>
+                                    <td><?= $sapi_mandiri ?></td>
+                                    <td><?= $kambing_mandiri ?></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
-                <!--end::Container-->
             </div>
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <div class="card-body p-0">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>Sapi BUMM</th>
-                                        <th>Kambing BUMM</th>
-                                        <th>Sapi Cabang</th>
-                                        <th>Kambing Cabang</th>
-                                        <th>Kirim Hewan</th>
-                                        <th>Kirim Besek</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($h2): ?>
-                                        <?php foreach ($h2 as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $cabang['cabang']; ?></td>
-                                                <td><?= $cabang['sapi_bumm']; ?></td>
-                                                <td><?= $cabang['kambing_bumm']; ?></td>
-                                                <td><?= $cabang['sapi_mandiri']; ?></td>
-                                                <td><?= $cabang['kambing_mandiri']; ?></td>
-                                                <td><?= $cabang['kirim_hewan']; ?></td>
-                                                <td><?= $cabang['kirim_besek']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th style="width: 10px"></th>
-                                        <th>Jumlah</th>
-                                        <th><?= number_format($sapi_bumm_h2 + ($sapib_bumm_h2 / 7), 1, '.', '') ?>
-                                        </th>
-                                        <th><?= $kambing_bumm_h2 ?></th>
-                                        <th><?= $sapi_mandiri_h2 ?></th>
-                                        <th><?= $kambing_mandiri_h2 ?></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                </div>
-                <!--end::Container-->
-            </div>
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <div class="card-body p-0">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>Sapi BUMM</th>
-                                        <th>Kambing BUMM</th>
-                                        <th>Sapi Cabang</th>
-                                        <th>Kambing Cabang</th>
-                                        <th>Kirim Hewan</th>
-                                        <th>Kirim Besek</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($h3): ?>
-                                        <?php foreach ($h3 as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $cabang['cabang']; ?></td>
-                                                <td><?= $cabang['sapi_bumm']; ?></td>
-                                                <td><?= $cabang['kambing_bumm']; ?></td>
-                                                <td><?= $cabang['sapi_mandiri']; ?></td>
-                                                <td><?= $cabang['kambing_mandiri']; ?></td>
-                                                <td><?= $cabang['kirim_hewan']; ?></td>
-                                                <td><?= $cabang['kirim_besek']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th style="width: 10px"></th>
-                                        <th>Jumlah</th>
-                                        <th><?= number_format($sapi_bumm_h3 + ($sapib_bumm_h3 / 7), 1, '.', '') ?>
-                                        </th>
-                                        <th><?= $kambing_bumm_h3 ?></th>
-                                        <th><?= $sapi_mandiri_h3 ?></th>
-                                        <th><?= $kambing_mandiri_h3 ?></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                </div>
-                <!--end::Container-->
-            </div>
-            <!--end::App Content-->
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <div class="card-body p-0">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Cabang</th>
-                                        <th>Sapi BUMM</th>
-                                        <th>Kambing BUMM</th>
-                                        <th>Sapi Cabang</th>
-                                        <th>Kambing Cabang</th>
-                                        <th>Kirim Hewan</th>
-                                        <th>Kirim Besek</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php if ($h4): ?>
-                                        <?php foreach ($h4 as $cabang): ?>
-                                            <tr class="align-middle">
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $cabang['cabang']; ?></td>
-                                                <td><?= $cabang['sapi_bumm']; ?></td>
-                                                <td><?= $cabang['kambing_bumm']; ?></td>
-                                                <td><?= $cabang['sapi_mandiri']; ?></td>
-                                                <td><?= $cabang['kambing_mandiri']; ?></td>
-                                                <td><?= $cabang['kirim_hewan']; ?></td>
-                                                <td><?= $cabang['kirim_besek']; ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th style="width: 10px"></th>
-                                        <th>Jumlah</th>
-                                        <th><?= number_format($sapi_bumm_h4 + ($sapib_bumm_h4 / 7), 1, '.', '') ?>
-                                        </th>
-                                        <th><?= $kambing_bumm_h4 ?></th>
-                                        <th><?= $sapi_mandiri_h4 ?></th>
-                                        <th><?= $kambing_mandiri_h4 ?></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                </div>
-                <!--end::Container-->
-            </div>
+        <?php endforeach; ?>
+
+    </div>
 </main>
-<!--end::App Main-->
+<!-- End::App Main -->
