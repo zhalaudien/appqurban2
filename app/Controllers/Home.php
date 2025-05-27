@@ -12,6 +12,8 @@ use App\Models\KandangModel;
 use App\Models\BesekModel;
 use App\Models\K3Model;
 use App\Models\MuspikaModel;
+use App\Models\SettingModel;
+use CodeIgniter\Commands\Database\Seed;
 
 class Home extends Controller
 {
@@ -170,11 +172,15 @@ class Home extends Controller
         $header = [
             'title' => 'Realisasi Besek',
             'navbar' => 'realisasi',
-            'active' => 'realisasi'
+            'active' => 'realisasi',
+            'auto_refresh' => 'true'
         ];
 
+        $userModel = new SettingModel();
+        $data['s_hari'] = $userModel->select('hari')->get()->getRow()->hari;
+
         $userModel = new QurbanModel();
-        $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
         $keywords = ['H1', 'H2', 'H3', 'H4'];
         foreach ($keywords as $keyword) {

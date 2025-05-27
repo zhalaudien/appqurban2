@@ -11,6 +11,9 @@
     <link rel="icon" type="image/x-icon" href="<?php echo base_url('') ?>logo.png" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="<?php echo base_url('') ?>homepage/css/styles.css" rel="stylesheet" />
+    <?php if (isset($auto_refresh) && $auto_refresh): ?>
+        <meta http-equiv="refresh" content="60">
+    <?php endif; ?>
 </head>
 
 <body>

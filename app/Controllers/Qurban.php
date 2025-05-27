@@ -343,7 +343,6 @@ class Qurban extends Controller
         $model = new QurbanModel();
         $id = $this->request->getPost('id');
         $data = [
-            'cabang' => $this->request->getPost('cabang'),
             'antrian' => $this->request->getPost('antrian'),
             'kirim_hewan' => $this->request->getPost('kirim_hewan'),
             'kirim_besek' => $this->request->getPost('kirim_besek'),

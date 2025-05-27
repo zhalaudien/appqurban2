@@ -1,39 +1,63 @@
-<div class="container-fluid mt-4">
-    <div class="row g-4">
-        <div class="col-lg-6 col-md-12">
-            <div class="card card-outline card-info">
-                <div class="card-header">
-                    <h5 class="card-title">Penerimaan Hewan</h5>
+<!--begin::App Main-->
+<main class="app-main py-3">
+    <!--begin::Container-->
+    <div class="app-content-header">
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="row g-4">
+                    <!-- Penerimaan Hewan -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0">Penerimaan Hewan</h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartHewan" class="w-100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Uang Masuk -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0">Uang Masuk</h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartUang" class="w-100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Besek -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0">Data Besek</h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartBesek" class="w-100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Penyembelihan Hewan -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card border-danger">
+                            <div class="card-header bg-danger text-white">
+                                <h6 class="mb-0">Penyembelihan Hewan</h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartPenyembelihan" class="w-100"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body"><canvas id="chartHewan"></canvas></div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="card card-outline card-warning">
-                <div class="card-header">
-                    <h5 class="card-title">Uang Masuk</h5>
-                </div>
-                <div class="card-body"><canvas id="chartUang"></canvas></div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="card card-outline card-success">
-                <div class="card-header">
-                    <h5 class="card-title">Data Besek</h5>
-                </div>
-                <div class="card-body"><canvas id="chartBesek"></canvas></div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="card card-outline card-danger">
-                <div class="card-header">
-                    <h5 class="card-title">Penyembelihan Hewan</h5>
-                </div>
-                <div class="card-body"><canvas id="chartPenyembelihan"></canvas></div>
-            </div>
-        </div>
-    </div>
-</div>
+            <!--end::Container-->
+</main>
+<!--end::App Main-->
+
 
 <script>
     const chartHewan = new Chart(document.getElementById('chartHewan'), {

@@ -132,7 +132,7 @@
                         </thead>
                         <tbody>
                             <?php $no = 1;
-                            foreach ($data as $cabang): ?>
+                            foreach ($realisasi as $cabang): ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
                                     <td><?= $cabang['cabang'] ?></td>

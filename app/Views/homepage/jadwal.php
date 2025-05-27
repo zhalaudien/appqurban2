@@ -10,15 +10,11 @@
     <div class="container-fluid">
 
         <?php
-        $harian = [
-            'Hari ke-1' => [$h1, $sapi_bumm_h1, $sapib_bumm_h1, $kambing_bumm_h1, $sapi_mandiri_h1, $kambing_mandiri_h1],
-            'Hari ke-2' => [$h2, $sapi_bumm_h2, $sapib_bumm_h2, $kambing_bumm_h2, $sapi_mandiri_h2, $kambing_mandiri_h2],
-            'Hari ke-3' => [$h3, $sapi_bumm_h3, $sapib_bumm_h3, $kambing_bumm_h3, $sapi_mandiri_h3, $kambing_mandiri_h3],
-            'Hari ke-4' => [$h4, $sapi_bumm_h4, $sapib_bumm_h4, $kambing_bumm_h4, $sapi_mandiri_h4, $kambing_mandiri_h4],
-        ];
+        $groups = ['h1', 'h2', 'h3', 'h4'];
+        foreach ($groups as $hari) :
+            $data = $$hari;
+            if (!$data) continue;
         ?>
-
-        <?php foreach ($harian as $hari => [$data, $sapi_bumm, $sapib_bumm, $kambing_bumm, $sapi_mandiri, $kambing_mandiri]): ?>
             <div class="card mb-5 shadow-sm border-0">
                 <div class="card-header bg-primary text-white fw-bold">
                     <?= $hari ?>
@@ -39,36 +35,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no = 1; ?>
-                                <?php if ($data): ?>
-                                    <?php foreach ($data as $cabang): ?>
-                                        <tr>
-                                            <td class="text-center"><?= $no++; ?></td>
-                                            <td><?= $cabang['cabang']; ?></td>
-                                            <td class="text-center"><?= $cabang['sapi_bumm']; ?></td>
-                                            <td class="text-center"><?= $cabang['kambing_bumm']; ?></td>
-                                            <td class="text-center"><?= $cabang['sapi_mandiri']; ?></td>
-                                            <td class="text-center"><?= $cabang['kambing_mandiri']; ?></td>
-                                            <td class="text-center"><?= $cabang['kirim_hewan']; ?></td>
-                                            <td class="text-center"><?= $cabang['kirim_besek']; ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
+                                <?php $no = 1;
+                                foreach ($data as $cabang): ?>
                                     <tr>
-                                        <td colspan="8" class="text-center text-muted">Belum ada data tersedia.</td>
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $cabang['cabang'] ?></td>
+                                        <td><?= $cabang['sapi_bumm'] ?></td>
+                                        <td><?= $cabang['kambing_bumm'] ?></td>
+                                        <td><?= $cabang['sapi_mandiri'] ?></td>
+                                        <td><?= $cabang['kambing_mandiri'] ?></td>
+                                        <td><?= $cabang['antrian'] ?></td>
+                                        <td><?= $cabang['kirim_hewan'] ?></td>
+                                        <td><?= $cabang['kirim_besek'] ?></td>
                                     </tr>
-                                <?php endif; ?>
+                                <?php endforeach; ?>
                             </tbody>
-                            <tfoot class="table-secondary text-center fw-semibold">
+                            <tfoot class="table-light">
                                 <tr>
-                                    <td></td>
-                                    <td>Jumlah</td>
-                                    <td><?= number_format($sapi_bumm + ($sapib_bumm / 7), 1, '.', '') ?></td>
-                                    <td><?= $kambing_bumm ?></td>
-                                    <td><?= $sapi_mandiri ?></td>
-                                    <td><?= $kambing_mandiri ?></td>
-                                    <td></td>
-                                    <td></td>
+                                    <th colspan="2">Jumlah</th>
+                                    <th><?= number_format(${"sapi_bumm_$hari"} + (${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
+                                    <th><?= ${"kambing_bumm_$hari"} ?></th>
+                                    <th><?= ${"sapi_mandiri_$hari"} ?></th>
+                                    <th><?= ${"kambing_mandiri_$hari"} ?></th>
+                                    <th colspan="3"></th>
                                 </tr>
                             </tfoot>
                         </table>

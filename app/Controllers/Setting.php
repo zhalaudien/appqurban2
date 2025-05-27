@@ -37,6 +37,7 @@ class Setting extends Controller
             'j_h3' => $this->request->getPost('j_h3'),
             'j_h4' => $this->request->getPost('j_h4'),
             'biaya' => $this->request->getPost('biaya'),
+            'hari' => $this->request->getPost('hari'),
         ];
 
         if ($userModel->EditSetting($data, $id)) {
