@@ -136,7 +136,7 @@
                                 <tr>
                                     <td><?= $no++ ?></td>
                                     <td><?= $cabang['cabang'] ?></td>
-                                    <td><?= number_format($cabang['sapi_bumm'] + ($cabang['sapi_bumm'] / 7), 1, '.', '') ?></td>
+                                    <td><?= number_format($cabang['sapi_bumm'] + ($cabang['sapib_bumm'] / 7), 1, '.', '') ?></td>
                                     <td><?= $cabang['kambing_bumm'] ?></td>
                                     <td><?= $cabang['sapi_mandiri'] ?></td>
                                     <td><?= $cabang['kambing_mandiri'] ?></td>

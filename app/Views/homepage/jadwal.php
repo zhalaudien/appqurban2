@@ -41,7 +41,7 @@
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $cabang['cabang'] ?></td>
-                                        <td><?= number_format($cabang['sapi_bumm'] + ($cabang['sapi_bumm'] / 7), 1, '.', '') ?></td>
+                                        <td><?= $cabang['sapi_bumm'] + number_format(($cabang['sapib_bumm'] / 7), 1, '.', '') ?></td>
                                         <td><?= $cabang['kambing_bumm'] ?></td>
                                         <td><?= $cabang['sapi_mandiri'] ?></td>
                                         <td><?= $cabang['kambing_mandiri'] ?></td>
@@ -53,7 +53,7 @@
                             <tfoot class="table-light">
                                 <tr>
                                     <th colspan="2">Jumlah</th>
-                                    <th><?= number_format(${"sapi_bumm_$hari"} + (${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
+                                    <th><?= ${"sapi_bumm_$hari"} + number_format((${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
                                     <th><?= ${"kambing_bumm_$hari"} ?></th>
                                     <th><?= ${"sapi_mandiri_$hari"} ?></th>
                                     <th><?= ${"kambing_mandiri_$hari"} ?></th>
