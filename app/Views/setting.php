@@ -119,7 +119,7 @@
                                                     <label for="hari" class="form-label">Seting Hari Penyembelihan</label>
                                                     <select class="form-select" name="hari" id="hari" required>
                                                         <option value="">Pilih Hari</option>
-                                                        <?php foreach (['h1' => 'H 1', 'h2' => 'H 2', 'h3' => 'H 3', 'h4' => 'H 4'] as $val => $label): ?>
+                                                        <?php foreach (['0' => '0', 'h1' => 'H 1', 'h2' => 'H 2', 'h3' => 'H 3', 'h4' => 'H 4'] as $val => $label): ?>
                                                             <option value="<?= $val ?>" <?= $setting['hari'] == $val ? 'selected' : '' ?>><?= $label ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
