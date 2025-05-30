@@ -10,7 +10,7 @@ class PresensiModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'nama', 'cabang', 'seksi', 'presensi', 'date_inpt'];
+    protected $allowedFields    = ['id', 'nama', 'cabang', 'seksi', 'presensi', 'date_input'];
 
     public function savePresensi($data)
     {
