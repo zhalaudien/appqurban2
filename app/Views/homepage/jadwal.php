@@ -2,6 +2,7 @@
 <div class="container">
     <div class="text-center mt-5 mb-4">
         <h1 class="fw-bold">Jadwal Pengiriman Hewan dan Besek Pusat 7</h1>
+        <h1 class="fw-bold"><?php echo $s_jadwal ?></h1>
     </div>
 </div>
 
@@ -44,7 +45,6 @@
                                         <td><?= $cabang['kambing_bumm'] ?></td>
                                         <td><?= $cabang['sapi_mandiri'] ?></td>
                                         <td><?= $cabang['kambing_mandiri'] ?></td>
-                                        <td><?= $cabang['antrian'] ?></td>
                                         <td><?= $cabang['kirim_hewan'] ?></td>
                                         <td><?= $cabang['kirim_besek'] ?></td>
                                     </tr>

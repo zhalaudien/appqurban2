@@ -81,6 +81,18 @@
                                     </table>
                                 </div>
 
+                                <!-- Tabel Hari Penyembelihan -->
+                                <div class="table-responsive mb-4">
+                                    <h6>Seting Status Jadwal</h6>
+                                    <table class="table table-bordered table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td><?= strtoupper($setting['jadwal']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                                 <!-- Tombol Setting -->
                                 <div class="mb-3">
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $setting['id']; ?>">
@@ -122,6 +134,14 @@
                                                         <?php foreach (['0' => '0', 'h1' => 'H 1', 'h2' => 'H 2', 'h3' => 'H 3', 'h4' => 'H 4'] as $val => $label): ?>
                                                             <option value="<?= $val ?>" <?= $setting['hari'] == $val ? 'selected' : '' ?>><?= $label ?></option>
                                                         <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="jadwal" class="form-label">Seting Status Jadwal</label>
+                                                    <select class="form-select" name="jadwal" id="jadwal" required>
+                                                        <option value="">Pilih Hari</option>
+                                                        <option value="Sementara">Sementara</option>
+                                                        <option value="Final">Final</option>
                                                     </select>
                                                 </div>
                                             </div>

@@ -38,6 +38,7 @@ class Setting extends Controller
             'j_h4' => $this->request->getPost('j_h4'),
             'biaya' => $this->request->getPost('biaya'),
             'hari' => $this->request->getPost('hari'),
+            'jadwal' => $this->request->getPost('jadwal'),
         ];
 
         if ($userModel->EditSetting($data, $id)) {

@@ -95,6 +95,9 @@ class Home extends Controller
             'active' => 'jadwal2'
         ];
 
+        $userModel = new SettingModel();
+        $data['s_jadwal'] = $userModel->select('jadwal')->get()->getRow()->jadwal;
+
         $userModel = new QurbanModel();
         $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
 
