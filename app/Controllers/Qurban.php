@@ -335,11 +335,13 @@ class Qurban extends Controller
         foreach ($days as $day) {
             $sapi_bumm = $data['sapi_bumm_' . $day] ?? 0;
             $sapib_bumm = $data['sapib_bumm_' . $day] ?? 0;
+            $sapi_mandiri = $data['sapi_mandiri_' . $day] ?? 0;
 
             // Gunakan Brick\Math
             $rSapiBumm = BigRational::of($sapi_bumm);
+            $rSapiMandiri = BigRational::of($sapi_mandiri);
             $rSapibBumm = BigRational::of($sapib_bumm)->dividedBy(7);
-            $total = $rSapiBumm->plus($rSapibBumm); // total rasional, misal: 20/7
+            $total = $rSapiBumm->plus($rSapibBumm)->plus($rSapiMandiri); // total rasional, misal: 20/7
 
             // Ubah ke bentuk campuran
             $num = $total->getNumerator()->toInt();     // misal 20
