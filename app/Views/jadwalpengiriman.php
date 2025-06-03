@@ -106,7 +106,6 @@
         </div>
         <!--end::Main Data Table-->
 
-        <!--begin::Looped Tables by H Day-->
         <?php
         $groups = ['h1', 'h2', 'h3', 'h4'];
         foreach ($groups as $hari) :
@@ -136,7 +135,30 @@
                                 <tr>
                                     <td><?= $no++ ?></td>
                                     <td><?= $cabang['cabang'] ?></td>
-                                    <td><?= number_format($cabang['sapi_bumm'] + ($cabang['sapib_bumm'] / 7), 1, '.', '') ?></td>
+                                    <td>
+                                        <?php
+                                        // Gunakan Brick\Math untuk tampilkan pecahan per cabang
+                                        $sapi_bumm = $cabang['sapi_bumm'] ?? 0;
+                                        $sapib_bumm = $cabang['sapib_bumm'] ?? 0;
+
+                                        $r1 = \Brick\Math\BigRational::of($sapi_bumm);
+                                        $r2 = \Brick\Math\BigRational::of($sapib_bumm)->dividedBy(7);
+                                        $hasil = $r1->plus($r2);
+
+                                        $num = $hasil->getNumerator()->toInt();
+                                        $den = $hasil->getDenominator()->toInt();
+                                        $whole = intdiv($num, $den);
+                                        $remain = $num % $den;
+
+                                        if ($remain === 0) {
+                                            echo $whole;
+                                        } elseif ($whole > 0) {
+                                            echo "$whole $remain/$den";
+                                        } else {
+                                            echo "$remain/$den";
+                                        }
+                                        ?>
+                                    </td>
                                     <td><?= $cabang['sapi_mandiri'] ?></td>
                                     <td><?= $cabang['kambing_bumm'] ?></td>
                                     <td><?= $cabang['kambing_mandiri'] ?></td>
@@ -149,8 +171,12 @@
                         <tfoot class="table-light">
                             <tr>
                                 <th colspan="2" class="text-center">Jumlah</th>
-                                <th colspan="2" class="text-center"><?= number_format(${"sapi_mandiri_$hari"} + ${"sapi_bumm_$hari"} + (${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
-                                <th colspan="2" class="text-center"><?= ${"kambing_bumm_$hari"} + ${"kambing_mandiri_$hari"} ?></th>
+                                <th colspan="2" class="text-center">
+                                    <?= ${"sapi_total_$hari"} ?> <!-- Sudah dalam bentuk campuran dari controller -->
+                                </th>
+                                <th colspan="2" class="text-center">
+                                    <?= ${"kambing_bumm_$hari"} + ${"kambing_mandiri_$hari"} ?>
+                                </th>
                                 <th colspan="3"></th>
                             </tr>
                         </tfoot>
@@ -158,8 +184,6 @@
                 </div>
             </div>
         <?php endforeach; ?>
-        <!--end::Looped Tables-->
 
-    </div>
 </main>
 <!--end::App Main-->

@@ -8,6 +8,8 @@ use App\Models\CabangModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Brick\Math\BigRational;
+use Brick\Math\BigInteger;
 
 class Qurban extends Controller
 {
@@ -286,6 +288,7 @@ class Qurban extends Controller
             'active' => 'jadwal'
         ];
 
+        // Ambil pengaturan
         $userModel = new SettingModel();
         $id = 1;
         $row = $userModel->where('id', $id)->get()->getRow();
@@ -295,42 +298,68 @@ class Qurban extends Controller
         $data['j_h3'] = $row->j_h3;
         $data['j_h4'] = $row->j_h4;
 
+        // Ambil seluruh jadwal
+        $qurbanModel = new QurbanModel();
+        $data['jadwal'] = $qurbanModel->orderBy('cabang', 'ASC')->findAll();
 
-        $userModel = new QurbanModel();
-        $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
-
+        // Ambil list berdasarkan hari
         $keywords = ['H1', 'H2', 'H3', 'H4'];
         foreach ($keywords as $keyword) {
-            $data[strtolower($keyword)] = $userModel->like('kirim_besek', $keyword)
+            $data[strtolower($keyword)] = $qurbanModel->like('kirim_besek', $keyword)
                 ->orderBy('kirim_hewan', 'ASC')
                 ->findAll();
         }
 
-        $qurbanModel = new QurbanModel();
-
-        // Daftar kategori dan tipe
+        // Inisialisasi kategori yang akan dihitung jumlahnya
         $categories = [
-            'sapi_bumm' => 'sapi_bumm',
-            'sapib_bumm' => 'sapib_bumm',
-            'kambing_bumm' => 'kambing_bumm',
-            'sapi_mandiri' => 'sapi_mandiri',
-            'kambing_mandiri' => 'kambing_mandiri',
+            'sapi_bumm',
+            'sapib_bumm',
+            'kambing_bumm',
+            'sapi_mandiri',
+            'kambing_mandiri'
         ];
 
-        // Daftar hari
         $days = ['h1', 'h2', 'h3', 'h4'];
 
-        // Loop untuk memproses data
-        foreach ($categories as $key => $column) {
+        foreach ($categories as $column) {
             foreach ($days as $day) {
-                $data[$key . '_' . $day] = $qurbanModel->selectSum($column)
+                $data[$column . '_' . $day] = $qurbanModel->selectSum($column)
                     ->like('kirim_besek', $day)
                     ->get()
                     ->getRow()
-                    ->$column;
+                    ->$column ?? 0;
             }
         }
 
+        // ====== Tambahan: Total Sapi (BUMM + Bagi 7) per Hari ======
+        foreach ($days as $day) {
+            $sapi_bumm = $data['sapi_bumm_' . $day] ?? 0;
+            $sapib_bumm = $data['sapib_bumm_' . $day] ?? 0;
+
+            // Gunakan Brick\Math
+            $rSapiBumm = BigRational::of($sapi_bumm);
+            $rSapibBumm = BigRational::of($sapib_bumm)->dividedBy(7);
+            $total = $rSapiBumm->plus($rSapibBumm); // total rasional, misal: 20/7
+
+            // Ubah ke bentuk campuran
+            $num = $total->getNumerator()->toInt();     // misal 20
+            $den = $total->getDenominator()->toInt();   // misal 7
+            $whole = intdiv($num, $den);                // misal 2
+            $remain = $num % $den;                      // misal 6
+
+            // Format output
+            if ($remain === 0) {
+                $formatted = "$whole";
+            } elseif ($whole > 0) {
+                $formatted = "$whole $remain/$den";
+            } else {
+                $formatted = "$remain/$den";
+            }
+
+            $data['sapi_total_' . $day] = $formatted; // untuk ditampilkan di view
+        }
+
+        // Tampilkan view
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("jadwalpengiriman", $data, $header);
