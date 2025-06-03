@@ -122,8 +122,8 @@
                                 <th>No</th>
                                 <th>Cabang</th>
                                 <th>Sapi BUMM</th>
-                                <th>Kambing BUMM</th>
                                 <th>Sapi Cabang</th>
+                                <th>Kambing BUMM</th>
                                 <th>Kambing Cabang</th>
                                 <th>No Antrian</th>
                                 <th>Kirim Hewan</th>
@@ -137,8 +137,8 @@
                                     <td><?= $no++ ?></td>
                                     <td><?= $cabang['cabang'] ?></td>
                                     <td><?= number_format($cabang['sapi_bumm'] + ($cabang['sapib_bumm'] / 7), 1, '.', '') ?></td>
-                                    <td><?= $cabang['kambing_bumm'] ?></td>
                                     <td><?= $cabang['sapi_mandiri'] ?></td>
+                                    <td><?= $cabang['kambing_bumm'] ?></td>
                                     <td><?= $cabang['kambing_mandiri'] ?></td>
                                     <td><?= $cabang['antrian'] ?></td>
                                     <td><?= $cabang['kirim_hewan'] ?></td>
@@ -148,11 +148,9 @@
                         </tbody>
                         <tfoot class="table-light">
                             <tr>
-                                <th colspan="2">Jumlah</th>
-                                <th><?= number_format(${"sapi_bumm_$hari"} + (${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
-                                <th><?= ${"kambing_bumm_$hari"} ?></th>
-                                <th><?= ${"sapi_mandiri_$hari"} ?></th>
-                                <th><?= ${"kambing_mandiri_$hari"} ?></th>
+                                <th colspan="2" class="text-center">Jumlah</th>
+                                <th colspan="2" class="text-center"><?= number_format(${"sapi_mandiri_$hari"} + ${"sapi_bumm_$hari"} + (${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
+                                <th colspan="2" class="text-center"><?= ${"kambing_bumm_$hari"} + ${"kambing_mandiri_$hari"} ?></th>
                                 <th colspan="3"></th>
                             </tr>
                         </tfoot>
