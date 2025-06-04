@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\BesekModel;
 use CodeIgniter\Controller;
 use App\Models\QurbanModel;
+use App\Models\PermintaanModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\RealisasiModel;
@@ -42,6 +43,23 @@ class Besek extends Controller
         $data['kirim_a']  = $kirim_today['r_a']  ?? 0;
         $data['kirim_os'] = $kirim_today['r_os'] ?? 0;
         $data['kirim_ok'] = $kirim_today['r_ok'] ?? 0;
+
+        // Data permintaa yang Dikirim Hari Ini
+        $qurbanModel = new PermintaanModel();
+        $kirim_permintaan = $qurbanModel
+            ->where('DATE(date_input)', $today)
+            ->selectSum('ts')
+            ->selectSum('tk')
+            ->selectSum('a')
+            ->selectSum('os')
+            ->selectSum('ok')
+            ->first();
+
+        $data['permintaan_ts'] = $kirim_permintaan['ts'] ?? 0;
+        $data['permintaan_tk'] = $kirim_permintaan['tk'] ?? 0;
+        $data['permintaan_a']  = $kirim_permintaan['a']  ?? 0;
+        $data['permintaan_os'] = $kirim_permintaan['os'] ?? 0;
+        $data['permintaan_ok'] = $kirim_permintaan['ok'] ?? 0;
 
         // Data Besek Hari Ini
         $besek_today = $besekModel

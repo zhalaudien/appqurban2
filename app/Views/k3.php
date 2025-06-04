@@ -86,20 +86,20 @@
                                               </tr>
                                               <tr class="align-middle">
                                                   <td>Keluar</td>
-                                                  <td><?= $kirim_ks ?></td>
-                                                  <td><?= $kirim_kb ?></td>
-                                                  <td><?= $kirim_kks ?></td>
-                                                  <td><?= $kirim_kls ?></td>
+                                                  <td><?= $kirim_ks + $permintaan_ks ?></td>
+                                                  <td><?= $kirim_kb  + $permintaan_kb ?></td>
+                                                  <td><?= $kirim_kks + $permintaan_kks ?></td>
+                                                  <td><?= $kirim_kls + $permintaan_kls ?></td>
                                                   <td>0</td>
                                               </tr>
                                           </tbody>
                                           <tfoot>
                                               <tr>
                                                   <th>Stock</th>
-                                                  <td><?= $ks_today - $kirim_ks ?></td>
-                                                  <td><?= $kb_today - $kirim_kb ?></td>
-                                                  <td><?= $kks_today - $kirim_kks ?></td>
-                                                  <td><?= $kls_today - $kirim_kls ?></td>
+                                                  <td><?= $ks_today - ($kirim_ks + $permintaan_ks) ?></td>
+                                                  <td><?= $kb_today - ($kirim_kb + $permintaan_kb) ?></td>
+                                                  <td><?= $kks_today - ($kirim_kks + $permintaan_kks) ?></td>
+                                                  <td><?= $kls_today - ($kirim_kls + $permintaan_kls) ?></td>
                                                   <td><?= $klsb_today ?></td>
                                               </tr>
                                           </tfoot>

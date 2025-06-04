@@ -8,6 +8,7 @@ use App\Models\QurbanModel;
 use App\Models\RealisasiModel;
 use CodeIgniter\Controller;
 use App\Models\K3Model;
+use App\Models\PermintaanModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -162,6 +163,21 @@ class Kandang extends Controller
         $data['kirim_kb'] = $kirim_today['r_kb'] ?? 0;
         $data['kirim_kks']  = $kirim_today['r_kks']  ?? 0;
         $data['kirim_kls'] = $kirim_today['r_kls'] ?? 0;
+
+        // Data permintaa yang Dikirim Hari Ini
+        $qurbanModel = new PermintaanModel();
+        $kirim_permintaan = $qurbanModel
+            ->where('DATE(date_input)', $today)
+            ->selectSum('ks')
+            ->selectSum('kb')
+            ->selectSum('kks')
+            ->selectSum('kls')
+            ->first();
+
+        $data['permintaan_ks'] = $kirim_permintaan['ks'] ?? 0;
+        $data['permintaan_kb'] = $kirim_permintaan['kb'] ?? 0;
+        $data['permintaan_kks']  = $kirim_permintaan['kks']  ?? 0;
+        $data['permintaan_kls'] = $kirim_permintaan['kls'] ?? 0;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
