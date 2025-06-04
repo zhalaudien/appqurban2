@@ -141,11 +141,11 @@ class Kandang extends Controller
         $today = date('Y-m-d');
 
         // Data MASUK hari ini
-        $data['ks_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('ks')->get()->getRow()->ks ?? 0;
-        $data['kb_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kb')->get()->getRow()->kb ?? 0;
-        $data['kks_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kks')->get()->getRow()->kks ?? 0;
-        $data['kls_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kls')->get()->getRow()->kls ?? 0;
-        $data['klsb_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('klsb')->get()->getRow()->klsb ?? 0;
+        $data['ks_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('ks')->get()->getRow()->ks ?? 0;
+        $data['kb_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kb')->get()->getRow()->kb ?? 0;
+        $data['kks_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kks')->get()->getRow()->kks ?? 0;
+        $data['kls_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kls')->get()->getRow()->kls ?? 0;
+        $data['klsb_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('klsb')->get()->getRow()->klsb ?? 0;
 
         // Data Qurban yang Dikirim Hari Ini
         $qurbanModel = new QurbanModel();
