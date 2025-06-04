@@ -103,3 +103,7 @@ $routes->get('/kirimkulit/print/(:num)', 'Kulit::printsurat/$1', ['filter' => 'a
 
 $routes->get('/setting', 'Setting::index', ['filter' => 'auth']);
 $routes->post('/setting/edit', 'Setting::edit', ['filter' => 'auth']);
+
+$routes->post('/setting/tambahuser', 'Setting::tambahuser', ['filter' => 'auth']);
+$routes->post('/setting/edituser', 'Setting::edituser', ['filter' => 'auth']);
+$routes->get('/setting/hapususer/(:num)', 'Setting::hapususer/$1', ['filter' => 'auth']);

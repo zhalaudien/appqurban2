@@ -6,41 +6,39 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table            = 'admin';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'username', 'password'];
+    protected $table      = 'admin';
+    protected $primaryKey = 'id';
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
+    protected $allowedFields = ['username', 'password'];
 
-    protected array $casts = [];
-    protected array $castHandlers = [];
+    protected $returnType     = 'array';
+    protected $useTimestamps  = false;
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // Untuk menyimpan password secara otomatis dalam bentuk hash
+    protected function beforeInsert(array $data)
+    {
+        $data = $this->hashPassword($data);
+        return $data;
+    }
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    protected function beforeUpdate(array $data)
+    {
+        $data = $this->hashPassword($data);
+        return $data;
+    }
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // Aktifkan hooks
+    protected $beforeInsert = ['encryptPassword'];
+    protected $beforeUpdate = ['encryptPassword'];
+
+    // Fungsi enkripsi password sebelum simpan/update
+    protected function encryptPassword(array $data)
+    {
+        if (!empty($data['data']['password'])) {
+            $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+        } else {
+            unset($data['data']['password']); // Jangan ubah jika kosong
+        }
+        return $data;
+    }
 }

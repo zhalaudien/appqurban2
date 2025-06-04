@@ -5,7 +5,6 @@
             <div class="col-12 col-lg-12">
                 <div class="card border-primary shadow-sm mb-4">
                     <div class="card-header bg-primary text-white">
-
                     </div>
                     <div class="card-body">
                         <?php if ($viewsetting): ?>
@@ -155,6 +154,124 @@
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-12">
+                <div class="card border-primary shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabel Manajemen User -->
+                        <div class="table-responsive mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Manajemen User</h6>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#tambahUser">Tambah User</button>
+                            </div>
+                            <!-- Modal Tambah User -->
+                            <div class="modal fade" id="tambahUser" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="<?= site_url('/setting/tambahuser') ?>" method="post" class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Tambah User</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nama</label>
+                                                <input type="text" class="form-control" name="username" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" name="password" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-primary">Tambah</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($user)): ?>
+                                        <?php foreach ($user as $user): ?>
+                                            <tr>
+                                                <td><?= $user['username']; ?></td>
+                                                <td>
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUser<?= $user['id']; ?>">Edit</button>
+                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusUser<?= $user['id']; ?>">Hapus</button>
+                                                </td>
+                                            </tr>
+                                            <!-- Modal Hapus User -->
+                                            <div class="modal fade" id="hapusUser<?= $user['id']; ?>"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <p>Yakin ingin menghapus user <strong><?= $user['username']; ?></strong>?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-warning"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <a href="<?= base_url('/setting/hapususer/' . $user['id']) ?>"
+                                                                type="button" class="btn btn-danger">Hapus</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal Edit User -->
+                                            <div class="modal fade" id="editUser<?= $user['id']; ?>"
+                                                tabindex=" -1" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <form action="<?= site_url('/setting/edituser') ?>" method="post" class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit User</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" value="<?= $user['id']; ?>">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Username</label>
+                                                                        <input type="text" class="form-control" name="username" value="<?= $user['username']; ?>" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Password (Opsional)</label>
+                                                                        <input type="password" class="form-control" name="password" placeholder="Kosongkan jika tidak diubah">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center">Belum ada user.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
