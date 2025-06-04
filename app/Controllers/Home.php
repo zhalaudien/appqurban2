@@ -147,7 +147,7 @@ class Home extends Controller
         ];
 
         $userModel = new SapiModel();
-        $data['viewsapi'] = $userModel->orderBy('date_input', 'DESC')->findAll();
+        $data['viewsapi'] = $userModel->orderBy('date_input', 'DESC')->findAll() ?? 0;
 
         echo view("homepage/header", $header);
         echo view("homepage/datasapi", $data);

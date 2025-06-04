@@ -154,6 +154,7 @@
                                                                                           <input type="hidden" id="cabang"
                                                                                               value="<?php echo $cabang['cabang']; ?>"
                                                                                               name="cabang">
+                                                                                          <input type="hidden" name="date_input" value="<?php echo date('Y-m-d H:i:s'); ?>">
                                                                                           <div class="col-md-4">
                                                                                               <div class="input-group">
                                                                                                   <span
@@ -256,9 +257,8 @@
                                                                                               </option>
                                                                                               <option value="Dikirim">Dikirim
                                                                                               </option>
-                                                                                              <option value="Belum Dikirim">
-                                                                                                  Belum
-                                                                                                  Dikirim
+                                                                                              <option value="Proses">
+                                                                                                  Proses
                                                                                               </option>
                                                                                               <option value="Pending">Pending
                                                                                               </option>

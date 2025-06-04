@@ -63,7 +63,7 @@
                                               <h6 class="mb-0">Data Hewan</h6>
                                           </div>
                                           <div class="card-body p-2">
-                                              <table class="table table-bordered table-sm mb-0 text-center">
+                                              <table class="table table-bordered table-sm mb-0">
                                                   <thead class="table-light">
                                                       <tr>
                                                           <th>Hewan</th>
@@ -106,36 +106,38 @@
                                   <div class="col-12">
                                       <div class="card border-warning shadow-sm">
                                           <div class="card-header bg-warning text-dark">
-                                              <h6 class="mb-0">Uang Masuk</h6>
+                                              <h6 class="mb-0">Uang Masuk | Biaya Penyembelihan Rp. <?= number_format($biaya, 0, ',', '.') ?></h6>
                                           </div>
                                           <div class="card-body p-2">
-                                              <table class="table table-bordered table-sm mb-0 text-center">
+                                              <table class="table table-bordered table-sm mb-0">
                                                   <thead class="table-light">
                                                       <tr>
                                                           <th>Asal</th>
-                                                          <th>Jumlah</th>
+                                                          <th>Total</th>
+                                                          <th>Masuk</th>
+                                                          <th>Kurang</th>
                                                       </tr>
                                                   </thead>
                                                   <tbody>
                                                       <tr>
                                                           <td>BUMM</td>
+                                                          <td>Rp. <?= number_format(((($sapi_bumm * 7) + $sapib_bumm + $kambing_bumm) * $biaya), 0, ',', '.') ?></td>
                                                           <td>Rp. <?= number_format($uang_bumm, 0, ',', '.') ?></td>
+                                                          <td>Rp. <?= number_format(((($sapi_bumm * 7) + $sapib_bumm + $kambing_bumm) * $biaya) - $uang_bumm, 0, ',', '.') ?></td>
                                                       </tr>
                                                       <tr>
                                                           <td>Cabang</td>
+                                                          <td>Rp. <?= number_format((($sapi_mandiri * 7) + $kambing_mandiri) * $biaya, 0, ',', '.') ?></td>
                                                           <td>Rp. <?= number_format($uang_cabang, 0, ',', '.') ?></td>
+                                                          <td>Rp. <?= number_format(((($sapi_mandiri * 7) + $kambing_mandiri) * $biaya) - $uang_cabang, 0, ',', '.') ?></td>
                                                       </tr>
                                                       <tr>
                                                           <td>Shadaqoh</td>
                                                           <td>Rp. <?= number_format($shadaqoh, 0, ',', '.') ?></td>
+                                                          <td>Rp. <?= number_format($shadaqoh, 0, ',', '.') ?></td>
+                                                          <td>Rp. <?= number_format($shadaqoh, 0, ',', '.') ?></td>
                                                       </tr>
                                                   </tbody>
-                                                  <tfoot class="table-light">
-                                                      <tr>
-                                                          <th>Total</th>
-                                                          <th>Rp. <?= number_format($uang_bumm + $uang_cabang + $shadaqoh, 0, ',', '.') ?></th>
-                                                      </tr>
-                                                  </tfoot>
                                               </table>
                                           </div>
                                       </div>

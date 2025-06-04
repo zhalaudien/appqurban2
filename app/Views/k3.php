@@ -57,55 +57,57 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
+                          <!--begin::Card Stock K3 Hari Ini-->
                           <div class="col-12 col-lg-6">
-                              <div class="card border-warning shadow-sm">
-                                  <div class="card-header bg-warning text-dark">
-                                      <h6 class="mb-0">Stock K3</h6>
+                              <div class="card border-primary shadow-sm">
+                                  <div class="card-header bg-primary text-white">
+                                      <h6 class="mb-0">Stock K3 Hari Ini (<?= date('d-m-Y') ?>)</h6>
                                   </div>
                                   <div class="card-body p-2">
-                                      <table class="table table-bordered table-sm mb-0 text-center">
+                                      <table class="table table-sm mb-0 text-center">
                                           <thead class="table-light">
-                                              <thead>
-                                                  <tr>
-                                                      <th>K3</th>
-                                                      <th>KS</th>
-                                                      <th>KKB</th>
-                                                      <th>KKS</th>
-                                                      <th>KLS</th>
-                                                  </tr>
-                                              </thead>
+                                              <tr>
+                                                  <th>Jenis</th>
+                                                  <th>Kepala Sapi</th>
+                                                  <th>Kepala Kambing</th>
+                                                  <th>Kaki Sapi</th>
+                                                  <th>Kulit Sapi</th>
+                                                  <th>Kulit Kambing</th>
+                                              </tr>
+                                          </thead>
                                           <tbody>
                                               <tr class="align-middle">
                                                   <td>Masuk</td>
-                                                  <td><?= $ks ?></td>
-                                                  <td><?= $kb ?></td>
-                                                  <td><?= $kks ?></td>
-                                                  <td><?= $kls ?></td>
+                                                  <td><?= $ks_today ?></td>
+                                                  <td><?= $kb_today ?></td>
+                                                  <td><?= $kks_today ?></td>
+                                                  <td><?= $kls_today ?></td>
+                                                  <td><?= $klsb_today ?></td>
                                               </tr>
                                               <tr class="align-middle">
                                                   <td>Keluar</td>
-                                                  <td><?= $t_ks ?></td>
-                                                  <td><?= $t_kb ?></td>
-                                                  <td><?= $t_kks ?></td>
-                                                  <td><?= $t_kls ?></td>
+                                                  <td><?= $kirim_ks ?></td>
+                                                  <td><?= $kirim_kb ?></td>
+                                                  <td><?= $kirim_kks ?></td>
+                                                  <td><?= $kirim_kls ?></td>
+                                                  <td>0</td>
                                               </tr>
                                           </tbody>
                                           <tfoot>
                                               <tr>
                                                   <th>Stock</th>
-                                                  <td><?= $ks - $t_ks ?></td>
-                                                  <td><?= $kb - $t_kb ?></td>
-                                                  <td><?= $kks - $t_kks ?></td>
-                                                  <td><?= $kls - $t_kls ?></td>
+                                                  <td><?= $ks_today - $kirim_ks ?></td>
+                                                  <td><?= $kb_today - $kirim_kb ?></td>
+                                                  <td><?= $kks_today - $kirim_kks ?></td>
+                                                  <td><?= $kls_today - $kirim_kls ?></td>
+                                                  <td><?= $klsb_today ?></td>
                                               </tr>
                                           </tfoot>
                                       </table>
                                   </div>
-                                  <!-- /.card-body -->
                               </div>
-                              <!--end::Small Box Widget 1-->
                           </div>
-                          <!--end::Col-->
+                          <!--end::Card Stock K3 Hari Ini-->
                           <div class="col-12 col-lg-12">
                               <div class="row g-4">
                                   <!-- Data Hewan -->
@@ -121,11 +123,11 @@
                                                   <thead>
                                                       <tr>
                                                           <th style="width: 10px">No</th>
-                                                          <th>K Sapi</th>
-                                                          <th>K Kambing</th>
-                                                          <th>KKS</th>
-                                                          <th>KLS</th>
-                                                          <th>KLK</th>
+                                                          <th>Kepala Sapi</th>
+                                                          <th>Kepala Kambing</th>
+                                                          <th>Kaki Sapi</th>
+                                                          <th>Kulit Sapi</th>
+                                                          <th>Kulit Kambing</th>
                                                           <th>Tanggal Input</th>
                                                           <th>Action</th>
                                                       </tr>

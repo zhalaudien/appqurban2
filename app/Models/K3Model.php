@@ -10,7 +10,7 @@ class K3Model extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['ks', 'kb', 'kks', 'kls', 'klsb', 'date_input'];
+    protected $allowedFields    = ['ks', 'kb', 'kks', 'kls', 'klsb', 'keterangan', 'date_input'];
 
     public function savek3($data)
     {
@@ -23,5 +23,4 @@ class K3Model extends Model
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
     }
-
 }

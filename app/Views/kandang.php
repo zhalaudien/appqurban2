@@ -87,6 +87,34 @@
                               </div>
                               <!--end::Small Box Widget 1-->
                           </div>
+                          <!-- Card: Hewan Disembelih Hari Ini -->
+                          <div class="col-12 col-lg-6">
+                              <div class="card shadow-sm border-primary">
+                                  <div class="card-header bg-primary text-white">
+                                      <h6 class="mb-0">Hewan Disembelih Hari Ini</h6>
+                                  </div>
+                                  <div class="card-body">
+                                      <table class="table table-striped">
+                                          <thead class="table-light">
+                                              <tr>
+                                                  <th>Jenis Hewan</th>
+                                                  <th>Jumlah Disembelih</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+                                                  <td>Sapi</td>
+                                                  <td><?= $disembelih_sapi_today ?? 0 ?></td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Kambing</td>
+                                                  <td><?= $disembelih_kambing_today ?? 0 ?></td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
                           <!--end::Col-->
                           <div class="col-12 col-lg-12">
                               <div class="row g-4">

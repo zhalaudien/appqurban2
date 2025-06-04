@@ -14,11 +14,10 @@
                         <thead class="table-primary text-center">
                             <tr>
                                 <th style="width: 40px;">No</th>
-                                <th>Cabang</th>
-                                <th>Berat (kg)</th>
-                                <th>Nomor Sapi</th>
-                                <th>Harga</th>
-                                <th>Tanggal Input</th>
+                                <th class="text-center">Cabang</th>
+                                <th class="text-center">Berat (kg)</th>
+                                <th class="text-center">Nomor Sapi</th>
+                                <th class="text-center">Tanggal Input</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,10 +26,9 @@
                                 <?php foreach ($viewsapi as $sapi): ?>
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
-                                        <td><?= $sapi['cabang']; ?></td>
+                                        <td class="text-center"><?= $sapi['cabang']; ?></td>
                                         <td class="text-center"><?= $sapi['berat']; ?></td>
                                         <td class="text-center"><?= $sapi['nomor']; ?></td>
-                                        <td class="text-end">Rp <?= number_format($sapi['harga'], 0, ',', '.'); ?></td>
                                         <td class="text-center"><?= date('d-m-Y', strtotime($sapi['date_input'])); ?></td>
                                     </tr>
                                 <?php endforeach; ?>

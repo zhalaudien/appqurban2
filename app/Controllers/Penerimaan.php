@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\PenerimaanModel;
 use App\Models\SapiModel;
 use App\Models\CabangModel;
 use App\Models\QurbanModel;
+use App\Models\SettingModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -39,6 +41,9 @@ class Penerimaan extends Controller
         $data['sapi_mandiri'] = $qurbanModel->selectSum('sapi_mandiri')->get()->getRow()->sapi_mandiri;
         $data['kambing_mandiri'] = $qurbanModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
 
+        $userModel = new SettingModel();
+        $data['biaya'] = $userModel->selectSum('biaya')->get()->getRow()->biaya;
+
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("penerimaan", $data, $header);
@@ -59,7 +64,7 @@ class Penerimaan extends Controller
         $model->save($data);
         echo '<script>
                 alert("Sukses Tambah Data Penerimaan");
-                window.location="'.base_url('penerimaan').'"
+                window.location="' . base_url('penerimaan') . '"
             </script>';
     }
 
@@ -78,7 +83,7 @@ class Penerimaan extends Controller
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Penerimaan");
-                window.location="'.base_url('penerimaan').'"
+                window.location="' . base_url('penerimaan') . '"
             </script>';
     }
 
@@ -88,7 +93,7 @@ class Penerimaan extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Penerimaan");
-                window.location="'.base_url('penerimaan').'"
+                window.location="' . base_url('penerimaan') . '"
             </script>';
     }
 
@@ -102,36 +107,36 @@ class Penerimaan extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'Pengirim')
-                    ->setCellValue('D1', 'Sapi')
-                    ->setCellValue('E1', 'Kambing')
-                    ->setCellValue('F1', 'Shadaqoh')
-                    ->setCellValue('G1', 'Pembayaran')
-                    ->setCellValue('H1', 'Tanggal Input');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'Pengirim')
+            ->setCellValue('D1', 'Sapi')
+            ->setCellValue('E1', 'Kambing')
+            ->setCellValue('F1', 'Shadaqoh')
+            ->setCellValue('G1', 'Pembayaran')
+            ->setCellValue('H1', 'Tanggal Input');
+
         $column = 2;
         // tulis data penerimaan ke cell
-        foreach($penerimaan as $data) {
+        foreach ($penerimaan as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['pengirim'])
-                        ->setCellValue('D' . $column, $data['sapi'])
-                        ->setCellValue('E' . $column, $data['kambing'])
-                        ->setCellValue('F' . $column, $data['shadaqoh'])
-                        ->setCellValue('G' . $column, $data['pembayaran'])
-                        ->setCellValue('H' . $column, $data['date_input']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['pengirim'])
+                ->setCellValue('D' . $column, $data['sapi'])
+                ->setCellValue('E' . $column, $data['kambing'])
+                ->setCellValue('F' . $column, $data['shadaqoh'])
+                ->setCellValue('G' . $column, $data['pembayaran'])
+                ->setCellValue('H' . $column, $data['date_input']);
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data penerimaan '.$date;
+        $fileName = 'Data penerimaan ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
@@ -177,7 +182,7 @@ class Penerimaan extends Controller
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
         }
-        
+
         $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
         $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
         $templateProcessor->setValue('date', $date);
@@ -230,7 +235,7 @@ class Penerimaan extends Controller
         $model->save($data);
         echo '<script>
                 alert("Sukses Tambah Data Sapi");
-                window.location="'.base_url('datasapi').'"
+                window.location="' . base_url('datasapi') . '"
             </script>';
     }
 
@@ -247,7 +252,7 @@ class Penerimaan extends Controller
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Sapi");
-                window.location="'.base_url('datasapi').'"
+                window.location="' . base_url('datasapi') . '"
             </script>';
     }
 
@@ -257,7 +262,7 @@ class Penerimaan extends Controller
         $data['user'] = $model->where('id', $id)->delete($id);
         echo '<script>
                 alert("Sukses Hapus Data Sapi");
-                window.location="'.base_url('datasapi').'"
+                window.location="' . base_url('datasapi') . '"
             </script>';
     }
 
@@ -271,32 +276,32 @@ class Penerimaan extends Controller
         $spreadsheet = new Spreadsheet();
         // tulis header/nama kolom 
         $spreadsheet->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'No')
-                    ->setCellValue('B1', 'Cabang')
-                    ->setCellValue('C1', 'Berat')
-                    ->setCellValue('D1', 'Nomor Sapi')
-                    ->setCellValue('E1', 'Harga')
-                    ->setCellValue('F1', 'Tanggal Input');
-        
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Cabang')
+            ->setCellValue('C1', 'Berat')
+            ->setCellValue('D1', 'Nomor Sapi')
+            ->setCellValue('E1', 'Harga')
+            ->setCellValue('F1', 'Tanggal Input');
+
         $column = 2;
         // tulis data sapi ke cell
-        foreach($sapi as $data) {
+        foreach ($sapi as $data) {
             $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $column, $no++)
-                        ->setCellValue('B' . $column, $data['cabang'])
-                        ->setCellValue('C' . $column, $data['berat'])
-                        ->setCellValue('D' . $column, $data['nomor'])
-                        ->setCellValue('E' . $column, $data['harga'])
-                        ->setCellValue('F' . $column, $data['date_input']);
+                ->setCellValue('A' . $column, $no++)
+                ->setCellValue('B' . $column, $data['cabang'])
+                ->setCellValue('C' . $column, $data['berat'])
+                ->setCellValue('D' . $column, $data['nomor'])
+                ->setCellValue('E' . $column, $data['harga'])
+                ->setCellValue('F' . $column, $data['date_input']);
             $column++;
         }
         // tulis dalam format .xlsx
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data sapi '.$date;
+        $fileName = 'Data sapi ' . $date;
 
         // Redirect hasil generate xlsx ke web client
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');

@@ -60,47 +60,46 @@
                           <div class="col-12 col-lg-6">
                               <div class="card border-warning shadow-sm">
                                   <div class="card-header bg-warning text-dark">
-                                      <h6 class="mb-0">Stock Besek</h6>
+                                      <h6 class="mb-0">Produksi Dan Stock Besek Hari Ini (<?= date('d-m-Y') ?>)</h6>
                                   </div>
                                   <div class="card-body p-2">
-                                      <table class="table table-bordered table-sm mb-0 text-center">
-                                          <thead class="table-light">
-                                              <thead>
-                                                  <tr>
-                                                      <th>Besek</th>
-                                                      <th>TS</th>
-                                                      <th>OS</th>
-                                                      <th>M</th>
-                                                      <th>OS</th>
-                                                      <th>OK</th>
-                                                  </tr>
-                                              </thead>
+                                      <table class="table table-striped">
+                                          <thead>
+                                              <tr>
+                                                  <th>Besek</th>
+                                                  <th>TS</th>
+                                                  <th>TK</th>
+                                                  <th>M</th>
+                                                  <th>OS</th>
+                                                  <th>OK</th>
+                                              </tr>
+                                          </thead>
                                           <tbody>
                                               <tr class="align-middle">
-                                                  <td>Total Besek</td>
-                                                  <td><?= $ts ?></td>
-                                                  <td><?= $os ?></td>
-                                                  <td><?= $a ?></td>
-                                                  <td><?= $os ?></td>
-                                                  <td><?= $ok ?></td>
+                                                  <td>Produksi Besek</td>
+                                                  <td><?= $today_ts ?></td>
+                                                  <td><?= $today_tk ?></td>
+                                                  <td><?= $today_a ?></td>
+                                                  <td><?= $today_os ?></td>
+                                                  <td><?= $today_ok ?></td>
                                               </tr>
                                               <tr class="align-middle">
                                                   <td>Besek Dikirim</td>
-                                                  <td><?= $t_ts ?></td>
-                                                  <td><?= $t_os ?></td>
-                                                  <td><?= $t_a ?></td>
-                                                  <td><?= $t_os ?></td>
-                                                  <td><?= $t_ok ?></td>
+                                                  <td><?= $kirim_ts ?></td>
+                                                  <td><?= $kirim_tk ?></td>
+                                                  <td><?= $kirim_a ?></td>
+                                                  <td><?= $kirim_os ?></td>
+                                                  <td><?= $kirim_ok ?></td>
                                               </tr>
                                           </tbody>
                                           <tfoot>
                                               <tr>
                                                   <th>Stock</th>
-                                                  <th><?= $ts - $t_ts ?></th>
-                                                  <th><?= $os - $t_os ?></th>
-                                                  <th><?= $a - $t_a ?></th>
-                                                  <th><?= $os - $t_os ?></th>
-                                                  <th><?= $ok - $t_ok ?></th>
+                                                  <th><?= $today_ts - $kirim_ts ?></th>
+                                                  <th><?= $today_tk - $kirim_tk ?></th>
+                                                  <th><?= $today_a - $kirim_a ?></th>
+                                                  <th><?= $today_os - $kirim_os ?></th>
+                                                  <th><?= $today_ok - $kirim_ok ?></th>
                                               </tr>
                                           </tfoot>
                                       </table>
@@ -110,6 +109,38 @@
                               <!--end::Small Box Widget 1-->
                           </div>
                           <!--end::Col-->
+                          <div class="col-12 col-lg-6">
+                              <div class="card border-primary shadow-sm">
+                                  <div class="card-header bg-primary text-white">
+                                      <h6 class="mb-0">Total Produksi Besek</h6>
+                                  </div>
+                                  <div class="card-body p-2">
+                                      <table class="table table-striped">
+                                          <thead>
+                                              <tr>
+                                                  <th>TS</th>
+                                                  <th>TK</th>
+                                                  <th>M</th>
+                                                  <th>OS</th>
+                                                  <th>OK</th>
+                                                  <th>Total</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr class="align-middle">
+                                                  <td><?= $total_ts ?></td>
+                                                  <td><?= $total_tk ?></td>
+                                                  <td><?= $total_a ?></td>
+                                                  <td><?= $total_os ?></td>
+                                                  <td><?= $total_ok ?></td>
+                                                  <td><?= $total_besek ?></td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+
                           <div class="col-12 col-lg-12">
                               <div class="row g-4">
                                   <!-- Data Hewan -->

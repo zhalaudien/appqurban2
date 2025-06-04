@@ -78,6 +78,7 @@ class Surat extends Controller
             'r_kks' => $this->request->getPost('r_kks'),
             'r_kls' => $this->request->getPost('r_kls'),
             'status' => $this->request->getPost('status'),
+            'date_input' => $this->request->getPost('date_input'),
         ];
 
         $userModel->updateQurban($data, $id);

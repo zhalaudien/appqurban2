@@ -28,6 +28,7 @@
                                     <th style="width: 50px;">No</th>
                                     <th>Cabang</th>
                                     <th>Sapi BUMM</th>
+                                    <th>Sapi BUMM (orang)</th>
                                     <th>Kambing BUMM</th>
                                     <th>Sapi Cabang</th>
                                     <th>Kambing Cabang</th>
@@ -41,7 +42,8 @@
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $cabang['cabang'] ?></td>
-                                        <td><?= $cabang['sapi_bumm'] + number_format(($cabang['sapib_bumm'] / 7), 1, '.', '') ?></td>
+                                        <td><?= $cabang['sapi_bumm'] ?></td>
+                                        <td><?= $cabang['sapib_bumm'] ?></td>
                                         <td><?= $cabang['kambing_bumm'] ?></td>
                                         <td><?= $cabang['sapi_mandiri'] ?></td>
                                         <td><?= $cabang['kambing_mandiri'] ?></td>
@@ -52,8 +54,8 @@
                             </tbody>
                             <tfoot class="table-light">
                                 <tr>
-                                    <th colspan="2">Jumlah</th>
-                                    <th><?= ${"sapi_bumm_$hari"} + number_format((${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
+                                    <th colspan="2" class="text-center">Jumlah</th>
+                                    <th colspan="2" class="text-center"><?= ${"sapi_bumm_$hari"} + number_format((${"sapib_bumm_$hari"} / 7), 1, '.', '') ?></th>
                                     <th><?= ${"kambing_bumm_$hari"} ?></th>
                                     <th><?= ${"sapi_mandiri_$hari"} ?></th>
                                     <th><?= ${"kambing_mandiri_$hari"} ?></th>

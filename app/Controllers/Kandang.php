@@ -21,20 +21,35 @@ class Kandang extends Controller
             'active' => 'kandang'
         ];
 
-        $userModel = new PenerimaanModel();
-        $data['total_sapi'] = $userModel->selectSum('sapi')->get()->getRow()->sapi;
-        $data['total_kambing'] = $userModel->selectSum('kambing')->get()->getRow()->kambing;
+        // Ambil total hewan masuk
+        $penerimaanModel = new PenerimaanModel();
+        $data['total_sapi'] = $penerimaanModel->selectSum('sapi')->get()->getRow()->sapi;
+        $data['total_kambing'] = $penerimaanModel->selectSum('kambing')->get()->getRow()->kambing;
 
-        $userModel = new KandangModel();
-        $data['viewkandang'] = $userModel->orderBy('date_input', 'DESC')->findAll();
-        $data['disembelih_sapi'] = $userModel->selectSum('sapi')->get()->getRow()->sapi;
-        $data['disembelih_kambing'] = $userModel->selectSum('kambing')->get()->getRow()->kambing;
+        // Ambil data hewan disembelih
+        $kandangModel = new KandangModel();
+        $data['viewkandang'] = $kandangModel->orderBy('date_input', 'DESC')->findAll();
+        $data['disembelih_sapi'] = $kandangModel->selectSum('sapi')->get()->getRow()->sapi;
+        $data['disembelih_kambing'] = $kandangModel->selectSum('kambing')->get()->getRow()->kambing;
+
+        // Hewan disembelih hari ini
+        $today = date('Y-m-d');
+        $data['disembelih_sapi_today'] = $kandangModel
+            ->where('DATE(date_input)', $today)
+            ->selectSum('sapi')
+            ->first()['sapi'] ?? 0;
+
+        $data['disembelih_kambing_today'] = $kandangModel
+            ->where('DATE(date_input)', $today)
+            ->selectSum('kambing')
+            ->first()['kambing'] ?? 0;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
-        echo view("kandang", $data, $header);
+        echo view("kandang", array_merge($data, $header)); // kirim $data dan $header ke view
         echo view("pages/footer");
     }
+
 
     public function tambah()
     {
@@ -118,25 +133,42 @@ class Kandang extends Controller
             'active' => 'k3'
         ];
 
-        $userModel = new QurbanModel();
-        $data['t_ks'] = $userModel->where('status', 'Dikirim')->selectSum('r_ks')->get()->getRow()->r_ks;
-        $data['t_kb'] = $userModel->where('status', 'Dikirim')->selectSum('r_kb')->get()->getRow()->r_kb;
-        $data['t_kks'] = $userModel->where('status', 'Dikirim')->selectSum('r_kks')->get()->getRow()->r_kks;
-        $data['t_kls'] = $userModel->where('status', 'Dikirim')->selectSum('r_kls')->get()->getRow()->r_kls;
 
-        $userModel = new K3Model();
-        $data['viewk3'] = $userModel->orderBy('date_input', 'DESC')->findAll();
-        $data['ks'] = $userModel->selectSum('ks')->get()->getRow()->ks;
-        $data['kb'] = $userModel->selectSum('kb')->get()->getRow()->kb;
-        $data['kks'] = $userModel->selectSum('kks')->get()->getRow()->kks;
-        $data['kls'] = $userModel->selectSum('kls')->get()->getRow()->kls;
+        $k3Model = new K3Model();
+        $data['viewk3'] = $k3Model->orderBy('date_input', 'DESC')->findAll();
 
+        // Tanggal hari ini
+        $today = date('Y-m-d');
+
+        // Data MASUK hari ini
+        $data['ks_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('ks')->get()->getRow()->ks ?? 0;
+        $data['kb_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kb')->get()->getRow()->kb ?? 0;
+        $data['kks_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kks')->get()->getRow()->kks ?? 0;
+        $data['kls_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('kls')->get()->getRow()->kls ?? 0;
+        $data['klsb_today'] = $k3Model->where('keterangan', 'Masuk')->where('DATE(date_input)', $today)->selectSum('klsb')->get()->getRow()->klsb ?? 0;
+
+        // Data Qurban yang Dikirim Hari Ini
+        $qurbanModel = new QurbanModel();
+        $kirim_today = $qurbanModel
+            ->where('DATE(date_input)', $today)
+            ->where('status', 'Dikirim')
+            ->selectSum('r_ks')
+            ->selectSum('r_kb')
+            ->selectSum('r_kks')
+            ->selectSum('r_kls')
+            ->first();
+
+        $data['kirim_ks'] = $kirim_today['r_ks'] ?? 0;
+        $data['kirim_kb'] = $kirim_today['r_kb'] ?? 0;
+        $data['kirim_kks']  = $kirim_today['r_kks']  ?? 0;
+        $data['kirim_kls'] = $kirim_today['r_kls'] ?? 0;
 
         echo view("pages/header");
         echo view("pages/navbar", $header);
         echo view("k3", $data);
         echo view("pages/footer");
     }
+
 
     public function tambahk3()
     {
@@ -147,6 +179,7 @@ class Kandang extends Controller
             'kks' => $this->request->getPost('kks'),
             'kls' => $this->request->getPost('kls'),
             'klsb' => $this->request->getPost('klsb'),
+            'keterangan' => $this->request->getPost('keterangan'),
         );
         $model->savek3($data);
         echo '<script>
@@ -155,23 +188,6 @@ class Kandang extends Controller
             </script>';
     }
 
-    public function editk3()
-    {
-        $model = new K3Model;
-        $id = $this->request->getPost('id');
-        $data = array(
-            'kepala_sapi' => $this->request->getPost('kepala_sapi'),
-            'kepala_kambing' => $this->request->getPost('kepala_kambing'),
-            'kulit_kambing' => $this->request->getPost('kulit_kambing'),
-            'kulit_sapi' => $this->request->getPost('kulit_sapi'),
-            'kaki_sapi' => $this->request->getPost('kaki_sapi'),
-        );
-        $model->updatek3($id, $data);
-        echo '<script>
-                alert("Sukses Edit Data K3");
-                window.location="' . base_url('k3') . '"
-            </script>';
-    }
 
     public function hapusk3($id = null)
     {
@@ -197,7 +213,8 @@ class Kandang extends Controller
             ->setCellValue('D1', 'Kepala Kambing')
             ->setCellValue('E1', 'Kulit Kambing')
             ->setCellValue('F1', 'Kulit Sapi')
-            ->setCellValue('G1', 'Kaki Sapi');
+            ->setCellValue('G1', 'Kaki Sapi')
+            ->setCellValue('H1', 'Keterangan');
 
         $column = 2;
         $no = 1;
@@ -209,7 +226,8 @@ class Kandang extends Controller
                 ->setCellValue('D' . $column, $row['kepala_kambing'])
                 ->setCellValue('E' . $column, $row['kulit_kambing'])
                 ->setCellValue('F' . $column, $row['kulit_sapi'])
-                ->setCellValue('G' . $column, $row['kaki_sapi']);
+                ->setCellValue('G' . $column, $row['kaki_sapi'])
+                ->setCellValue('H' . $column, $row['keterangan']);
             $column++;
         }
 

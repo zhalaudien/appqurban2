@@ -13,6 +13,21 @@
         foreach ($groups as $hari) :
             $data = $$hari;
             if (!$data) continue;
+
+            // Hitung total kolom besek
+            $total_ts = $total_tk = $total_a = $total_os = $total_ok = $total_ks = $total_kb = $total_kks = $total_kls = 0;
+            foreach ($data as $cabang) {
+                $total_ts  += (int)$cabang['r_ts'];
+                $total_tk  += (int)$cabang['r_tk'];
+                $total_a   += (int)$cabang['r_a'];
+                $total_os  += (int)$cabang['r_os'];
+                $total_ok  += (int)$cabang['r_ok'];
+                $total_ks  += (int)$cabang['r_ks'];
+                $total_kb  += (int)$cabang['r_kb'];
+                $total_kks += (int)$cabang['r_kks'];
+                $total_kls += (int)$cabang['r_kls'];
+            }
+            $totalBesek = $total_ts + $total_tk + $total_a + $total_os + $total_ok;
         ?>
 
             <div class="card shadow-sm border-0 mb-4">
@@ -28,17 +43,24 @@
                                     <th>M</th>
                                     <th>OS</th>
                                     <th>OK</th>
-                                    <th>K Sapi</th>
-                                    <th>K Kambing</th>
-                                    <th>KK Sapi</th>
-                                    <th>KL Sapi</th>
+                                    <th>Kepala Sapi</th>
+                                    <th>Kepala Kambing</th>
+                                    <th>Kaki Sapi</th>
+                                    <th>Kulit Sapi</th>
                                     <th>Antrian</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($data as $cabang): ?>
+                                foreach ($data as $cabang):
+                                    $status = strtolower($cabang['status']);
+                                    $badgeClass = match ($status) {
+                                        'dikirim' => 'badge bg-success',
+                                        'proses' => 'badge bg-primary',
+                                        default => 'badge bg-secondary',
+                                    };
+                                ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $cabang['cabang'] ?></td>
@@ -52,15 +74,32 @@
                                         <td class="text-center"><?= $cabang['r_kks']; ?></td>
                                         <td class="text-center"><?= $cabang['r_kls']; ?></td>
                                         <td class="text-center"><?= $cabang['antrian']; ?></td>
-                                        <td class="text-center"><?= $cabang['status']; ?></td>
+                                        <td class="text-center">
+                                            <span class="<?= $badgeClass ?>"><?= $cabang['status']; ?></span>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
+                            <tfoot class="table-light fw-semibold text-center">
+                                <tr>
+                                    <td colspan="2">Total</td>
+                                    <td><?= number_format($total_ts) ?></td>
+                                    <td><?= number_format($total_tk) ?></td>
+                                    <td><?= number_format($total_a) ?></td>
+                                    <td><?= number_format($total_os) ?></td>
+                                    <td><?= number_format($total_ok) ?></td>
+                                    <td><?= number_format($total_ts) ?></td>
+                                    <td><?= number_format($total_kb) ?></td>
+                                    <td><?= number_format($total_kks) ?></td>
+                                    <td><?= number_format($total_kls) ?></td>
+                                    <td colspan="2">Total Besek : <?= number_format($totalBesek) ?></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
-            </table>
+
         <?php endforeach; ?>
     </div>
 </main>
