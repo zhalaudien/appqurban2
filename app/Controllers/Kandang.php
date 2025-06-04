@@ -179,7 +179,6 @@ class Kandang extends Controller
             'kks' => $this->request->getPost('kks'),
             'kls' => $this->request->getPost('kls'),
             'klsb' => $this->request->getPost('klsb'),
-            'keterangan' => $this->request->getPost('keterangan'),
         );
         $model->savek3($data);
         echo '<script>
