@@ -39,11 +39,14 @@
                                           </div>
                                           <div class="col-md-6">
                                               <label for="pembayaran" class="form-label">Pembayaran</label>
-                                              <input type="number" name="pembayaran" class="form-control" min="0" required>
+                                              <input type="text" name="pembayaran_display" class="form-control" id="pembayaran" required oninput="formatRupiah(this)">
+                                              <input type="hidden" name="pembayaran" id="pembayaran_clean">
                                           </div>
+
                                           <div class="col-md-6">
                                               <label for="shadaqoh" class="form-label">Shadaqoh</label>
-                                              <input type="number" name="shadaqoh" class="form-control" min="0" required>
+                                              <input type="text" name="shadaqoh_display" class="form-control" id="shadaqoh" required oninput="formatRupiah(this)">
+                                              <input type="hidden" name="shadaqoh" id="shadaqoh_clean">
                                           </div>
                                       </div>
                                       <div class="card-footer text-end">
@@ -145,6 +148,44 @@
                                   <!-- Export Button -->
                               </div>
                           </div>
+                          <!-- Ringkasan Data Hewan & Uang -->
+                          <div class="col-12 col-lg-12">
+                              <div class="row g-4">
+                                  <!-- Uang Masuk -->
+                                  <div class="col-12">
+                                      <div class="card border-warning shadow-sm">
+                                          <div class="card-header bg-warning text-dark">
+                                              <h6 class="mb-0">Total Uang Masuk Hari Ini</h6>
+                                          </div>
+                                          <div class="card-body p-2">
+                                              <table class="table table-bordered table-sm mb-0">
+                                                  <thead class="table-light">
+                                                      <tr>
+                                                          <th>Asal</th>
+                                                          <th>Total</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr>
+                                                          <td>BUMM</td>
+                                                          <td>Rp. <?= number_format($bumm_hari_ini, 0, ',', '.') ?></td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>Cabang</td>
+                                                          <td>Rp. <?= number_format($cabang_hari_ini, 0, ',', '.') ?></td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>Shadaqoh</td>
+                                                          <td>Rp. <?= number_format($shadaqoh_hari_ini, 0, ',', '.') ?></td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Export Button -->
+                              </div>
+                          </div>
                           <div class="col-12 col-lg-12">
                               <div class="row g-4">
                                   <!-- Data Hewan -->
@@ -233,6 +274,7 @@
                       </div>
                   </div>
               </div>
+          </div>
           </div>
       </main>
       <!--end::App Main-->

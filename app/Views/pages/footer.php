@@ -33,6 +33,31 @@
 <script src="<?php echo base_url('') ?>dashboard/js/adminlte.js"></script>
 <!--end::Required Plugin(AdminLTE)-->
 <!--begin::OverlayScrollbars Configure-->
+<script>
+    function formatRupiah(input) {
+        let value = input.value.replace(/[^,\d]/g, '').toString();
+        let split = value.split(',');
+        let sisa = split[0].length % 3;
+        let rupiah = split[0].substr(0, sisa);
+        let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            let separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+        input.value = rupiah ? 'Rp. ' + rupiah : '';
+
+        // Update hidden input value (cleaned format)
+        let cleanValue = value.replace(/\D/g, ''); // remove all non-digit
+        if (input.id === "pembayaran") {
+            document.getElementById("pembayaran_clean").value = cleanValue;
+        } else if (input.id === "shadaqoh") {
+            document.getElementById("shadaqoh_clean").value = cleanValue;
+        }
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
 </script>

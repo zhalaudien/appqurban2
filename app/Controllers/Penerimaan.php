@@ -31,6 +31,30 @@ class Penerimaan extends Controller
         $data['uang_cabang'] = $userModel->where('cabang !=', 'BUMM Sragen')->selectSum('pembayaran')->get()->getRow()->pembayaran;
         $data['shadaqoh'] = $userModel->selectSum('shadaqoh')->get()->getRow()->shadaqoh;
 
+        $today = date('Y-m-d');
+        $data['bumm_hari_ini'] = $userModel
+            ->where('cabang', 'BUMM Sragen')
+            ->where('DATE(date_input)', $today)
+            ->selectSum('pembayaran')
+            ->get()
+            ->getRow()
+            ->pembayaran ?? 0;
+
+        $data['cabang_hari_ini'] = $userModel
+            ->where('cabang !=', 'BUMM Sragen')
+            ->where('DATE(date_input)', $today)
+            ->selectSum('pembayaran')
+            ->get()
+            ->getRow()
+            ->pembayaran ?? 0;
+
+        $data['shadaqoh_hari_ini'] = $userModel
+            ->where('DATE(date_input)', $today)
+            ->selectSum('shadaqoh')
+            ->get()
+            ->getRow()
+            ->shadaqoh ?? 0;
+
         $cabangModel = new CabangModel();
         $data['viewcabang'] = $cabangModel->orderBy('cabang', 'ASC')->findAll();
 
