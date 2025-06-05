@@ -43,8 +43,8 @@
                                     <th>M</th>
                                     <th>OS</th>
                                     <th>OK</th>
-                                    <th>Kepala Sapi</th>
-                                    <th>Kepala Kambing</th>
+                                    <th>K Sapi</th>
+                                    <th>K Kambing</th>
                                     <th>Kaki Sapi</th>
                                     <th>Kulit Sapi</th>
                                     <th>Antrian</th>

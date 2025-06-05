@@ -153,8 +153,8 @@
                               <div class="row g-4">
                                   <!-- Uang Masuk -->
                                   <div class="col-12">
-                                      <div class="card border-warning shadow-sm">
-                                          <div class="card-header bg-warning text-dark">
+                                      <div class="card border-danger shadow-sm">
+                                          <div class="card-header bg-danger text-dark">
                                               <h6 class="mb-0">Total Uang Masuk Hari Ini</h6>
                                           </div>
                                           <div class="card-body p-2">
