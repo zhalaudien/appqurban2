@@ -269,6 +269,20 @@
                                                           <?php endforeach; ?>
                                                       <?php endif; ?>
                                                   </tbody>
+                                                  <tfoot>
+                                                      <tr>
+                                                          <th style="width: 10px">No</th>
+                                                          <th>Cabang</th>
+                                                          <th>Pengirim</th>
+                                                          <th>Jumlah Sapi</th>
+                                                          <th>Jumlah Kambing</th>
+                                                          <th>Pembayaran</th>
+                                                          <th>Shadaqoh</th>
+                                                          <th>Keterangan</th>
+                                                          <th>Tanggal Input</th>
+                                                          <th>Action</th>
+                                                      </tr>
+                                                  </tfoot>
                                               </table>
                                           </div>
                                       </div>

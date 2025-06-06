@@ -88,7 +88,7 @@
                                     <td><?= number_format($total_a) ?></td>
                                     <td><?= number_format($total_os) ?></td>
                                     <td><?= number_format($total_ok) ?></td>
-                                    <td><?= number_format($total_ts) ?></td>
+                                    <td><?= number_format($total_ks) ?></td>
                                     <td><?= number_format($total_kb) ?></td>
                                     <td><?= number_format($total_kks) ?></td>
                                     <td><?= number_format($total_kls) ?></td>
