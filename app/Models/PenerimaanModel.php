@@ -10,7 +10,7 @@ class PenerimaanModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['cabang', 'pengirim', 'sapi', 'kambing', 'shadaqoh', 'pembayaran', 'data_input'];
+    protected $allowedFields    = ['cabang', 'pengirim', 'sapi', 'kambing', 'shadaqoh', 'pembayaran', 'ket', 'date_input'];
 
     public function savePenerimaan($data)
     {
@@ -23,5 +23,4 @@ class PenerimaanModel extends Model
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
     }
-
 }

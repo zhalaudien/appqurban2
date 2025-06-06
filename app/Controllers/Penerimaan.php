@@ -84,6 +84,7 @@ class Penerimaan extends Controller
             'kambing' => $this->request->getPost('kambing'),
             'shadaqoh' => $this->request->getPost('shadaqoh'),
             'pembayaran' => $this->request->getPost('pembayaran'),
+            'ket' => $this->request->getPost('ket'),
         );
         $model->save($data);
         echo '<script>

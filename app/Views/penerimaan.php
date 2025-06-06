@@ -42,11 +42,14 @@
                                               <input type="text" name="pembayaran_display" class="form-control" id="pembayaran" required oninput="formatRupiah(this)">
                                               <input type="hidden" name="pembayaran" id="pembayaran_clean">
                                           </div>
-
                                           <div class="col-md-6">
                                               <label for="shadaqoh" class="form-label">Shadaqoh</label>
                                               <input type="text" name="shadaqoh_display" class="form-control" id="shadaqoh" required oninput="formatRupiah(this)">
                                               <input type="hidden" name="shadaqoh" id="shadaqoh_clean">
+                                          </div>
+                                          <div class="col-md-12">
+                                              <label for="ket" class="form-label">Keterangan</label>
+                                              <input type="text" name="ket" class="form-control" id="ket">
                                           </div>
                                       </div>
                                       <div class="card-footer text-end">
@@ -207,6 +210,7 @@
                                                           <th>Jumlah Kambing</th>
                                                           <th>Pembayaran</th>
                                                           <th>Shadaqoh</th>
+                                                          <th>Keterangan</th>
                                                           <th>Tanggal Input</th>
                                                           <th>Action</th>
                                                       </tr>
@@ -223,6 +227,7 @@
                                                                   <td><?php echo $terima['kambing']; ?></td>
                                                                   <td>Rp. <?= number_format($terima['pembayaran'], 0, ',', '.'); ?></td>
                                                                   <td>Rp. <?= number_format($terima['shadaqoh'], 0, ',', '.'); ?></td>
+                                                                  <td><?php echo $terima['ket']; ?></td>
                                                                   <td><?php echo $terima['date_input']; ?></td>
                                                                   <td>
                                                                       <div class="btn-group mb-2" role="group"
