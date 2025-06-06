@@ -239,15 +239,15 @@ class Surat extends Controller
 
         $data = [
             'cabang' => $cabang['cabang'],  // Misalnya nama cabang
-            'ts' => $cabang['ts'],
-            'tk' => $cabang['tk'],
-            'a' => $cabang['a'],
-            'ok' => $cabang['ok'],
-            'os' => $cabang['os'],
-            'ks' => $cabang['ks'],
-            'kb' => $cabang['kb'],
-            'kks' => $cabang['kks'],
-            'kls' => $cabang['kls'],
+            'ts' => $cabang['r_ts'],
+            'tk' => $cabang['r_tk'],
+            'a' => $cabang['r_a'],
+            'ok' => $cabang['r_ok'],
+            'os' => $cabang['r_os'],
+            'ks' => $cabang['r_ks'],
+            'kb' => $cabang['r_kb'],
+            'kks' => $cabang['r_kks'],
+            'kls' => $cabang['r_kls'],
         ];
 
         // Lokasi template
