@@ -232,9 +232,9 @@
                                                                   <td>
                                                                       <div class="btn-group mb-2" role="group"
                                                                           aria-label="Basic mixed styles example">
-                                                                          <!-- <a type="button" class="btn btn-warning" data-bs-toggle="modal" -->
-                                                                          <!-- data-bs-target="#edit<?php echo $terima['id']; ?>"> -->
-                                                                          <!-- Edit -->
+                                                                          <a type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                                              data-bs-target="#edit<?php echo $terima['id']; ?>">
+                                                                              Edit
                                                                           </a>
                                                                           <a type="button" class="btn btn-success"
                                                                               href="<?= base_url('/penerimaan/print/' . $terima['id']) ?>"
@@ -298,13 +298,13 @@
 
                                                                                               <div class="col-md-6">
                                                                                                   <label class="form-label">Pembayaran</label>
-                                                                                                  <input type="text" name="pembayaran_display" class="form-control" id="pembayaran" required oninput="formatRupiah(this)" value="<?= number_format($terima['pembayaran'], 0, ',', '.') ?>">
-                                                                                                  <input type="hidden" name="pembayaran" id="pembayaran_clean">
+                                                                                                  <input type="text" name="pembayaran_display" id="pembayaran_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['pembayaran'], 0, ',', '.') ?>">
+                                                                                                  <input type="hidden" name="pembayaran" id="pembayaran_clean_<?= $terima['id'] ?>">
                                                                                               </div>
                                                                                               <div class="col-md-6">
                                                                                                   <label class="form-label">Shadaqoh</label>
-                                                                                                  <input type="text" name="shadaqoh_display" class="form-control" id="shadaqoh" required oninput="formatRupiah(this)" value="<?= number_format($terima['shadaqoh'], 0, ',', '.') ?>">
-                                                                                                  <input type="hidden" name="shadaqoh" id="shadaqoh_clean">
+                                                                                                  <input type="text" name="shadaqoh_display" id="shadaqoh_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['shadaqoh'], 0, ',', '.') ?>">
+                                                                                                  <input type="hidden" name="shadaqoh" id="shadaqoh_clean_<?= $terima['id'] ?>">
                                                                                               </div>
                                                                                               <div class="col-md-12">
                                                                                                   <label class="form-label">Keterangan</label>
@@ -319,6 +319,7 @@
                                                                                   </div>
                                                                               </div>
                                                                           </div>
+                                                                      </div>
                                                                   </td>
                                                               </tr>
                                                           <?php endforeach; ?>

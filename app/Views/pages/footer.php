@@ -34,7 +34,7 @@
 <!--end::Required Plugin(AdminLTE)-->
 <!--begin::OverlayScrollbars Configure-->
 <script>
-    function formatRupiah(el) {
+    function formatRupiah(el, id) {
         let angka = el.value.replace(/[^,\d]/g, '');
         let split = angka.split(',');
         let sisa = split[0].length % 3;
@@ -49,23 +49,46 @@
         rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
         el.value = rupiah;
 
-        // Masukkan nilai angka murni ke input hidden
         let cleanVal = angka.replace(/\D/g, '');
 
-        if (el.id === 'pembayaran') {
-            document.getElementById('pembayaran_clean').value = cleanVal;
-        } else if (el.id === 'shadaqoh') {
-            document.getElementById('shadaqoh_clean').value = cleanVal;
+        if (el.id.includes('pembayaran')) {
+            document.getElementById(`pembayaran_clean_${id}`).value = cleanVal;
+        } else if (el.id.includes('shadaqoh')) {
+            document.getElementById(`shadaqoh_clean_${id}`).value = cleanVal;
         }
     }
+</script>
 
-    // Pastikan input hidden terisi bahkan jika user tidak mengetik ulang
-    document.querySelector('form').addEventListener('submit', function() {
-        let pembayaran = document.getElementById('pembayaran').value.replace(/\D/g, '');
-        let shadaqoh = document.getElementById('shadaqoh').value.replace(/\D/g, '');
+<script>
+    function bersihkanRupiah(str) {
+        return str.replace(/\D/g, '');
+    }
 
-        document.getElementById('pembayaran_clean').value = pembayaran;
-        document.getElementById('shadaqoh_clean').value = shadaqoh;
+    document.addEventListener("DOMContentLoaded", function() {
+        // Loop semua form edit yang ada
+        document.querySelectorAll("form[action='/penerimaan/edit']").forEach(form => {
+            const pembayaranDisplay = form.querySelector("input[name='pembayaran_display']");
+            const pembayaranHidden = form.querySelector("input[name='pembayaran']");
+            if (pembayaranDisplay && pembayaranHidden) {
+                pembayaranHidden.value = bersihkanRupiah(pembayaranDisplay.value);
+            }
+
+            const shadaqohDisplay = form.querySelector("input[name='shadaqoh_display']");
+            const shadaqohHidden = form.querySelector("input[name='shadaqoh']");
+            if (shadaqohDisplay && shadaqohHidden) {
+                shadaqohHidden.value = bersihkanRupiah(shadaqohDisplay.value);
+            }
+
+            // Saat form disubmit, update lagi just in case
+            form.addEventListener("submit", function() {
+                if (pembayaranDisplay && pembayaranHidden) {
+                    pembayaranHidden.value = bersihkanRupiah(pembayaranDisplay.value);
+                }
+                if (shadaqohDisplay && shadaqohHidden) {
+                    shadaqohHidden.value = bersihkanRupiah(shadaqohDisplay.value);
+                }
+            });
+        });
     });
 </script>
 

@@ -95,17 +95,18 @@ class Penerimaan extends Controller
 
     public function edit()
     {
+        $id = $this->request->getPost('id');
+        // dd($this->request->getPost()); // DEBUG
 
         $model = new PenerimaanModel;
-        $id = $this->request->getPost('id');
-        $data = array(
-            'pengirim' => $this->request->getPost('pengirim'),
-            'sapi' => $this->request->getPost('sapi'),
-            'kambing' => $this->request->getPost('kambing'),
-            'shadaqoh' => $this->request->getPost('shadaqoh'),
+        $data = [
+            'pengirim'   => $this->request->getPost('pengirim'),
+            'sapi'       => $this->request->getPost('sapi'),
+            'kambing'    => $this->request->getPost('kambing'),
             'pembayaran' => $this->request->getPost('pembayaran'),
-            'ket' => $this->request->getPost('ket'),
-        );
+            'shadaqoh'   => $this->request->getPost('shadaqoh'),
+            'ket'        => $this->request->getPost('ket'),
+        ];
         $model->update($id, $data);
         echo '<script>
                 alert("Sukses Edit Data Penerimaan");
