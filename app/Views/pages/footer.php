@@ -125,6 +125,31 @@
     integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script>
 <!-- jsvectormap -->
 <!--end::Script-->
+
+<script>
+    $(document).ready(function() {
+        $('#datatablesSimple').DataTable({
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50, 100],
+            language: {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                "paginate": {
+                    "first": "Awal",
+                    "last": "Akhir",
+                    "next": "Berikutnya",
+                    "previous": "Sebelumnya"
+                },
+                "zeroRecords": "Data tidak ditemukan",
+                "infoEmpty": "Tidak ada entri yang ditampilkan",
+                "infoFiltered": "(difilter dari _MAX_ total entri)"
+            }
+        });
+    });
+</script>
+
 </body>
 <!--end::Body-->
 

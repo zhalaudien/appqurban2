@@ -294,7 +294,7 @@ class Surat extends Controller
     public function printpermintaan($id)
     {
         // Ambil data berdasarkan ID cabang
-        $userModel = new QurbanModel();
+        $userModel = new PermintaanModel();
         $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
 
         if (!$cabang) {

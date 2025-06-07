@@ -37,6 +37,10 @@
                                                   <input type="text" class="form-control" name="kls">
                                               </div>
                                               <div class="col-md-4">
+                                                  <label for="buntut" class="form-label">Buntut Sapi</label>
+                                                  <input type="text" class="form-control" name="buntut">
+                                              </div>
+                                              <div class="col-md-4">
                                                   <label for="klsb" class="form-label">Kulit Kambing</label>
                                                   <input type="text" class="form-control" name="klsb">
                                               </div>
@@ -71,6 +75,7 @@
                                                   <th>Kepala Sapi</th>
                                                   <th>Kepala Kambing</th>
                                                   <th>Kaki Sapi</th>
+                                                  <th>Buntut Sapi</th>
                                                   <th>Kulit Sapi</th>
                                                   <th>Kulit Kambing</th>
                                               </tr>
@@ -81,6 +86,7 @@
                                                   <td><?= $ks_today ?></td>
                                                   <td><?= $kb_today ?></td>
                                                   <td><?= $kks_today ?></td>
+                                                  <td><?= $buntut_today ?></td>
                                                   <td><?= $kls_today ?></td>
                                                   <td><?= $klsb_today ?></td>
                                               </tr>
@@ -89,6 +95,7 @@
                                                   <td><?= $kirim_ks + $permintaan_ks ?></td>
                                                   <td><?= $kirim_kb  + $permintaan_kb ?></td>
                                                   <td><?= $kirim_kks + $permintaan_kks ?></td>
+                                                  <td>0</td>
                                                   <td><?= $kirim_kls + $permintaan_kls ?></td>
                                                   <td>0</td>
                                               </tr>
@@ -99,6 +106,7 @@
                                                   <td><?= $ks_today - ($kirim_ks + $permintaan_ks) ?></td>
                                                   <td><?= $kb_today - ($kirim_kb + $permintaan_kb) ?></td>
                                                   <td><?= $kks_today - ($kirim_kks + $permintaan_kks) ?></td>
+                                                  <td><?= $buntut_today ?></td>
                                                   <td><?= $kls_today - ($kirim_kls + $permintaan_kls) ?></td>
                                                   <td><?= $klsb_today ?></td>
                                               </tr>
@@ -127,6 +135,7 @@
                                                           <th>Kepala Kambing</th>
                                                           <th>Kaki Sapi</th>
                                                           <th>Kulit Sapi</th>
+                                                          <th>Buntut Sapi</th>
                                                           <th>Kulit Kambing</th>
                                                           <th>Tanggal Input</th>
                                                           <th>Action</th>
@@ -141,6 +150,7 @@
                                                                   <td><?php echo $k3['ks']; ?></td>
                                                                   <td><?php echo $k3['kb']; ?></td>
                                                                   <td><?php echo $k3['kks']; ?></td>
+                                                                  <td><?php echo $k3['buntut']; ?></td>
                                                                   <td><?php echo $k3['kls']; ?></td>
                                                                   <td><?php echo $k3['klsb']; ?></td>
                                                                   <td><?php echo $k3['date_input']; ?></td>

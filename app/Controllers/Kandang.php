@@ -146,6 +146,7 @@ class Kandang extends Controller
         $data['kb_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kb')->get()->getRow()->kb ?? 0;
         $data['kks_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kks')->get()->getRow()->kks ?? 0;
         $data['kls_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('kls')->get()->getRow()->kls ?? 0;
+        $data['buntut_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('buntut')->get()->getRow()->buntut ?? 0;
         $data['klsb_today'] = $k3Model->where('DATE(date_input)', $today)->selectSum('klsb')->get()->getRow()->klsb ?? 0;
 
         // Data Qurban yang Dikirim Hari Ini
@@ -193,6 +194,7 @@ class Kandang extends Controller
             'ks' => $this->request->getPost('ks'),
             'kb' => $this->request->getPost('kb'),
             'kks' => $this->request->getPost('kks'),
+            'buntut' => $this->request->getPost('buntut'),
             'kls' => $this->request->getPost('kls'),
             'klsb' => $this->request->getPost('klsb'),
         );
