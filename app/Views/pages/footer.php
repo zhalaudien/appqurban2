@@ -34,7 +34,7 @@
 <!--end::Required Plugin(AdminLTE)-->
 <!--begin::OverlayScrollbars Configure-->
 <script>
-    function formatRupiah(el, id) {
+    function formatRupiah(el, id = '') {
         let angka = el.value.replace(/[^,\d]/g, '');
         let split = angka.split(',');
         let sisa = split[0].length % 3;
@@ -47,51 +47,57 @@
         }
 
         rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
-        el.value = rupiah;
+        el.value = rupiah ? 'Rp ' + rupiah : '';
 
         let cleanVal = angka.replace(/\D/g, '');
 
         if (el.id.includes('pembayaran')) {
-            document.getElementById(`pembayaran_clean_${id}`).value = cleanVal;
+            const hidden = document.getElementById('pembayaran_clean' + (id ? `_${id}` : ''));
+            if (hidden) hidden.value = cleanVal;
         } else if (el.id.includes('shadaqoh')) {
-            document.getElementById(`shadaqoh_clean_${id}`).value = cleanVal;
+            const hidden = document.getElementById('shadaqoh_clean' + (id ? `_${id}` : ''));
+            if (hidden) hidden.value = cleanVal;
         }
     }
-</script>
 
-<script>
     function bersihkanRupiah(str) {
         return str.replace(/\D/g, '');
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Loop semua form edit yang ada
-        document.querySelectorAll("form[action='/penerimaan/edit']").forEach(form => {
-            const pembayaranDisplay = form.querySelector("input[name='pembayaran_display']");
-            const pembayaranHidden = form.querySelector("input[name='pembayaran']");
-            if (pembayaranDisplay && pembayaranHidden) {
-                pembayaranHidden.value = bersihkanRupiah(pembayaranDisplay.value);
+        document.querySelectorAll("form").forEach(form => {
+            const isEdit = form.action.includes('/penerimaan/edit');
+            const idInput = form.querySelector("input[name='id']");
+            const id = isEdit && idInput ? idInput.value : '';
+
+            const pembayaranDisplay = form.querySelector(`input[name='pembayaran_display']`);
+            const pembayaranHidden = form.querySelector(`input[name='pembayaran']`);
+            const pembayaranHiddenId = form.querySelector(`#pembayaran_clean${id ? '_' + id : ''}`);
+
+            const shadaqohDisplay = form.querySelector(`input[name='shadaqoh_display']`);
+            const shadaqohHidden = form.querySelector(`input[name='shadaqoh']`);
+            const shadaqohHiddenId = form.querySelector(`#shadaqoh_clean${id ? '_' + id : ''}`);
+
+            // Saat halaman selesai dimuat, isi hidden input jika display sudah punya nilai
+            if (pembayaranDisplay && pembayaranHiddenId) {
+                pembayaranHiddenId.value = bersihkanRupiah(pembayaranDisplay.value);
+            }
+            if (shadaqohDisplay && shadaqohHiddenId) {
+                shadaqohHiddenId.value = bersihkanRupiah(shadaqohDisplay.value);
             }
 
-            const shadaqohDisplay = form.querySelector("input[name='shadaqoh_display']");
-            const shadaqohHidden = form.querySelector("input[name='shadaqoh']");
-            if (shadaqohDisplay && shadaqohHidden) {
-                shadaqohHidden.value = bersihkanRupiah(shadaqohDisplay.value);
-            }
-
-            // Saat form disubmit, update lagi just in case
+            // Saat submit form
             form.addEventListener("submit", function() {
-                if (pembayaranDisplay && pembayaranHidden) {
-                    pembayaranHidden.value = bersihkanRupiah(pembayaranDisplay.value);
+                if (pembayaranDisplay && pembayaranHiddenId) {
+                    pembayaranHiddenId.value = bersihkanRupiah(pembayaranDisplay.value);
                 }
-                if (shadaqohDisplay && shadaqohHidden) {
-                    shadaqohHidden.value = bersihkanRupiah(shadaqohDisplay.value);
+                if (shadaqohDisplay && shadaqohHiddenId) {
+                    shadaqohHiddenId.value = bersihkanRupiah(shadaqohDisplay.value);
                 }
             });
         });
     });
 </script>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
 </script>
