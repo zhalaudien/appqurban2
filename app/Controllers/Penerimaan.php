@@ -98,12 +98,12 @@ class Penerimaan extends Controller
         $model = new PenerimaanModel;
         $id = $this->request->getPost('id');
         $data = array(
-            'cabang' => $this->request->getPost('cabang'),
             'pengirim' => $this->request->getPost('pengirim'),
             'sapi' => $this->request->getPost('sapi'),
             'kambing' => $this->request->getPost('kambing'),
             'shadaqoh' => $this->request->getPost('shadaqoh'),
             'pembayaran' => $this->request->getPost('pembayaran'),
+            'ket' => $this->request->getPost('ket'),
         );
         $model->update($id, $data);
         echo '<script>
