@@ -134,8 +134,8 @@
                                                           <th>Kepala Sapi</th>
                                                           <th>Kepala Kambing</th>
                                                           <th>Kaki Sapi</th>
-                                                          <th>Kulit Sapi</th>
                                                           <th>Buntut Sapi</th>
+                                                          <th>Kulit Sapi</th>
                                                           <th>Kulit Kambing</th>
                                                           <th>Tanggal Input</th>
                                                           <th>Action</th>
