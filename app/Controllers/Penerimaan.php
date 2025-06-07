@@ -95,6 +95,7 @@ class Penerimaan extends Controller
 
     public function edit()
     {
+
         $model = new PenerimaanModel;
         $id = $this->request->getPost('id');
         $data = array(

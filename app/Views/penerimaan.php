@@ -232,9 +232,9 @@
                                                                   <td>
                                                                       <div class="btn-group mb-2" role="group"
                                                                           aria-label="Basic mixed styles example">
-                                                                          <a type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                                              data-bs-target="#edit<?php echo $terima['id']; ?>">
-                                                                              Edit
+                                                                          <!-- <a type="button" class="btn btn-warning" data-bs-toggle="modal" -->
+                                                                          <!-- data-bs-target="#edit<?php echo $terima['id']; ?>"> -->
+                                                                          <!-- Edit -->
                                                                           </a>
                                                                           <a type="button" class="btn btn-success"
                                                                               href="<?= base_url('/penerimaan/print/' . $terima['id']) ?>"
@@ -277,43 +277,43 @@
                                                                                       <form action="/penerimaan/edit" method="post" class="needs-validation" novalidate>
                                                                                           <?= csrf_field(); ?>
                                                                                           <div class="card-body row g-3">
+                                                                                              <input type="hidden" name="id" value="<?= $terima['id'] ?>">
+
                                                                                               <div class="col-md-6">
-                                                                                                  <input type="hidden" name="id" value="<?= $terima['id'] ?>">
-                                                                                                  <label for="pengirim" class="form-label">Cabang</label>
+                                                                                                  <label class="form-label">Cabang</label>
                                                                                                   <input type="text" name="Cabang" class="form-control" required value="<?= $terima['cabang'] ?>" readonly>
                                                                                               </div>
                                                                                               <div class="col-md-6">
-                                                                                                  <label for="pengirim" class="form-label">Pengirim</label>
+                                                                                                  <label class="form-label">Pengirim</label>
                                                                                                   <input type="text" name="pengirim" class="form-control" required value="<?= $terima['pengirim'] ?>">
                                                                                               </div>
                                                                                               <div class="col-md-6">
-                                                                                                  <label for="sapi" class="form-label">Jumlah Sapi</label>
+                                                                                                  <label class="form-label">Jumlah Sapi</label>
                                                                                                   <input type="number" name="sapi" class="form-control" min="0" required value="<?= $terima['sapi'] ?>">
                                                                                               </div>
                                                                                               <div class="col-md-6">
-                                                                                                  <label for="kambing" class="form-label">Jumlah Kambing</label>
+                                                                                                  <label class="form-label">Jumlah Kambing</label>
                                                                                                   <input type="number" name="kambing" class="form-control" min="0" required value="<?= $terima['kambing'] ?>">
                                                                                               </div>
+
                                                                                               <div class="col-md-6">
-                                                                                                  <label for="pembayaran" class="form-label">Pembayaran</label>
+                                                                                                  <label class="form-label">Pembayaran</label>
                                                                                                   <input type="text" name="pembayaran_display" class="form-control" id="pembayaran" required oninput="formatRupiah(this)" value="<?= number_format($terima['pembayaran'], 0, ',', '.') ?>">
                                                                                                   <input type="hidden" name="pembayaran" id="pembayaran_clean">
                                                                                               </div>
                                                                                               <div class="col-md-6">
-                                                                                                  <label for="shadaqoh" class="form-label">Shadaqoh</label>
+                                                                                                  <label class="form-label">Shadaqoh</label>
                                                                                                   <input type="text" name="shadaqoh_display" class="form-control" id="shadaqoh" required oninput="formatRupiah(this)" value="<?= number_format($terima['shadaqoh'], 0, ',', '.') ?>">
                                                                                                   <input type="hidden" name="shadaqoh" id="shadaqoh_clean">
                                                                                               </div>
                                                                                               <div class="col-md-12">
-                                                                                                  <label for="ket" class="form-label">Keterangan</label>
-                                                                                                  <input type="text" name="ket" class="form-control" id="ket" value="<?= $terima['ket'] ?>">
+                                                                                                  <label class="form-label">Keterangan</label>
+                                                                                                  <input type="text" name="ket" class="form-control" value="<?= $terima['ket'] ?>">
                                                                                               </div>
                                                                                           </div>
                                                                                           <div class="modal-footer">
-                                                                                              <button type="button" class="btn btn-warning"
-                                                                                                  data-bs-dismiss="modal">Batal</button>
-                                                                                              <button
-                                                                                                  class="btn btn-primary">Update</button>
+                                                                                              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Batal</button>
+                                                                                              <button type="submit" class="btn btn-primary">Update</button>
                                                                                           </div>
                                                                                       </form>
                                                                                   </div>

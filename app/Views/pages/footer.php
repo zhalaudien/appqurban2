@@ -34,9 +34,9 @@
 <!--end::Required Plugin(AdminLTE)-->
 <!--begin::OverlayScrollbars Configure-->
 <script>
-    function formatRupiah(input) {
-        let value = input.value.replace(/[^,\d]/g, '').toString();
-        let split = value.split(',');
+    function formatRupiah(el) {
+        let angka = el.value.replace(/[^,\d]/g, '');
+        let split = angka.split(',');
         let sisa = split[0].length % 3;
         let rupiah = split[0].substr(0, sisa);
         let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
@@ -47,17 +47,28 @@
         }
 
         rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
-        input.value = rupiah ? 'Rp. ' + rupiah : '';
+        el.value = rupiah;
 
-        // Update hidden input value (cleaned format)
-        let cleanValue = value.replace(/\D/g, ''); // remove all non-digit
-        if (input.id === "pembayaran") {
-            document.getElementById("pembayaran_clean").value = cleanValue;
-        } else if (input.id === "shadaqoh") {
-            document.getElementById("shadaqoh_clean").value = cleanValue;
+        // Masukkan nilai angka murni ke input hidden
+        let cleanVal = angka.replace(/\D/g, '');
+
+        if (el.id === 'pembayaran') {
+            document.getElementById('pembayaran_clean').value = cleanVal;
+        } else if (el.id === 'shadaqoh') {
+            document.getElementById('shadaqoh_clean').value = cleanVal;
         }
     }
+
+    // Pastikan input hidden terisi bahkan jika user tidak mengetik ulang
+    document.querySelector('form').addEventListener('submit', function() {
+        let pembayaran = document.getElementById('pembayaran').value.replace(/\D/g, '');
+        let shadaqoh = document.getElementById('shadaqoh').value.replace(/\D/g, '');
+
+        document.getElementById('pembayaran_clean').value = pembayaran;
+        document.getElementById('shadaqoh_clean').value = shadaqoh;
+    });
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
 </script>
