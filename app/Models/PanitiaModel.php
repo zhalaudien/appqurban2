@@ -6,22 +6,42 @@ use CodeIgniter\Model;
 
 class PanitiaModel extends Model
 {
-    protected $table            = 'datapanitia';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $allowedFields    = ['nama', 'cabang', 'no_hp', 'seksi', 'ket', 'date_input'];
+    protected $table = 'panitia';
+    protected $primaryKey = 'id';
 
-    public function savePanitia($data)
+    protected $allowedFields = [
+        'nama',
+        'no_hp',
+        'cabang_id',
+        'seksi_id',
+        'jabatan'
+    ];
+
+    protected $useTimestamps = true;
+
+    public function getWithRelation($search = null, $cabangFilter = null)
     {
-        $query = $this->db->table($this->table)->insert($data);
-        return $query;
-    }
+        $builder = $this->select('
+                panitia.*,
+                cabang.nama_cabang,
+                seksi.nama_seksi
+            ')
+            ->join('cabang', 'cabang.id = panitia.cabang_id')
+            ->join('seksi', 'seksi.id = panitia.seksi_id');
 
-    public function updatePanitia($data, $id)
-    {
-        $query = $this->db->table($this->table)->update($data, array('id' => $id));
-        return $query;
-    }
+        if ($search) {
+            $builder->groupStart()
+                ->like('panitia.nama', $search)
+                ->orLike('panitia.no_hp', $search)
+                ->orLike('cabang.nama_cabang', $search)
+                ->orLike('seksi.nama_seksi', $search)
+                ->groupEnd();
+        }
 
+        if ($cabangFilter) {
+            $builder->where('panitia.cabang_id', $cabangFilter);
+        }
+
+        return $builder->orderBy('panitia.nama', 'ASC')->findAll();
+    }
 }

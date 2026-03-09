@@ -99,7 +99,13 @@ use PhpParser\Node\Stmt\Echo_;
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/qurban" class="nav-link <?= $active == 'qurban' ? 'active' : '' ?>">
+                                <a href="/pequrban" class="nav-link <?= $active == 'pequrban' ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-server"></i>
+                                    <p>Data Pequrban</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/qurban" class="nav-link <?= $active == 'qurbancabang' ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-server"></i>
                                     <p>Data Qurban Cabang</p>
                                 </a>

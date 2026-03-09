@@ -17,19 +17,26 @@ class Data extends Controller
     {
         $userModel = new PanitiaModel();
         $idPanitia = new IdpantiaModel();
-        $data['viewpanitia'] = $userModel->orderBy('nama', 'ASC')->findAll();
+
         $data['idpanitia'] = $idPanitia->orderBy('seksi', 'ASC')->findAll();
+
+        $model = new \App\Models\PanitiaModel();
+
+        $builder = $model
+            ->select('panitia.*, cabang.nama_cabang, seksi.nama_seksi')
+            ->join('cabang', 'cabang.id = panitia.cabang_id')
+            ->join('seksi', 'seksi.id = panitia.seksi_id')
+            ->orderBy('panitia.nama', 'ASC');
 
         $header = [
             'title' => 'Data Panitia',
             'navbar' => 'data',
-            'active' => 'panitia'
+            'panitia' => 'panitia'
         ];
 
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view("datapanitia", $data, $header);
-        echo view("pages/footer");
+        $data['viewpanitia'] = $builder->findAll();
+
+        echo view("admin/data/panitia/index", $data, $header);
     }
 
     public function tambah()

@@ -76,9 +76,13 @@ class Admin extends Controller
             'active' => 'dashboard'
         ];
 
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view("dashboard", $data, $header);
-        echo view("pages/footer");
+        $data = [
+            'title'   => 'Dashboard Super Admin',
+            'active'  => 'dashboard',
+            'navbar'  => '',
+            'role_id' => session()->get('role_id'),
+        ];
+
+        return view('admin/dashboard', $data);
     }
 }

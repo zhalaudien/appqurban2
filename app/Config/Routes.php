@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\PequrbanController;
 use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Router\Router;
 
@@ -7,103 +8,181 @@ use CodeIgniter\Router\Router;
  * @var RouteCollection $routes
  */
 
+// =====================================================
+// PUBLIC ROUTES
+// =====================================================
 $routes->get('/', 'Home::index');
-$routes->get('/jadwal2', 'Home::jadwal');
-$routes->get('/datasapi2', 'Home::datasapi');
-$routes->get('/dataqurban', 'Home::dataqurban');
-$routes->get('/realisasi2', 'Home::realisasi');
-
-$routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
-
-$routes->get('/panitia', 'Data::index', ['filter' => 'auth']);
-$routes->post('/panitia/tambah', 'Data::tambah', ['filter' => 'auth']);
-$routes->post('/panitia/edit', 'Data::edit', ['filter' => 'auth']);
-$routes->get('/panitia/hapus/(:num)', 'Data::hapus/$1', ['filter' => 'auth']);
-$routes->get('/panitia/export', 'Data::export', ['filter' => 'auth']);
-
-$routes->get('/presensi', 'Presensi::index', ['filter' => 'auth']);
-$routes->post('/presensi/simpan', 'Presensi::simpan', ['filter' => 'auth']);
+$routes->get('jadwal', 'Home::jadwal');
+$routes->get('datasapi', 'Home::datasapi');
+$routes->get('dataqurban', 'Home::dataqurban');
+$routes->get('realisasi2', 'Home::realisasi');
 
 
-$routes->get('/cabang', 'Data::indexcabang', ['filter' => 'auth']);
-$routes->post('/cabang/tambah', 'Data::tambahcabang', ['filter' => 'auth']);
-$routes->post('/cabang/edit', 'Data::editcabang', ['filter' => 'auth']);
-$routes->get('/cabang/hapus/(:num)', 'Data::hapuscabang/$1', ['filter' => 'auth']);
-$routes->get('/cabang/export', 'Data::exportcabang', ['filter' => 'auth']);
+// =====================================================
+// AUTH ROUTES
+// =====================================================
+$routes->group('', function ($routes) {
+    $routes->get('login', 'Auth\LoginController::index');
+    $routes->post('login', 'Auth\LoginController::authenticate');
+    $routes->get('logout', 'Auth\LoginController::logout');
+});
 
-$routes->get('/muspika', 'Data::muspika', ['filter' => 'auth']);
-$routes->post('/muspika/tambah', 'Data::tambahmuspika', ['filter' => 'auth']);
-$routes->post('/muspika/edit', 'Data::editmuspika', ['filter' => 'auth']);
-$routes->get('/muspika/hapus/(:num)', 'Data::hapusmuspika/$1', ['filter' => 'auth']);
-$routes->get('/muspika/export', 'Data::exportmuspika', ['filter' => 'auth']);
 
-$routes->get('/penerimaan', 'Penerimaan::index', ['filter' => 'auth']);
-$routes->post('/penerimaan/tambah', 'Penerimaan::tambah', ['filter' => 'auth']);
-$routes->post('/penerimaan/edit', 'Penerimaan::edit', ['filter' => 'auth']);
-$routes->get('/penerimaan/hapus/(:num)', 'Penerimaan::hapus/$1', ['filter' => 'auth']);
-$routes->get('/penerimaan/export', 'Penerimaan::export', ['filter' => 'auth']);
-$routes->get('/penerimaan/print/(:num)', 'Penerimaan::print/$1', ['filter' => 'auth']);
+// =====================================================
+// PROTECTED ROUTES (AUTH REQUIRED)
+// =====================================================
+$routes->group('', ['filter' => 'role:1'], function ($routes) {
 
-$routes->get('/datasapi', 'Penerimaan::datasapi', ['filter' => 'auth']);
-$routes->post('/datasapi/tambah', 'Penerimaan::tambahdatasapi', ['filter' => 'auth']);
-$routes->post('/datasapi/edit', 'Penerimaandatasapi::edit', ['filter' => 'auth']);
-$routes->get('/datasapi/hapus/(:num)', 'Penerimaan::hapusdatasapi/$1', ['filter' => 'auth']);
-$routes->get('/datasapi/export', 'Penerimaan::exportdatasapi', ['filter' => 'auth']);
+    // --------------------
+    // DASHBOARD
+    // --------------------
+    $routes->get('admin', 'Admin\DashboardController::index');
 
-$routes->get('/kandang', 'Kandang::index', ['filter' => 'auth']);
-$routes->post('/kandang/tambah', 'Kandang::tambah', ['filter' => 'auth']);
-$routes->post('/kandang/edit', 'Kandang::edit', ['filter' => 'auth']);
-$routes->get('/kandang/hapus/(:num)', 'Kandang::hapus/$1', ['filter' => 'auth']);
-$routes->get('/kandang/export', 'Kandang::export', ['filter' => 'auth']);
+    // =================================================
+    // MASTER DATA GROUP
+    // =================================================
+    $routes->group('panitia', function ($routes) {
+        $routes->get('/', 'Admin\Data\PanitiaController::index');
+        $routes->post('create', 'Admin\Data\PanitiaController::create');
+        $routes->post('update/(:num)', 'Admin\Data\PanitiaController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Data\PanitiaController::delete/$1');
+        $routes->get('export', 'Admin\Data\PanitiaController::export');
+    });
 
-$routes->get('/besek', 'Besek::index', ['filter' => 'auth']);
-$routes->post('/besek/tambah', 'Besek::tambah', ['filter' => 'auth']);
-$routes->post('/besek/edit', 'Besek::edit', ['filter' => 'auth']);
-$routes->get('/besek/hapus/(:num)', 'Besek::hapus/$1', ['filter' => 'auth']);
-$routes->get('/besek/export', 'Besek::export', ['filter' => 'auth']);
+    $routes->group('cabang', function ($routes) {
+        $routes->get('/', 'Admin\Data\CabangController::index');
+        $routes->post('create', 'Admin\Data\CabangController::create');
+        $routes->post('update/(:num)', 'Admin\Data\CabangController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Data\CabangController::delete/$1');
+        $routes->get('export', 'Admin\Data\CabangController::export');
+    });
 
-$routes->get('/k3', 'Kandang::viewk3', ['filter' => 'auth']);
-$routes->post('/k3/tambah', 'Kandang::tambahk3', ['filter' => 'auth']);
-$routes->post('/k3/edit', 'Kandang::editk3', ['filter' => 'auth']);
-$routes->get('/k3/hapus/(:num)', 'Kandang::hapusk3/$1', ['filter' => 'auth']);
-$routes->get('/k3/export', 'Kandang::exportk3', ['filter' => 'auth']);
+    $routes->group('muspika', function ($routes) {
+        $routes->get('/', 'Admin\Data\MuspikaController::index');
+        $routes->post('create', 'Admin\Data\MuspikaController::create');
+        $routes->post('update/(:num)', 'Admin\Data\MuspikaController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Data\MuspikaController::delete/$1');
+        $routes->get('export', 'Admin\Data\MuspikaController::export');
+    });
 
-$routes->get('/qurban', 'Qurban::index', ['filter' => 'auth']);
-$routes->post('/qurban/tambah', 'Qurban::tambah', ['filter' => 'auth']);
-$routes->post('/qurban/edit', 'Qurban::edit', ['filter' => 'auth']);
-$routes->get('/qurban/hapus/(:num)', 'Qurban::hapus/$1', ['filter' => 'auth']);
-$routes->get('/qurban/export', 'Qurban::export', ['filter' => 'auth']);
-$routes->get('/amprah', 'Qurban::amprah', ['filter' => 'auth']);
-$routes->post('/amprah/edit', 'Qurban::editamprah', ['filter' => 'auth']);
-$routes->get('/realisasi', 'Qurban::realisasi', ['filter' => 'auth']);
-$routes->post('/realisasi/edit', 'Qurban::editrealisasi', ['filter' => 'auth']);
-$routes->get('/jadwal', 'Qurban::jadwal', ['filter' => 'auth']);
-$routes->post('/jadwal/edit', 'Qurban::editjadwal', ['filter' => 'auth']);
+    // =================================================
+    // MASTER QURBAN
+    // =================================================
 
-$routes->get('/login', 'Login::index');
-$routes->post('/loginProcess', 'Login::loginProcess');
-$routes->get('/logout', 'Login::logout');
+    $routes->group('pequrban', function ($routes) {
+        $routes->get('/', 'Admin\Master\PequrbanController::index');
+        $routes->post('create', 'Admin\Master\PequrbanController::store');
+        $routes->post('update/(:num)', 'Admin\Master\PequrbanController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Master\PequrbanController::delete/$1');
+        $routes->get('export', 'Admin\Master\PequrbanController::export');
+    });
 
-$routes->get('/kirimbesek', 'Surat::index', ['filter' => 'auth']);
-$routes->post('/kirimbesek/tambah', 'Surat::tambah', ['filter' => 'auth']);
-$routes->post('/kirimbesek/edit', 'Surat::updatekirim', ['filter' => 'auth']);
-$routes->get('/kirimbesek/hapus/(:num)', 'Surat::hapus/$1', ['filter' => 'auth']);
-$routes->get('/kirimbesek/export', 'Surat::export', ['filter' => 'auth']);
-$routes->get('/kirimbesek/print/(:num)', 'Surat::printsurat/$1', ['filter' => 'auth']);
+    $routes->group('qurban', function ($routes) {
+        $routes->get('/', 'Admin\Master\QurbanCabangController::index');
+        $routes->get('export', 'Admin\Master\QurbanCabangController::export');
+    });
 
-$routes->get('/kirimbesek/permintaan/(:num)', 'Surat::printpermintaan/$1', ['filter' => 'auth']);
-$routes->get('/kirimbesek/permintaanhapus/(:num)', 'Surat::hapuspermintaan/$1', ['filter' => 'auth']);
+    $routes->group('amprah', function ($routes) {
+        $routes->get('/', 'Admin\Master\AmprahController::index');
+        $routes->get('update/(:num)', 'Admin\Master\AmprahController::update/$1');
+        $routes->get('export', 'Admin\Master\AmprahController::export');
+    });
 
-$routes->get('/kirimkulit', 'Kulit::index', ['filter' => 'auth']);
-$routes->post('/kirimkulit/tambah', 'Kulit::tambah', ['filter' => 'auth']);
-$routes->post('/kirimkulit/edit', 'Kulit::updatekirim', ['filter' => 'auth']);
-$routes->get('/kirimkulit/hapus/(:num)', 'Kulit::hapus/$1', ['filter' => 'auth']);
-$routes->get('/kirimkulit/export', 'Kulit::export', ['filter' => 'auth']);
-$routes->get('/kirimkulit/print/(:num)', 'Kulit::printsurat/$1', ['filter' => 'auth']);
+    $routes->group('realisasi', function ($routes) {
+        $routes->get('/', 'Admin\Master\RealisasiController::index');
+        $routes->post('update/(:num)', 'Admin\Master\RealisasiController::update/$1');
+        $routes->get('export', 'Admin\Master\RealisasiController::export');
+    });
 
-$routes->get('/setting', 'Setting::index', ['filter' => 'auth']);
-$routes->post('/setting/edit', 'Setting::edit', ['filter' => 'auth']);
 
-$routes->post('/setting/tambahuser', 'Setting::tambahuser', ['filter' => 'auth']);
-$routes->post('/setting/edituser', 'Setting::edituser', ['filter' => 'auth']);
-$routes->get('/setting/hapususer/(:num)', 'Setting::hapususer/$1', ['filter' => 'auth']);
+    // =================================================
+    // TRANSAKSI
+    // =================================================
+    $routes->group('penerimaan', function ($routes) {
+        $routes->get('/', 'Penerimaan::index');
+        $routes->post('create', 'Penerimaan::create');
+        $routes->post('update/(:num)', 'Penerimaan::update/$1');
+        $routes->get('delete/(:num)', 'Penerimaan::delete/$1');
+        $routes->get('export', 'Penerimaan::export');
+        $routes->get('print/(:num)', 'Penerimaan::print/$1');
+    });
+
+    $routes->group('kandang', function ($routes) {
+        $routes->get('/', 'Kandang::index');
+        $routes->post('create', 'Kandang::create');
+        $routes->post('update/(:num)', 'Kandang::update/$1');
+        $routes->get('delete/(:num)', 'Kandang::delete/$1');
+        $routes->get('export', 'Kandang::export');
+    });
+
+    $routes->group('besek', function ($routes) {
+        $routes->get('/', 'Besek::index');
+        $routes->post('create', 'Besek::create');
+        $routes->post('update/(:num)', 'Besek::update/$1');
+        $routes->get('delete/(:num)', 'Besek::delete/$1');
+        $routes->get('export', 'Besek::export');
+    });
+
+
+    // =================================================
+    // SURAT
+    // =================================================
+    $routes->group('kirimbesek', function ($routes) {
+        $routes->get('/', 'Surat::index');
+        $routes->post('create', 'Surat::create');
+        $routes->post('update/(:num)', 'Surat::update/$1');
+        $routes->get('delete/(:num)', 'Surat::delete/$1');
+        $routes->get('export', 'Surat::export');
+        $routes->get('print/(:num)', 'Surat::print/$1');
+    });
+
+    $routes->group('kirimkulit', function ($routes) {
+        $routes->get('/', 'Kulit::index');
+        $routes->post('create', 'Kulit::create');
+        $routes->post('update/(:num)', 'Kulit::update/$1');
+        $routes->get('delete/(:num)', 'Kulit::delete/$1');
+        $routes->get('export', 'Kulit::export');
+        $routes->get('print/(:num)', 'Kulit::print/$1');
+    });
+
+    // =================================================
+    // SETTING
+    // =================================================
+    $routes->group('setting', function ($routes) {
+        $routes->get('/', 'Setting::index');
+        $routes->post('update', 'Setting::update');
+
+        $routes->post('user/create', 'Setting::createUser');
+        $routes->post('user/update/(:num)', 'Setting::updateUser/$1');
+        $routes->get('user/delete/(:num)', 'Setting::deleteUser/$1');
+    });
+});
+
+
+$routes->group('', ['filter' => 'role:6'], function ($routes) {
+
+    $routes->get('cabang/dashboard', 'Cabang\DashboardController::index');
+
+    $routes->group('cabang/panitia', function ($routes) {
+        $routes->get('/', 'Cabang\Data\PanitiaController::index');
+        $routes->post('create', 'Cabang\Data\PanitiaController::create');
+        $routes->post('update/(:num)', 'Cabang\Data\PanitiaController::update/$1');
+        $routes->get('delete/(:num)', 'Cabang\Data\PanitiaController::delete/$1');
+    });
+
+    $routes->group('cabang/pequrban', function ($routes) {
+        $routes->get('/', 'Cabang\PequrbanController::index');
+        $routes->post('store', 'Cabang\PequrbanController::store');
+        $routes->post('update/(:num)', 'Cabang\PequrbanController::update/$1');
+        $routes->post('delete/(:num)', 'Cabang\PequrbanController::delete/$1');
+        $routes->post('import', 'Cabang\PequrbanController::import');
+        $routes->get('export', 'Cabang\PequrbanController::export');
+        $routes->get('template', 'Cabang\PequrbanController::template');
+    });
+
+    $routes->group('cabang/amprah', function ($routes) {
+        $routes->get('/', 'Cabang\Master\AmprahController::index');
+        $routes->get('update/(:num)', 'Cabang\Master\AmprahController::update/$1');
+        $routes->get('export', 'Cabang\Master\AmprahController::export');
+    });
+});
