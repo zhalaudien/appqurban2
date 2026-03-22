@@ -135,13 +135,6 @@ class Menu
 
                 ],
 
-                [
-                    'title' => 'Amprah Besek',
-                    'icon'  => 'bi bi-book-open',
-                    'url'   => 'amprah',
-                    'key'   => 'amprah',
-
-                ],
 
                 [
                     'title' => 'Profil Cabang',

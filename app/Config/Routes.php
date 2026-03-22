@@ -12,7 +12,7 @@ use CodeIgniter\Router\Router;
 // PUBLIC ROUTES
 // =====================================================
 $routes->get('/', 'Home::index');
-$routes->get('jadwal', 'Home::jadwal');
+$routes->get('jadwal2', 'Home::jadwal');
 $routes->get('datasapi', 'Home::datasapi');
 $routes->get('dataqurban', 'Home::dataqurban');
 $routes->get('realisasi2', 'Home::realisasi');
@@ -94,6 +94,11 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('export', 'Admin\Master\RealisasiController::export');
     });
 
+    $routes->group('jadwal', function ($routes) {
+        $routes->get('/', 'Admin\Master\JadwalController::index');
+        $routes->post('update/(:num)', 'Admin\Master\JadwalController::update/$1');
+        $routes->get('export', 'Admin\Master\JadwalController::export');
+    });
 
     // =================================================
     // TRANSAKSI
@@ -164,10 +169,10 @@ $routes->group('', ['filter' => 'role:6'], function ($routes) {
     $routes->get('cabang/dashboard', 'Cabang\DashboardController::index');
 
     $routes->group('cabang/panitia', function ($routes) {
-        $routes->get('/', 'Cabang\Data\PanitiaController::index');
-        $routes->post('create', 'Cabang\Data\PanitiaController::create');
-        $routes->post('update/(:num)', 'Cabang\Data\PanitiaController::update/$1');
-        $routes->get('delete/(:num)', 'Cabang\Data\PanitiaController::delete/$1');
+        $routes->get('/', 'Cabang\PanitiaController::index');
+        $routes->post('store', 'Cabang\PanitiaController::store');
+        $routes->post('update/(:num)', 'Cabang\PanitiaController::update/$1');
+        $routes->post('delete/(:num)', 'Cabang\PanitiaController::delete/$1');
     });
 
     $routes->group('cabang/pequrban', function ($routes) {
@@ -182,7 +187,7 @@ $routes->group('', ['filter' => 'role:6'], function ($routes) {
 
     $routes->group('cabang/amprah', function ($routes) {
         $routes->get('/', 'Cabang\Master\AmprahController::index');
-        $routes->get('update/(:num)', 'Cabang\Master\AmprahController::update/$1');
+        $routes->post('update/(:num)', 'Cabang\DashboardController::update/$1');
         $routes->get('export', 'Cabang\Master\AmprahController::export');
     });
 });

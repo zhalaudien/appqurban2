@@ -14,7 +14,9 @@ class PanitiaModel extends Model
         'no_hp',
         'cabang_id',
         'seksi_id',
-        'jabatan'
+        'jabatan',
+        'created_at',
+        'updated_at'
     ];
 
     protected $useTimestamps = true;
@@ -43,5 +45,18 @@ class PanitiaModel extends Model
         }
 
         return $builder->orderBy('panitia.nama', 'ASC')->findAll();
+    }
+
+    public function getPanitiaByCabang($cabangId)
+    {
+        $builder = $this->select('
+                panitia.*,
+                cabang.nama_cabang,
+                seksi.nama_seksi
+            ')
+            ->join('cabang', 'cabang.id = panitia.cabang_id')
+            ->join('seksi', 'seksi.id = panitia.seksi_id');
+
+        return $builder->where('panitia.cabang_id', $cabangId)->orderBy('panitia.nama', 'ASC')->findAll();
     }
 }
