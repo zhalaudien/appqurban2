@@ -16,7 +16,7 @@
 
     <!-- AdminLTE -->
     <link rel="stylesheet"
-        href="<?php echo base_url('') ?>adminlte/dist/css/adminlte.min.css" />
+        href="<?php echo base_url('') ?>adminlte/css/css/adminlte.min.css" />
 
     <!-- DataTables -->
     <link rel="stylesheet"
