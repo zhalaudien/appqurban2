@@ -12,15 +12,15 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
-        href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css') ?>">
+        href="<?php echo base_url('') ?>adminlte/plugins/fontawesome-free/css/all.min.css" />
 
     <!-- AdminLTE -->
     <link rel="stylesheet"
-        href="<?= base_url('adminlte/dist/css/adminlte.min.css') ?>">
+        href="<?php echo base_url('') ?>adminlte/dist/css/adminlte.min.css" />
 
     <!-- DataTables -->
     <link rel="stylesheet"
-        href="<?= base_url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') ?>">
+        href="<?php echo base_url('') ?>adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 
     <?= $this->renderSection('styles') ?>
 </head>
