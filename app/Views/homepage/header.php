@@ -53,7 +53,7 @@
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </li>
                 </ul>
-                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('') ?>admin">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('index.php/') ?>admin">Login</a></li>
                 </li>
                 </ul>
             </div>
