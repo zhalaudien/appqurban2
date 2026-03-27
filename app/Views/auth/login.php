@@ -5,7 +5,7 @@
     <title>Login Qurban</title>
 
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('adminlte/css/css/adminlte.min.css') ?>">
 </head>
 
 <body class="hold-transition login-page">
