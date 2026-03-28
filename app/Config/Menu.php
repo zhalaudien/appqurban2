@@ -147,6 +147,40 @@ class Menu
 
             ],
 
+            /*
+            |--------------------------------------------------------------------------
+            | ROLE 7 - ADMIN BUMM
+            |--------------------------------------------------------------------------
+            */
+
+            7 => [
+
+                [
+                    'title' => 'Dashboard',
+                    'icon'  => 'bi bi-speedometer2',
+                    'url'   => 'dashboard',
+                    'key'   => 'dashboard'
+                ],
+
+
+                [
+                    'title' => 'Data Qurban Cabang',
+                    'icon'  => 'bi bi-building',
+                    'url'   => 'pequrban',
+                    'key'   => 'pequrban',
+
+                ],
+
+                [
+                    'title' => 'Pembayaran',
+                    'icon'  => 'bi bi-cash',
+                    'url'   => 'pembayaran',
+                    'key'   => 'pembayaran',
+
+                ],
+
+            ],
+
         ];
 
         return $menus[$roleId] ?? [];

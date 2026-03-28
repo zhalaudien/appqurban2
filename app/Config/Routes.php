@@ -104,12 +104,12 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
     // TRANSAKSI
     // =================================================
     $routes->group('penerimaan', function ($routes) {
-        $routes->get('/', 'Penerimaan::index');
-        $routes->post('create', 'Penerimaan::create');
-        $routes->post('update/(:num)', 'Penerimaan::update/$1');
-        $routes->get('delete/(:num)', 'Penerimaan::delete/$1');
-        $routes->get('export', 'Penerimaan::export');
-        $routes->get('print/(:num)', 'Penerimaan::print/$1');
+        $routes->get('/', 'Admin\Penerimaan\PenerimaanController::index');
+        $routes->post('create', 'Admin\Penerimaan\PenerimaanController::create');
+        $routes->post('update/(:num)', 'Admin\Penerimaan\PenerimaanController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Penerimaan\PenerimaanController::delete/$1');
+        $routes->get('export', 'Admin\Penerimaan\PenerimaanController::export');
+        $routes->get('print/(:num)', 'Admin\Penerimaan\PenerimaanController::print/$1');
     });
 
     $routes->group('kandang', function ($routes) {
@@ -189,5 +189,25 @@ $routes->group('', ['filter' => 'role:6'], function ($routes) {
         $routes->get('/', 'Cabang\Master\AmprahController::index');
         $routes->post('update/(:num)', 'Cabang\DashboardController::update/$1');
         $routes->get('export', 'Cabang\Master\AmprahController::export');
+    });
+});
+
+$routes->group('', ['filter' => 'role:7'], function ($routes) {
+
+    $routes->get('bumm/dashboard', 'Bumm\DashboardController::index');
+
+    $routes->group('bumm/pequrban', function ($routes) {
+        $routes->get('/', 'Bumm\PequrbanController::index');
+        $routes->post('store', 'Bumm\PequrbanController::store');
+        $routes->post('update/(:num)', 'Bumm\PequrbanController::update/$1');
+        $routes->post('delete/(:num)', 'Bumm\PequrbanController::delete/$1');
+        $routes->get('export', 'Bumm\PequrbanController::export');
+    });
+
+    $routes->group('bumm/pembayaran', function ($routes) {
+        $routes->get('/', 'Bumm\PembayaranController::index');
+        $routes->post('store', 'Bumm\PembayaranController::store');
+        $routes->post('update/(:num)', 'Bumm\PembayaranController::update/$1');
+        $routes->post('delete/(:num)', 'Bumm\PembayaranController::delete/$1');
     });
 });

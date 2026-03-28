@@ -47,6 +47,7 @@ class LoginController extends BaseController
         return match ((int) $roleId) {
             1 => redirect()->to('/admin'),          // superadmin
             6 => redirect()->to('/cabang/dashboard'),   // admin cabang
+            7 => redirect()->to('/bumm/dashboard'),   // admin bumm
             default => $this->logout(),                 // ⛔ role tidak dikenal
         };
     }
