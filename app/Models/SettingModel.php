@@ -21,6 +21,13 @@ class SettingModel extends Model
         'j_h4',
         'biaya',
         'hari',
-        'jadwal'
+        'jadwal',
+        'access_password',
     ];
+
+    public function getValue($key)
+    {
+        return $this->where('access_password', $key)
+            ->first()['value'] ?? null;
+    }
 }

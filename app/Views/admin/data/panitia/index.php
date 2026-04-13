@@ -71,18 +71,76 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="/panitia/edit/<?= $p['id']; ?>"
-                                                    class="btn btn-sm btn-warning">
+                                                <button type="button" class="btn btn-sm btn-warning"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editModal<?= $p['id']; ?>">
                                                     <i class="bi bi-pencil"></i>
-                                                </a>
+                                                </button>
 
-                                                <a href="/panitia/hapus/<?= $p['id']; ?>"
+                                                <a href="/panitia/delete/<?= $p['id']; ?>"
                                                     class="btn btn-sm btn-danger"
                                                     onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>
+
+                                        <!-- Modal Edit -->
+                                        <div class="modal fade" id="editModal<?= $p['id']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $p['id']; ?>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel<?= $p['id']; ?>">Edit Data Panitia</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="/panitia/update/<?= $p['id']; ?>" method="post">
+                                                        <?= csrf_field(); ?>
+                                                        <div class="modal-body text-start">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Nama</label>
+                                                                <input type="text" name="nama" class="form-control" value="<?= esc($p['nama']); ?>" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Cabang</label>
+                                                                <select name="cabang_id" class="form-select" required>
+                                                                    <?php foreach ($viewcabang as $c): ?>
+                                                                        <option value="<?= $c['id']; ?>" <?= (int)$p['cabang_id'] === (int)$c['id'] ? 'selected' : ''; ?>>
+                                                                            <?= esc($c['nama_cabang']); ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">No HP</label>
+                                                                <input type="text" name="no_hp" class="form-control" value="<?= esc($p['no_hp']); ?>" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Seksi</label>
+                                                                <select name="seksi_id" class="form-select" required>
+                                                                    <?php foreach ($idpanitia as $seksi): ?>
+                                                                        <option value="<?= $seksi['id']; ?>" <?= (int)$p['seksi_id'] === (int)$seksi['id'] ? 'selected' : ''; ?>>
+                                                                            <?= esc($seksi['nama_seksi']); ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Jabatan</label>
+                                                                <select name="jabatan" class="form-select" required>
+                                                                    <option value="anggota" <?= (trim(strtolower($p['jabatan'] ?? '')) == 'anggota') ? 'selected' : ''; ?>>Anggota</option>
+                                                                    <option value="koordinator" <?= (trim(strtolower($p['jabatan'] ?? '')) == 'koordinator') ? 'selected' : ''; ?>>Koordinator</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
@@ -92,6 +150,60 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="inputdataLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inputdataLabel">Tambah Data Panitia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/panitia/create" method="post">
+                    <?= csrf_field(); ?>
+                    <div class="modal-body text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            <input type="text" name="nama" class="form-control" placeholder="Nama lengkap panitia" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cabang</label>
+                            <select name="cabang_id" class="form-select" required>
+                                <option value="" selected disabled>Pilih Cabang</option>
+                                <?php foreach ($viewcabang as $c): ?>
+                                    <option value="<?= $c['id']; ?>"><?= esc($c['nama_cabang']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">No HP</label>
+                            <input type="text" name="no_hp" class="form-control" placeholder="Contoh: 08123456789">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Seksi</label>
+                            <select name="seksi_id" class="form-select" required>
+                                <option value="" selected disabled>Pilih Seksi</option>
+                                <?php foreach ($idpanitia as $seksi): ?>
+                                    <option value="<?= $seksi['id']; ?>"><?= esc($seksi['nama_seksi']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jabatan</label>
+                            <select name="jabatan" class="form-select" required>
+                                <option value="anggota">Anggota</option>
+                                <option value="koordinator">Koordinator</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

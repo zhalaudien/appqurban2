@@ -8,7 +8,7 @@
             <div class="row g-4">
 
                 <!-- ================= FORM INPUT ================= -->
-                <div class="col-12 col-lg-6">
+                <div class="col-12">
                     <div class="card shadow-sm">
                         <div class="card-header bg-info text-white">
                             <h6 class="mb-0">Input Pembayaran Cabang</h6>
@@ -30,7 +30,16 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-
+                                <div class="col-md-6">
+                                    <label class="form-label">Metode</label>
+                                    <select class="form-select" name="keterangan" required>
+                                        <option value="" disabled selected>Pilih Metode</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="transfer_ubs">Transfer UBS</option>
+                                        <option value="transfer_bsi">Transfer BSI</option>
+                                        <option value="transfer_bri">Transfer BRI</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Nama</label>
                                     <input type="text" name="nama" class="form-control" required>
@@ -43,16 +52,7 @@
                                     <input type="hidden" name="pembayaran" id="pembayaran_clean">
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="form-label">Metode</label>
-                                    <select class="form-select" name="keterangan" required>
-                                        <option value="" disabled selected>Pilih Metode</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="transfer_ubs">Transfer UBS</option>
-                                        <option value="transfer_bsi">Transfer BSI</option>
-                                        <option value="transfer_bri">Transfer BRI</option>
-                                    </select>
-                                </div>
+
 
                                 <div class="col-md-12">
                                     <label class="form-label">Catatan</label>
@@ -72,73 +72,6 @@
 
                         </form>
                     </div>
-                </div>
-
-                <div class="card shadow-sm">
-                    <div class="card-header bg-gradient-info text-white">
-                        <h5 class="mb-0">💰 Input Pembayaran Cabang</h5>
-                    </div>
-
-                    <form action="/penerimaan/tambah" method="post">
-                        <?= csrf_field(); ?>
-
-                        <div class="card-body">
-                            <div class="row g-3">
-
-                                <!-- Cabang -->
-                                <div class="col-md-3">
-                                    <label class="form-label fw-semibold">Cabang</label>
-                                    <select class="form-select">
-                                        <option selected disabled>Pilih Cabang</option>
-                                    </select>
-                                </div>
-
-                                <!-- Nama -->
-                                <div class="col-md-3">
-                                    <label class="form-label fw-semibold">Nama Pengirim</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan nama...">
-                                </div>
-
-                                <!-- Pembayaran -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Jumlah Pembayaran</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="text" class="form-control" placeholder="0">
-                                    </div>
-                                </div>
-
-                                <!-- Metode -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Metode Pembayaran</label>
-                                    <select class="form-select">
-                                        <option selected disabled>Pilih Metode</option>
-                                        <option>Cash</option>
-                                        <option>Transfer UBS</option>
-                                        <option>Transfer BSI</option>
-                                        <option>Transfer BRI</option>
-                                    </select>
-                                </div>
-
-                                <!-- Catatan -->
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Catatan</label>
-                                    <textarea class="form-control" rows="2" placeholder="Opsional..."></textarea>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="card-footer d-flex justify-content-between">
-                            <button type="submit" class="btn btn-info px-4">
-                                💾 Simpan
-                            </button>
-
-                            <a href="/penerimaan/export" class="btn btn-success px-4">
-                                📊 Export Excel
-                            </a>
-                        </div>
-                    </form>
                 </div>
 
                 <!-- ================= TABLE ================= -->

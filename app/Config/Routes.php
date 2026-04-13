@@ -16,6 +16,8 @@ $routes->get('jadwal2', 'Home::jadwal');
 $routes->get('datasapi', 'Home::datasapi');
 $routes->get('dataqurban', 'Home::dataqurban');
 $routes->get('realisasi2', 'Home::realisasi');
+$routes->get('register', 'Auth\RegisterController::index');
+$routes->post('register/check-access', 'Auth\RegisterController::checkAccess');
 
 
 // =====================================================
