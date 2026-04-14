@@ -51,6 +51,13 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('export', 'Admin\Data\PanitiaController::export');
     });
 
+    $routes->group('seksi', function ($routes) {
+        $routes->get('/', 'Admin\Data\SeksiController::index');
+        $routes->post('create', 'Admin\Data\SeksiController::create');
+        $routes->post('update/(:num)', 'Admin\Data\SeksiController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Data\SeksiController::delete/$1');
+    });
+
     $routes->group('cabang', function ($routes) {
         $routes->get('/', 'Admin\Data\CabangController::index');
         $routes->post('create', 'Admin\Data\CabangController::create');
@@ -158,6 +165,16 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
     $routes->group('setting', function ($routes) {
         $routes->get('/', 'Setting::index');
         $routes->post('update', 'Setting::update');
+
+        $routes->get('seksi', 'Admin\Setting\SeksiController::index');
+        $routes->post('seksi/create', 'Admin\Setting\SeksiController::create');
+        $routes->post('seksi/update/(:num)', 'Admin\Setting\SeksiController::update/$1');
+        $routes->get('seksi/delete/(:num)', 'Admin\Setting\SeksiController::delete/$1');
+
+        $routes->get('cabang', 'Admin\Setting\CabangController::index');
+        $routes->post('cabang/create', 'Admin\Setting\CabangController::create');
+        $routes->post('cabang/update/(:num)', 'Admin\Setting\CabangController::update/$1');
+        $routes->get('cabang/delete/(:num)', 'Admin\Setting\CabangController::delete/$1');
 
         $routes->post('user/create', 'Setting::createUser');
         $routes->post('user/update/(:num)', 'Setting::updateUser/$1');

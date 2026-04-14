@@ -98,7 +98,23 @@ class Menu
                     ]
                 ],
 
-                ['title' => 'Setting', 'icon' => 'bi bi-gear', 'url' => '/setting', 'key' => 'setting'],
+                /*
+                |==================== Setting ====================
+                */
+                [
+                    'title' => 'Setting',
+                    'icon'  => 'bi bi-gear',
+                    'group' => 'Setting',
+                    'children' => [
+
+                        ['title' => 'Setting',      'url' => '/setting', 'key' => 'setting', 'icon' => 'bi bi-gear'],
+                        ['title' => 'Cabang', 'url' => '/setting/cabang', 'key' => 'cabang', 'icon' => 'bi bi-building'],
+                        ['title' => 'seksi', 'url' => '/setting/seksi', 'key' => 'seksi', 'icon' => 'bi bi-people'],
+
+                    ]
+                ],
+
+
             ],
 
 

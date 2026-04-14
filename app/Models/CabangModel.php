@@ -11,6 +11,8 @@ class CabangModel extends Model
 
     protected $allowedFields = [
         'nama_cabang',
-        'alamat',
+        'pusat',
+        'created_at',
+        'updated_at'
     ];
 }
