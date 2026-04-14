@@ -43,11 +43,13 @@ class SeksiController extends BaseController
     public function update($id)
     {
         $data = [
-            'id' => $id,
             'nama_seksi' => $this->request->getPost('nama_seksi')
         ];
 
-        if (!$this->seksiModel->save($data)) {
+        // Tambahkan aturan permit_empty untuk id agar bisa digunakan sebagai placeholder di is_unique
+        $this->seksiModel->setValidationRule('id', 'permit_empty');
+
+        if (!$this->seksiModel->update($id, $data)) {
             return redirect()->back()->withInput()->with('errors', $this->seksiModel->errors());
         }
 

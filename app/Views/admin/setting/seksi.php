@@ -71,7 +71,7 @@
                                                     <h5 class="modal-title">Edit Seksi</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <form action="/seksi/update/<?= $s['id'] ?>" method="post">
+                                                <form action="/setting/seksi/update/<?= $s['id'] ?>" method="post">
                                                     <?= csrf_field() ?>
                                                     <div class="modal-body">
                                                         <div class="mb-3">
@@ -104,7 +104,7 @@
                     <h5 class="modal-title">Tambah Seksi Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="/seksi/create" method="post">
+                <form action="/setting/seksi/create" method="post">
                     <?= csrf_field() ?>
                     <div class="modal-body">
                         <div class="mb-3">

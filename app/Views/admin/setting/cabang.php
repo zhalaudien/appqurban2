@@ -59,7 +59,7 @@
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $s['id'] ?>">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <a href="/seksi/delete/<?= $s['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus seksi ini? Data panitia yang terkait mungkin akan terpengaruh.')">
+                                            <a href="/setting/cabang/delete/<?= $s['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus cabang ini?')">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </td>
@@ -70,16 +70,12 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Seksi</h5>
+                                                    <h5 class="modal-title">Edit Cabang</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <form action="/seksi/update/<?= $s['id'] ?>" method="post">
+                                                <form action="/setting/cabang/update/<?= $s['id'] ?>" method="post">
                                                     <?= csrf_field() ?>
                                                     <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">ID cabang</label>
-                                                            <input type="text" name="id" class="form-control" value="<?= esc($s['id']) ?>" required>
-                                                        </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Nama cabang</label>
                                                             <input type="text" name="nama_cabang" class="form-control" value="<?= esc($s['nama_cabang']) ?>" required>
@@ -114,13 +110,9 @@
                     <h5 class="modal-title">Tambah Cabang Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="/seksi/create" method="post">
+                <form action="/setting/cabang/create" method="post">
                     <?= csrf_field() ?>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">ID Cabang</label>
-                            <input type="text" name="id" class="form-control" required>
-                        </div>
                         <div class="mb-3">
                             <label class="form-label">Nama Cabang</label>
                             <input type="text" name="nama_cabang" class="form-control" required>

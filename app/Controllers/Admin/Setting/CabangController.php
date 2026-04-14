@@ -30,7 +30,6 @@ class CabangController extends BaseController
     public function create()
     {
         $data = [
-            'id' => $this->request->getPost('id'),
             'nama_cabang' => $this->request->getPost('nama_cabang'),
             'pusat' => $this->request->getPost('pusat'),
         ];
@@ -39,22 +38,24 @@ class CabangController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->CabangModel->errors());
         }
 
-        return redirect()->back()->with('success', 'Seksi berhasil ditambahkan');
+        return redirect()->back()->with('success', 'Cabang berhasil ditambahkan');
     }
 
     public function update($id)
     {
         $data = [
-            'id' => $id,
-            'nama_seksi' => $this->request->getPost('nama_seksi'),
+            'nama_cabang' => $this->request->getPost('nama_cabang'),
             'pusat' => $this->request->getPost('pusat')
         ];
 
-        if (!$this->CabangModel->save($data)) {
+        // Mengatasi error placeholder "id"
+        $this->CabangModel->setValidationRule('id', 'permit_empty');
+
+        if (!$this->CabangModel->update($id, $data)) {
             return redirect()->back()->withInput()->with('errors', $this->CabangModel->errors());
         }
 
-        return redirect()->back()->with('success', 'Seksi berhasil diperbarui');
+        return redirect()->back()->with('success', 'Cabang berhasil diperbarui');
     }
 
     public function delete($id)
