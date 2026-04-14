@@ -10,6 +10,15 @@ class UserModel extends Model
     protected $allowedFields = ['username', 'password', 'nama', 'role_id', 'cabang_id', 'pusat'];
     protected $useTimestamps = true;
 
+
+    public function getUser()
+    {
+        return $this->select('users.*, roles.role_key, cabang.nama_cabang')
+            ->join('roles', 'roles.id = users.role_id')
+            ->join('cabang', 'cabang.id = users.cabang_id', 'left')
+            ->findAll();
+    }
+
     public function getByUsername($username)
     {
         return $this->select('users.*, roles.role_key, cabang.nama_cabang')

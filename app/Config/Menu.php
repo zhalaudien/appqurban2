@@ -110,6 +110,7 @@ class Menu
                         ['title' => 'Setting',      'url' => '/setting', 'key' => 'setting', 'icon' => 'bi bi-gear'],
                         ['title' => 'Cabang', 'url' => '/setting/cabang', 'key' => 'cabang', 'icon' => 'bi bi-building'],
                         ['title' => 'seksi', 'url' => '/setting/seksi', 'key' => 'seksi', 'icon' => 'bi bi-people'],
+                        ['title' => 'user', 'url' => '/setting/user', 'key' => 'user', 'icon' => 'bi bi-people'],
 
                     ]
                 ],

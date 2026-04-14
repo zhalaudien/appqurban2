@@ -176,9 +176,10 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->post('cabang/update/(:num)', 'Admin\Setting\CabangController::update/$1');
         $routes->get('cabang/delete/(:num)', 'Admin\Setting\CabangController::delete/$1');
 
-        $routes->post('user/create', 'Setting::createUser');
-        $routes->post('user/update/(:num)', 'Setting::updateUser/$1');
-        $routes->get('user/delete/(:num)', 'Setting::deleteUser/$1');
+        $routes->get('user', 'Admin\Setting\UserController::index');
+        $routes->post('user/create', 'Admin\Setting\UserController::create');
+        $routes->post('user/update/(:num)', 'Admin\Setting\UserController::update/$1');
+        $routes->get('user/delete/(:num)', 'Admin\Setting\UserController::delete/$1');
     });
 });
 
