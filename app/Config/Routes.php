@@ -188,6 +188,11 @@ $routes->group('', ['filter' => 'role:6'], function ($routes) {
 
     $routes->get('cabang/dashboard', 'Cabang\DashboardController::index');
 
+    $routes->group('cabang/setting', function ($routes) {
+        $routes->get('/', 'Cabang\SettingCabangController::index');
+        $routes->post('update', 'Cabang\SettingCabangController::update');
+    });
+
     $routes->group('cabang/panitia', function ($routes) {
         $routes->get('/', 'Cabang\PanitiaController::index');
         $routes->post('store', 'Cabang\PanitiaController::store');

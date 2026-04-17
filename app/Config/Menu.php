@@ -154,9 +154,9 @@ class Menu
 
 
                 [
-                    'title' => 'Profil Cabang',
-                    'icon'  => 'bi bi-book-open',
-                    'url'   => 'profilcabang',
+                    'title' => 'Setting Cabang',
+                    'icon'  => 'bi bi-gear',
+                    'url'   => 'setting',
                     'key'   => 'profilcabang',
 
                 ],

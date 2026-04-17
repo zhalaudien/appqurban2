@@ -61,6 +61,6 @@ class CabangController extends BaseController
     public function delete($id)
     {
         $this->CabangModel->delete($id);
-        return redirect()->back()->with('success', 'Seksi berhasil dihapus');
+        return redirect()->back()->with('success', 'Cabang berhasil dihapus');
     }
 }
