@@ -124,7 +124,3 @@ nb-configuration.xml
 
 /results/
 /phpunit*.xml
-
-
-# Seeds folder
-app/Database/Seeds/*
