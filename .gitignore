@@ -127,4 +127,4 @@ nb-configuration.xml
 
 
 # Seeds folder
-App/Seeds/*
+app/Database/Seeds/*
