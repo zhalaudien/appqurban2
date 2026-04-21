@@ -3,6 +3,9 @@
 
 <head>
     <title>Login Qurban</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/css/css/adminlte.min.css') ?>">
@@ -10,7 +13,7 @@
 
 <body class="hold-transition login-page">
 
-    <div class="register-box" style="max-width: 420px;">
+    <div class="register-box px-3" style="width: 100%; max-width: 420px; margin-top: 2rem; margin-bottom: 2rem;">
         <div class="card shadow-lg border-0 rounded-4">
 
             <!-- HEADER -->
@@ -46,7 +49,7 @@
                     <!-- CABANG -->
                     <div class="form-group mb-3">
                         <label class="fw-semibold">Cabang</label>
-                        <select class="form-control" name="cabang_id" required>
+                        <select class="form-control form-control-lg" name="cabang_id" required>
                             <option value="" disabled selected>-- Pilih Cabang --</option>
                             <option value="9999">Bumm</option>
                             <?php foreach ($cabang as $c): ?>
@@ -59,7 +62,7 @@
 
                     <!-- NAMA -->
                     <div class="input-group mb-3">
-                        <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" required>
+                        <input type="text" name="nama" class="form-control form-control-lg" placeholder="Nama Lengkap" required>
                         <div class="input-group-text bg-light">
                             <i class="fas fa-user"></i>
                         </div>
@@ -67,7 +70,7 @@
 
                     <!-- USERNAME / EMAIL -->
                     <div class="input-group mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                        <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" required>
                         <div class="input-group-text bg-light">
                             <i class="fas fa-envelope"></i>
                         </div>
@@ -75,7 +78,7 @@
 
                     <!-- PASSWORD -->
                     <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required>
                         <div class="input-group-text bg-light">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -83,7 +86,7 @@
 
                     <!-- KODE AKSES -->
                     <div class="input-group mb-3">
-                        <input type="password" name="access_code" class="form-control" placeholder="Kode Akses Pendaftaran" required>
+                        <input type="password" name="access_code" class="form-control form-control-lg" placeholder="Kode Akses Pendaftaran" required>
                         <div class="input-group-text bg-light">
                             <i class="fas fa-key"></i>
                         </div>

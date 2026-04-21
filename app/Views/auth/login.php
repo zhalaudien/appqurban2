@@ -3,6 +3,9 @@
 
 <head>
     <title>Login Qurban</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/css/css/adminlte.min.css') ?>">
@@ -10,8 +13,8 @@
 
 <body class="hold-transition login-page">
 
-    <div class="register-box" style="max-width: 420px;">
-        <div class="card shadow-lg border-0 rounded-4">
+    <div class="login-box px-3" style="width: 100%; max-width: 420px;">
+        <div class="card shadow-lg border-0 rounded-4 my-4">
 
             <!-- HEADER -->
             <div class="card-header text-center bg-white border-0 pt-4">
@@ -43,17 +46,17 @@
                 <form action="<?= base_url('login') ?>" method="post">
                     <?= csrf_field() ?>
 
-                    <div class="input-group mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Username">
-                        <div class="input-group-append">
-                            <div class="input-group-text"><span class="fas fa-user"></span></div>
+                    <div class="input-group mb-4">
+                        <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" required>
+                        <div class="input-group-text bg-light border-left-0">
+                            <i class="fas fa-user"></i>
                         </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                    <div class="input-group mb-4">
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required>
+                        <div class="input-group-text bg-light border-left-0">
+                            <i class="fas fa-lock"></i>
                         </div>
                     </div>
 
