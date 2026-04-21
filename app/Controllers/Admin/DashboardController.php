@@ -11,6 +11,7 @@ use App\Models\BesekModel;
 use App\Models\K3Model;
 use App\Models\RealisasiModel;
 use App\Models\CabangModel;
+use App\Models\MuspikaModel;
 
 class DashboardController extends BaseController
 {
@@ -26,6 +27,9 @@ class DashboardController extends BaseController
         $k3Model = new K3Model();
         $realisasiModel = new RealisasiModel();
         $cabangModel = new CabangModel();
+        $muspikaModel = new MuspikaModel();
+
+        // Deklarasi Variabel
 
         // 1. Statistik Panitia
         $totalPanitia = $panitiaModel->countAllResults();
@@ -42,7 +46,7 @@ class DashboardController extends BaseController
         $sapiCabang    = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'sapi', 'sumber' => 'mandiri'])->countAllResults();
         $kambingBumm   = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'kambing', 'sumber' => 'bumm'])->countAllResults();
         $kambingCabang = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'kambing', 'sumber' => 'mandiri'])->countAllResults();
-        $muspikaCount  = $panitiaModel->countAllResults(); // Asumsi kolom seksi
+        $muspikaCount  = $muspikaModel->countAllResults(); // Asumsi kolom seksi
 
         // 3. Penerimaan (Hewan yang sudah datang & Dana)
         $terima = $penerimaanModel->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->selectSum('pembayaran', 'uang')->selectSum('shadaqoh', 'shadaqoh')->get()->getRow();

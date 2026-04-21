@@ -19,7 +19,7 @@ class Menu
                 [
                     'title' => 'Dashboard',
                     'icon'  => 'bi bi-speedometer',
-                    'url'   => '/dashboard',
+                    'url'   => '/admin',
                     'key'   => 'dashboard'
                 ],
 

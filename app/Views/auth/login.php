@@ -10,18 +10,33 @@
 
 <body class="hold-transition login-page">
 
-    <div class="login-box">
-        <div class="login-logo">
-            <div><img src="<?php echo base_url('') ?>logo.png" class="" style="width: 100px; height: auto;" /></div>
-            <b>APP Qurban Pusat 7</b>
-        </div>
+    <div class="register-box" style="max-width: 420px;">
+        <div class="card shadow-lg border-0 rounded-4">
 
-        <div class="card">
-            <div class="card-body login-card-body">
+            <!-- HEADER -->
+            <div class="card-header text-center bg-white border-0 pt-4">
+                <img src="<?= base_url('logo.png') ?>" style="width:90px;" class="mb-2">
+            </div>
+
+            <!-- BODY -->
+            <div class="card-body px-4 pb-4">
+                <p class="text-center text-muted mb-4">
+                    Silahkan Login
+                </p>
 
                 <?php if (session()->getFlashdata('error')): ?>
-                    <div class="alert alert-danger">
-                        <?= session()->getFlashdata('error') ?>
+                    <div class="alert alert-danger py-2 small">
+                        <i class="fas fa-exclamation-circle me-1"></i> <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('errors')): ?>
+                    <div class="alert alert-danger py-2 small">
+                        <ul class="mb-0 ps-3">
+                            <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                                <li><?= esc($error) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
                 <?php endif; ?>
 
@@ -42,14 +57,26 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Login
+                    <!-- BUTTON -->
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+                        <i class="fas fa-user me-1"></i> Login
                     </button>
-
                 </form>
+
+                <!-- LOGIN LINK -->
+                <div class="text-center mt-3">
+                    <small>
+                        Belum punya akun?
+                        <a href="<?= base_url('register') ?>" class="fw-semibold">
+                            Daftar di sini
+                        </a>
+                    </small>
+                </div>
             </div>
+
         </div>
     </div>
+
 
     <script src="<?= base_url('adminlte/plugins/jquery/jquery.min.js') ?>"></script>
     <script src="<?= base_url('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
