@@ -24,10 +24,4 @@ class SettingModel extends Model
         'jadwal',
         'access_password',
     ];
-
-    public function getValue($key)
-    {
-        return $this->where('access_password', $key)
-            ->first()['value'] ?? null;
-    }
 }

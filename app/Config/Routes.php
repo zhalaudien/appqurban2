@@ -17,6 +17,7 @@ $routes->get('datasapi', 'Home::datasapi');
 $routes->get('dataqurban', 'Home::dataqurban');
 $routes->get('realisasi2', 'Home::realisasi');
 $routes->get('register', 'Auth\RegisterController::index');
+$routes->post('register', 'Auth\RegisterController::store');
 $routes->post('register/check-access', 'Auth\RegisterController::checkAccess');
 
 

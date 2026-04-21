@@ -24,7 +24,24 @@
                     Pendaftaran Akun Cabang
                 </p>
 
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger py-2 small">
+                        <i class="fas fa-exclamation-circle me-1"></i> <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('errors')): ?>
+                    <div class="alert alert-danger py-2 small">
+                        <ul class="mb-0 ps-3">
+                            <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                                <li><?= esc($error) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
                 <form action="" method="post">
+                    <?= csrf_field() ?>
 
                     <!-- CABANG -->
                     <div class="form-group mb-3">
@@ -64,6 +81,14 @@
                         </div>
                     </div>
 
+                    <!-- KODE AKSES -->
+                    <div class="input-group mb-3">
+                        <input type="password" name="access_code" class="form-control" placeholder="Kode Akses Pendaftaran" required>
+                        <div class="input-group-text bg-light">
+                            <i class="fas fa-key"></i>
+                        </div>
+                    </div>
+
                     <!-- BUTTON -->
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
                         <i class="fas fa-user-plus me-1"></i> Daftar Sekarang
@@ -83,61 +108,6 @@
 
         </div>
     </div>
-
-    <?php if (!$hasAccess): ?>
-        <div class="modal fade show" id="accessModal" tabindex="-1"
-            style="display:block; background: rgba(0,0,0,0.7);">
-
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content rounded-4 shadow-lg">
-
-                    <div class="modal-body text-center p-4">
-                        <h4 class="fw-bold mb-2">🔐 Akses Pendaftaran</h4>
-                        <p class="text-muted mb-3">
-                            Masukkan password untuk membuka pendaftaran
-                        </p>
-
-
-                        <form method="post" action="<?= base_url('register/check-access') ?>">
-                            <?= csrf_field() ?>
-
-                            <input type="password" name="access_password"
-                                class="form-control text-center mb-3"
-                                placeholder="Password akses">
-
-                            <button class="btn btn-primary w-100 rounded-pill">
-                                Masuk
-                            </button>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <script>
-        function checkAccess() {
-            let password = document.getElementById('access_password').value;
-
-            fetch("<?= base_url('register/check-access') ?>", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: "<?= csrf_token() ?>=<?= csrf_hash() ?>&access_password=" + encodeURIComponent(password)
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.status === 'success') {
-                        location.reload();
-                    } else {
-                        document.getElementById('errorMsg').style.display = 'block';
-                    }
-                });
-        }
-    </script>
 
     <script src="<?= base_url('adminlte/plugins/jquery/jquery.min.js') ?>"></script>
     <script src="<?= base_url('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
