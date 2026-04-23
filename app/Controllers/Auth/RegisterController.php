@@ -39,6 +39,21 @@ class RegisterController extends BaseController
     {
         $userModel = new UserModel();
 
+        // 0. Validasi Input Dasar (Username tidak boleh mengandung spasi)
+        $rules = [
+            'username' => [
+                'rules'  => 'required|regex_match[/^\S+$/]|is_unique[users.username]',
+                'errors' => [
+                    'regex_match' => 'Username tidak valid! Username tidak boleh mengandung spasi.',
+                    'is_unique'   => 'Username sudah terdaftar.'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // 1. Validasi Kode Akses (Harus sama dengan yang ada di Setting)
         $inputCode = $this->request->getPost('access_code');
 

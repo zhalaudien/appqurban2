@@ -70,15 +70,15 @@
 
                     <!-- USERNAME / EMAIL -->
                     <div class="input-group mb-3">
-                        <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" required>
+                        <input type="text" name="username" class="form-control form-control-lg" placeholder="username" pattern="^\S+$" title="Username tidak boleh mengandung spasi" required>
                         <div class="input-group-text bg-light">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fas fa-user"></i>
                         </div>
                     </div>
 
                     <!-- PASSWORD -->
                     <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required>
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="password" required>
                         <div class="input-group-text bg-light">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -106,6 +106,14 @@
                             Login di sini
                         </a>
                     </small>
+                </div>
+                <div class="mt-3">
+                    <h5 class="fw-bold mb-3">Petunjuk Pengisian</h5>
+                    <ul class="small text-muted ps-3">
+                        <li class="mb-2">Daftar akun dengan memilih cabang, dan mengisi nama</li>
+                        <li class="mb-2">Mengisi username dan pasword (bebas sesuai keinginan) besar kecil huruf pengaruh mohon diperhatikan</li>
+                        <li class="mb-2">Kode akses silahkan hubungi Sekretariat Panitia Qurban</li>
+                    </ul>
                 </div>
             </div>
 
