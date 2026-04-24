@@ -71,7 +71,7 @@ class SettingCabangController extends BaseController
 
         $password = $this->request->getPost('password');
         if (!empty($password)) {
-            $userData['password'] = $password;
+            $userData['password'] = password_hash((string)$password, PASSWORD_DEFAULT);
         }
 
         $this->userModel->update($this->userId, $userData);

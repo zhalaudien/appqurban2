@@ -235,5 +235,6 @@ $routes->group('', ['filter' => 'role:7'], function ($routes) {
         $routes->post('store', 'Bumm\PembayaranController::store');
         $routes->post('update/(:num)', 'Bumm\PembayaranController::update/$1');
         $routes->post('delete/(:num)', 'Bumm\PembayaranController::delete/$1');
+        $routes->get('export', 'Bumm\PembayaranController::export');
     });
 });

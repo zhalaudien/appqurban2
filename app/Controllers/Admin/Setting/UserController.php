@@ -41,7 +41,7 @@ class UserController extends BaseController
         $data = [
             'username'  => $this->request->getPost('username'),
             'nama'      => $this->request->getPost('nama'),
-            'password'  => $this->request->getPost('password'),
+            'password'  => password_hash((string)$this->request->getPost('password'), PASSWORD_DEFAULT),
             'role_id'   => $this->request->getPost('role_id'),
             'cabang_id' => $this->request->getPost('cabang_id'),
             'pusat' => $this->request->getPost('pusat'),
@@ -68,7 +68,7 @@ class UserController extends BaseController
 
         $password = $this->request->getPost('password');
         if (!empty($password)) {
-            $data['password'] = $password;
+            $data['password'] = password_hash((string)$password, PASSWORD_DEFAULT);
         }
 
         if (!$this->UserModel->update($id, $data)) {
