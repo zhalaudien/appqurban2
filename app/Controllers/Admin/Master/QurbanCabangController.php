@@ -18,6 +18,7 @@ class QurbanCabangController extends BaseController
     public function index()
     {
         $tahun = $this->request->getGet('year') ?? date('Y');
+        $rekapData = $this->pequrbanModel->getRekapPerCabang($tahun);
 
         $header = [
             'title' => 'Data Hewan Qurban per Cabang',
@@ -27,7 +28,8 @@ class QurbanCabangController extends BaseController
 
         $data = [
             'year'  => $tahun,
-            'rekap' => $this->pequrbanModel->getRekapPerCabang($tahun),
+            'rekap'  => $rekapData['rekap'],
+            'prices' => $rekapData['prices'],
         ];
 
 

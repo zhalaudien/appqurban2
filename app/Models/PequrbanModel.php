@@ -59,6 +59,8 @@ class PequrbanModel extends Model
             c.nama_cabang,
             COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS sapi_mandiri,
             COALESCE(SUM(CASE WHEN p.jenis_hewan = 'kambing' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS kambing_mandiri,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'bumm' THEN 1 ELSE 0 END), 0) AS sapi_bumm,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'kambing' AND p.sumber = 'bumm' THEN 1 ELSE 0 END), 0) AS kambing_bumm,
             COALESCE(SUM(CASE WHEN p.sumber = 'bumm' THEN p.harga ELSE 0 END), 0) AS total_uang
             $priceColumns
         ");
