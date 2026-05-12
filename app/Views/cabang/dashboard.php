@@ -85,7 +85,10 @@
                 <h3 class="card-title">Permintaan Besek</h3>
 
                 <div class="card-tools">
-                    <button type="button-sm" class="btn btn-warning" data-bs-toggle="modal"
+                    <a href="<?= base_url('cabang/pengantar/' . $cabangId) ?>" class="btn btn-sm btn-success" target="_blank" title="Cetak Surat Pengantar (HTML)">
+                        <i class="fas fa-print me-1"></i> Surat Pengantar
+                    </a>
+                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                         data-bs-target="#modalEditBesek">
                         <i class="fas fa-edit"></i> Edit</button>
                 </div>

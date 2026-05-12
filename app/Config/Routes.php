@@ -216,6 +216,10 @@ $routes->group('', ['filter' => 'role:6'], function ($routes) {
         $routes->post('update/(:num)', 'Cabang\DashboardController::update/$1');
         $routes->get('export', 'Cabang\Master\AmprahController::export');
     });
+
+    $routes->group('cabang/pengantar', function ($routes) {
+        $routes->get('(:num)', 'Cabang\PengantarController::index/$1');
+    });
 });
 
 $routes->group('', ['filter' => 'role:7'], function ($routes) {
