@@ -20,11 +20,12 @@
         }
 
         .page {
-            width: 210mm;
-            min-height: 330mm;
+            width: 190mm;
+            /* Lebar dikurangi agar pas dengan margin PDF (190mm + 10mm kiri + 10mm kanan = 210mm) */
+            min-height: 270mm;
             margin: auto;
             background: #fff;
-            padding: 18mm 15mm;
+            padding: 10mm 10mm;
             box-shadow: 0 0 10px rgba(0, 0, 0, .15);
         }
 
@@ -65,9 +66,16 @@
         }
 
         .header {
-            border-bottom: 3px solid #000;
-            padding-bottom: 10px;
+            /* border-bottom: 3px solid #000; */
+            /* Matikan jika gambar sudah menyertakan garis pembatas */
+            padding-bottom: 0;
             margin-bottom: 16px;
+        }
+
+        .header img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .header h1,
@@ -117,6 +125,7 @@
 
         table.table {
             width: 100%;
+            /* Mengurangi sedikit lebar agar garis kanan tidak terpotong di PDF */
             border-collapse: collapse;
             margin-bottom: 14px;
         }
@@ -126,6 +135,11 @@
             border: 1px solid #000;
             padding: 5px;
             font-size: 11px;
+        }
+
+        /* Mencegah baris tabel terpotong saat pindah halaman */
+        .table tr {
+            page-break-inside: avoid;
         }
 
         .table th {
@@ -176,10 +190,18 @@
             font-size: 11px;
         }
 
-        @media print {
+        /* Mencegah elemen penting terpotong di tengah */
+        .section-title,
+        .note-box,
+        .signature-wrapper,
+        .info-table {
+            page-break-inside: avoid;
+        }
 
+        @media print {
             body {
                 background: #fff;
+                margin: 0;
                 padding: 0;
             }
 
@@ -211,10 +233,30 @@
             cursor: pointer;
             margin-bottom: 15px;
             font-size: 14px;
+            width: 200px;
+            height: 40px;
         }
 
         .btn-print:hover {
             background: #157347;
+        }
+
+        .btn-warning {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #ffc107;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-size: 14px;
+            width: 200px;
+            height: 40px;
+        }
+
+        .btn-warning:hover {
+            background: #ffca2c;
         }
     </style>
 </head>
@@ -225,19 +267,17 @@
         <button class="btn-print" onclick="window.print()">
             🖨 Print Surat Pengantar
         </button>
+        <button class="btn-warning" onclick="downloadPDF()">
+            📄 Download PDF
+        </button>
     </div>
 
     <div class="page">
 
         <!-- ================= HEADER ================= -->
         <div class="header text-center">
-            <h2>YAYASAN MAJLIS TAFSIR AL QUR'AN</h2>
-            <h3>PANITIA QURBAN PUSAT 7</h3>
-            <h3>MTA PERWAKILAN SRAGEN</h3>
-
-            <p>
-                Sekretariat: Dk. Mentir RT.07, Bener, Ngrampal, Sragen
-            </p>
+            <!-- Pastikan kopsurat.png sudah Anda letakkan di folder /public/ -->
+            <img src="<?= base_url('kopsurat.png') ?>" alt="Kop Surat">
         </div>
 
         <!-- ================= INFORMASI CABANG ================= -->
@@ -282,8 +322,8 @@
             <tbody>
                 <tr class="text-center">
                     <td><?= $rekap['kambing_sendiri'] ?? 0 ?></td>
-                    <td><?= $rekap['kambing_bumm'] ?? 0 ?></td>
                     <td><?= $rekap['sapi_sendiri'] ?? 0 ?></td>
+                    <td><?= $rekap['kambing_bumm'] ?? 0 ?></td>
                     <td><?= $rekap['sapi_bumm'] ?? 0 ?></td>
                     <td>
                         Rp <?= number_format($rekap['shadaqoh'] ?? 0, 0, ',', '.') ?>
@@ -452,6 +492,38 @@
         </div>
 
     </div>
+
+    <!-- Library html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.page');
+            const options = {
+                margin: [10, 10, 10, 10], // Margin simetris 10mm di setiap sisi
+                filename: 'Surat_Pengantar_<?= str_replace(' ', '_', $cabang['nama_cabang'] ?? 'Cabang') ?>.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 3, // Meningkatkan skala untuk ketajaman garis
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
+                } // Menangani pemotongan halaman secara cerdas
+            };
+
+            // Jalankan proses konversi dan download
+            html2pdf().set(options).from(element).save();
+        }
+    </script>
 
 </body>
 

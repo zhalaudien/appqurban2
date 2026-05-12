@@ -39,6 +39,11 @@ class PengantarController extends BaseController
             return $item;
         }, $pequrbanRaw);
 
+        // Urutkan berdasarkan asal hewan secara ASC (Bumm, Mandiri)
+        usort($pequrban, function ($a, $b) {
+            return strcmp($a['asal_hewan'], $b['asal_hewan']);
+        });
+
         // Hitung rekap hewan secara manual untuk keakuratan surat
         $rekapCount = [
             'sapi_bumm' => $pequrbanModel->where(['cabang_id' => $cabangId, 'tahun' => $tahun, 'jenis_hewan' => 'sapi', 'sumber' => 'bumm'])->countAllResults(),
@@ -53,7 +58,7 @@ class PengantarController extends BaseController
         $data = [
             'cabang' => $cabang,
             'tahun_masehi' => $tahun,
-            'tahun_hijriyah' => '1446 H',
+            'tahun_hijriyah' => '1447 H',
             'rekap' => [
                 'kambing_sendiri' => $rekapCount['kambing_mandiri'],
                 'kambing_bumm' => $rekapCount['kambing_bumm'],
