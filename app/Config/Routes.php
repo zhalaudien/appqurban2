@@ -106,7 +106,8 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
 
     $routes->group('jadwal', function ($routes) {
         $routes->get('/', 'Admin\Master\JadwalController::index');
-        $routes->post('update/(:num)', 'Admin\Master\JadwalController::update/$1');
+        $routes->post('store', 'Admin\Master\JadwalController::store');
+        $routes->post('update', 'Admin\Master\JadwalController::update');
         $routes->get('export', 'Admin\Master\JadwalController::export');
     });
 

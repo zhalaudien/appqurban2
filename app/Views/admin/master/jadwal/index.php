@@ -33,63 +33,187 @@
     <div class="app-content">
         <div class="container-fluid">
 
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-body">
-
-                    <div class="table-responsive">
-                        <table id="datatablesSimple"
-                            class="table table-hover table-bordered align-middle text-center mb-0">
-
-                            <thead class="table-light">
-                                <tr class="align-middle">
-                                    <th width="5%">No</th>
-                                    <th class="text-start">Cabang</th>
-                                    <th>Antrian</th>
-                                    <th>Kirim Hewan</th>
-                                    <th>Kirim Besek</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <?php $no = 1; ?>
-                                <?php if (!empty($jadwal)): ?>
-                                    <?php foreach ($jadwal as $j): ?>
-                                        <tr>
-                                            <td><?= esc($no++) ?></td>
-
-                                            <td class="text-start fw-semibold">
-                                                <?= esc($j['nama_cabang']) ?>
-                                            </td>
-
-                                            <td><?= esc($j['antrian']) ?></td>
-                                            <td><?= esc($j['kirim_hewan']) ?></td>
-                                            <td><?= esc($j['kirim_besek']) ?></td>
-                                            <td><?= esc($j['status']) ?></td>
-                                            <td>
-                                                <a href="/qurban/amprah/edit/<?= esc($j['id']) ?>"
-                                                    class="btn btn-sm btn-warning">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
+            <?php if (!empty($grouped_jadwal)): ?>
+                <?php foreach ($grouped_jadwal as $hari => $data_jadwal): ?>
+                    <div class="card border-0 shadow-sm rounded-3 mb-4">
+                        <div class="card-header bg-light py-3 border-bottom">
+                            <h5 class="fw-bold mb-0 text-dark">Jadwal Kirim Besek: <span class="text-primary"><?= esc($hari) ?></span></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle text-center mb-0">
+                                    <thead class="table-light text-nowrap">
+                                        <tr class="align-middle">
+                                            <th width="5%">No</th>
+                                            <th class="text-start">Cabang</th>
+                                            <th width="10%">Sapi<br>Cabang</th>
+                                            <th width="10%">Kambing<br>Cabang</th>
+                                            <th width="10%">Sapi<br>Bumm</th>
+                                            <th width="10%">Kambing<br>Bumm</th>
+                                            <th width="10%">Antrian</th>
+                                            <th>Kirim Hewan</th>
+                                            <th>Kirim Besek</th>
+                                            <th width="10%">Aksi</th>
                                         </tr>
-                                    <?php endforeach ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="12" class="text-center text-muted py-4">
-                                            <i class="bi bi-inbox fs-4 d-block mb-2"></i>
-                                            Tidak ada data amprah tersedia
-                                        </td>
-                                    </tr>
-                                <?php endif ?>
-                            </tbody>
+                                    </thead>
+                                    <tbody>
+                                        <?php $no = 1; ?>
+                                        <?php foreach ($data_jadwal as $j): ?>
+                                            <tr>
+                                                <td><?= esc($no++) ?></td>
+                                                <td class="text-start fw-semibold"><?= esc($j['nama_cabang']) ?></td>
+                                                <td class="fw-bold text-success"><?= esc($j['sapi']) ?></td>
+                                                <td class="fw-bold text-info"><?= esc($j['kambing']) ?></td>
+                                                <td class="fw-bold text-success"><?= esc($j['sapi']) ?></td>
+                                                <td class="fw-bold text-info"><?= esc($j['kambing']) ?></td>
+                                                <td><span class="badge bg-secondary">#<?= esc($j['antrian']) ?></span></td>
+                                                <td><?= esc($j['kirim_hewan']) ?></td>
+                                                <td><?= esc($j['kirim_besek']) ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJadwal<?= $j['id'] ?>">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
 
+                                                    <!-- Modal Edit Jadwal -->
+                                                    <div class="modal fade" id="editJadwal<?= $j['id'] ?>" tabindex="-1" aria-labelledby="editJadwalLabel<?= $j['id'] ?>" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content text-start">
+                                                                <form action="<?= site_url('/jadwal/update') ?>" method="post">
+                                                                    <?= csrf_field() ?>
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editJadwalLabel<?= $j['id'] ?>">Edit Jadwal - <?= esc($j['nama_cabang']) ?></h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id" value="<?= $j['id'] ?>">
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">No Antrian</label>
+                                                                            <input type="number" name="antrian" class="form-control" value="<?= esc($j['antrian']) ?>" required>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Jadwal Kirim Hewan</label>
+                                                                            <select name="kirim_hewan" class="form-select">
+                                                                                <option value="<?= esc($j['kirim_hewan']) ?>" selected><?= esc($j['kirim_hewan']) ?></option>
+                                                                                <option value="H-1 <?= $j_h_1 ?? '' ?> Siang">H-1 <?= $j_h_1 ?? '' ?> Siang</option>
+                                                                                <option value="H1 <?= $j_h ?? '' ?> Pagi">H1 <?= $j_h ?? '' ?> Pagi</option>
+                                                                                <option value="H1 <?= $j_h ?? '' ?> Siang">H1 <?= $j_h ?? '' ?> Siang</option>
+                                                                                <option value="H2 <?= $j_h2 ?? '' ?> Pagi">H2 <?= $j_h2 ?? '' ?> Pagi</option>
+                                                                                <option value="H2 <?= $j_h2 ?? '' ?> Siang">H2 <?= $j_h2 ?? '' ?> Siang</option>
+                                                                                <option value="H3 <?= $j_h3 ?? '' ?> Pagi">H3 <?= $j_h3 ?? '' ?> Pagi</option>
+                                                                                <option value="H3 <?= $j_h3 ?? '' ?> Siang">H3 <?= $j_h3 ?? '' ?> Siang</option>
+                                                                                <option value="H4 <?= $j_h4 ?? '' ?> Pagi">H4 <?= $j_h4 ?? '' ?> Pagi</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Jadwal Kirim Besek</label>
+                                                                            <select name="kirim_besek" class="form-select">
+                                                                                <option value="<?= esc($j['kirim_besek']) ?>" selected><?= esc($j['kirim_besek']) ?></option>
+                                                                                <option value="H1 <?= $j_h ?? '' ?>">H1 <?= $j_h ?? '' ?></option>
+                                                                                <option value="H2 <?= $j_h2 ?? '' ?>">H2 <?= $j_h2 ?? '' ?></option>
+                                                                                <option value="H3 <?= $j_h3 ?? '' ?>">H3 <?= $j_h3 ?? '' ?></option>
+                                                                                <option value="H4 <?= $j_h4 ?? '' ?>">H4 <?= $j_h4 ?? '' ?></option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Status</label>
+                                                                            <select name="status" class="form-select">
+                                                                                <option value="Sementara" <?= $j['status'] == 'Sementara' ? 'selected' : '' ?>>Sementara</option>
+                                                                                <option value="Final" <?= $j['status'] == 'Final' ? 'selected' : '' ?>>Final</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            </div>
+                            </td>
+                            </tr>
+                        <?php endforeach ?>
+                        </tbody>
                         </table>
+                        </div>
                     </div>
+        </div>
+    <?php endforeach ?>
+<?php else: ?>
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+            <h5 class="text-muted">Tidak ada data jadwal tersedia</h5>
+        </div>
+    </div>
+<?php endif ?>
 
-                </div>
+    </div>
+    </div>
+
+    <!-- Modal Input Data -->
+    <div class="modal fade" id="inputdata" tabindex="-1" aria-labelledby="inputdataLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="<?= site_url('/jadwal/store') ?>" method="post">
+                    <?= csrf_field() ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inputdataLabel">Input Jadwal Baru</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Cabang</label>
+                            <select name="cabang_id" class="form-select" required>
+                                <option value="" disabled selected>Pilih Cabang</option>
+                                <?php foreach ($cabang as $c): ?>
+                                    <option value="<?= $c['id'] ?>"><?= esc($c['nama_cabang']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">No Antrian</label>
+                            <input type="number" name="antrian" class="form-control" placeholder="Masukkan nomor antrian" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jadwal Kirim Hewan</label>
+                            <select name="kirim_hewan" class="form-select">
+                                <option value="" disabled selected>Pilih Waktu</option>
+                                <option value="H-1 <?= $j_h_1 ?? '' ?> Siang">H-1 <?= $j_h_1 ?? '' ?> Siang</option>
+                                <option value="H1 <?= $j_h ?? '' ?> Pagi">H1 <?= $j_h ?? '' ?> Pagi</option>
+                                <option value="H1 <?= $j_h ?? '' ?> Siang">H1 <?= $j_h ?? '' ?> Siang</option>
+                                <option value="H2 <?= $j_h2 ?? '' ?> Pagi">H2 <?= $j_h2 ?? '' ?> Pagi</option>
+                                <option value="H2 <?= $j_h2 ?? '' ?> Siang">H2 <?= $j_h2 ?? '' ?> Siang</option>
+                                <option value="H3 <?= $j_h3 ?? '' ?> Pagi">H3 <?= $j_h3 ?? '' ?> Pagi</option>
+                                <option value="H3 <?= $j_h3 ?? '' ?> Siang">H3 <?= $j_h3 ?? '' ?> Siang</option>
+                                <option value="H4 <?= $j_h4 ?? '' ?> Pagi">H4 <?= $j_h4 ?? '' ?> Pagi</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jadwal Kirim Besek</label>
+                            <select name="kirim_besek" class="form-select">
+                                <option value="" disabled selected>Pilih Waktu</option>
+                                <option value="H1 <?= $j_h ?? '' ?>">H1 <?= $j_h ?? '' ?></option>
+                                <option value="H2 <?= $j_h2 ?? '' ?>">H2 <?= $j_h2 ?? '' ?></option>
+                                <option value="H3 <?= $j_h3 ?? '' ?>">H3 <?= $j_h3 ?? '' ?></option>
+                                <option value="H4 <?= $j_h4 ?? '' ?>">H4 <?= $j_h4 ?? '' ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    </div>
+                </form>
             </div>
-
         </div>
     </div>
 
