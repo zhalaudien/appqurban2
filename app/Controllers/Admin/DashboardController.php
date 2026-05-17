@@ -74,10 +74,10 @@ class DashboardController extends BaseController
         $stokKambing = $terimaKambingTotal - $sembelihKambing;
 
         // 6. Produksi Besek (Total agregat produksi)
-        $prod = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('m', 'm')->selectSum('os', 'os')->selectSum('ok', 'ok')->get()->getRow();
+        $prod = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('os', 'os')->selectSum('ok', 'ok')->where("YEAR(created_at)", $tahun)->get()->getRow();
 
         // Produksi Besek Harian (Hari ini)
-        $harian = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('m', 'm')->selectSum('os', 'os')->selectSum('ok', 'ok')
+        $harian = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('os', 'os')->selectSum('ok', 'ok')
             ->where('DATE(created_at)', date('Y-m-d'))
             ->get()->getRow();
 
@@ -86,7 +86,7 @@ class DashboardController extends BaseController
         $totalDistribusiBesek = ($dist->R_TS ?? 0) + ($dist->R_TK ?? 0) + ($dist->R_A ?? 0) + ($dist->R_OS ?? 0) + ($dist->R_OK ?? 0);
 
         // 8. Stok K3 (Kepala, Kaki, Kulit)
-        $k3Data = $k3Model->selectSum('ks')->selectSum('kb')->selectSum('kks')->selectSum('kls')->get()->getRow();
+        $k3Data = $k3Model->selectSum('ks')->selectSum('kb')->selectSum('kks')->selectSum('kls')->where("YEAR(date_input)", $tahun)->get()->getRow();
         $k3 = [
             'ks' => $k3Data->ks ?? 0,
             'kb' => $k3Data->kb ?? 0,

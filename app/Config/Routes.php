@@ -165,8 +165,8 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
     // SETTING
     // =================================================
     $routes->group('setting', function ($routes) {
-        $routes->get('/', 'Setting::index');
-        $routes->post('update', 'Setting::update');
+        $routes->get('/', 'Admin\Setting\SettingController::index');
+        $routes->post('edit', 'Admin\Setting\SettingController::edit');
 
         $routes->get('seksi', 'Admin\Setting\SeksiController::index');
         $routes->post('seksi/create', 'Admin\Setting\SeksiController::create');
