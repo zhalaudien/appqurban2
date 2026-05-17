@@ -33,15 +33,28 @@ class JadwalController extends BaseController
         // Mengambil data setting untuk jadwal dinamis (H-1 s/d H4)
         $setting = $this->SettingModel->find(1);
 
-        // Ambil rekap hewan per cabang untuk tahun ini
-        $rekapData = $this->PequrbanModel->getRekapPerCabang($tahun)['rekap'] ?? [];
+        // Ambil rekap hewan per cabang termasuk jadwal (data sudah di-join di model)
+        $rekapResult = $this->PequrbanModel->getRekapPerCabang($tahun);
+        $jadwalRaw   = $rekapResult['rekap'] ?? [];
 
-        // Ambil data jadwal dan gabungkan dengan rekap hewan
-        $jadwalRaw = $this->JadwalModel->getJadwal();
+        // Format jumlah sapi menjadi pecahan per 7 (1 sapi = 7 pequrban)
         foreach ($jadwalRaw as &$j) {
-            $cabang_id = $j['cabang_id'];
-            $j['sapi'] = $rekapData[$cabang_id]['sapi'] ?? 0;
-            $j['kambing'] = $rekapData[$cabang_id]['kambing'] ?? 0;
+            foreach (['sapi_mandiri', 'sapi_bumm'] as $key) {
+                $val = (int)($j[$key] ?? 0);
+                $j[$key . '_raw'] = $val; // Simpan nilai asli untuk perhitungan total di view
+                if ($val > 0) {
+                    $whole  = intdiv($val, 7);
+                    $remain = $val % 7;
+
+                    if ($remain === 0) {
+                        $j[$key] = (string)$whole;
+                    } elseif ($whole > 0) {
+                        $j[$key] = "$whole $remain/7";
+                    } else {
+                        $j[$key] = "$remain/7";
+                    }
+                }
+            }
         }
 
         // Kelompokkan berdasarkan jadwal kirim besek

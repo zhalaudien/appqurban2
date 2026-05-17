@@ -197,23 +197,21 @@
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <small>Sapi BUMM</small>
-                                <small><?= $sembelihSapiFmt ?> / <?= $terimaSapiFmt ?></small>
+                                <small>Sapi BUMM (<?= $sisaSapiBummFmt ?>)</small>
+                                <small><?= $terimaSapiBumm ?> / <?= $targetSapiBummFmt ?></small>
                             </div>
                             <div class="progress" style="height:8px;">
-                                <?php $percSapi = $terimaSapi > 0 ? ($sembelihSapi / $terimaSapi) * 100 : 0; ?>
-                                <div class="progress-bar bg-primary" style="width:<?= $percSapi ?>%"></div>
+                                <div class="progress-bar bg-primary" style="width:<?= $percSapiBumm ?>%"></div>
                             </div>
                         </div>
 
                         <div>
                             <div class="d-flex justify-content-between">
-                                <small>Kambing BUMM</small>
-                                <small><?= $sembelihKambing ?> / <?= $terimaKambing ?></small>
+                                <small>Kambing BUMM (<?= $sisaKambingBummFmt ?>)</small>
+                                <small><?= $terimaKambingBumm ?> / <?= $kambingBumm ?></small>
                             </div>
                             <div class="progress" style="height:8px;">
-                                <?php $percKambing = $terimaKambing > 0 ? ($sembelihKambing / $terimaKambing) * 100 : 0; ?>
-                                <div class="progress-bar bg-success" style="width:<?= $percKambing ?>%"></div>
+                                <div class="progress-bar bg-success" style="width:<?= $percKambingBumm ?>%"></div>
                             </div>
                         </div>
                     </div>
@@ -230,23 +228,21 @@
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <small>Sapi Cabang</small>
-                                <small><?= $sembelihSapiFmt ?> / <?= $terimaSapiFmt ?></small>
+                                <small>Sapi Cabang (<?= $sisaSapiCabangFmt ?>)</small>
+                                <small><?= $terimaSapiCabang ?> / <?= $targetSapiCabangFmt ?></small>
                             </div>
                             <div class="progress" style="height:8px;">
-                                <?php $percSapi = $terimaSapi > 0 ? ($sembelihSapi / $terimaSapi) * 100 : 0; ?>
-                                <div class="progress-bar bg-primary" style="width:<?= $percSapi ?>%"></div>
+                                <div class="progress-bar bg-primary" style="width:<?= $percSapiCabang ?>%"></div>
                             </div>
                         </div>
 
                         <div>
                             <div class="d-flex justify-content-between">
-                                <small>Kambing Cabang</small>
-                                <small><?= $sembelihKambing ?> / <?= $terimaKambing ?></small>
+                                <small>Kambing Cabang (<?= $sisaKambingCabangFmt ?>)</small>
+                                <small><?= $terimaKambingCabang ?> / <?= $kambingCabang ?></small>
                             </div>
                             <div class="progress" style="height:8px;">
-                                <?php $percKambing = $terimaKambing > 0 ? ($sembelihKambing / $terimaKambing) * 100 : 0; ?>
-                                <div class="progress-bar bg-success" style="width:<?= $percKambing ?>%"></div>
+                                <div class="progress-bar bg-success" style="width:<?= $percKambingCabang ?>%"></div>
                             </div>
                         </div>
                     </div>

@@ -57,6 +57,11 @@ class PequrbanModel extends Model
         $builder->select("
             c.id,
             c.nama_cabang,
+            j.id AS jadwal_id,
+            j.antrian,
+            j.kirim_hewan,
+            j.kirim_besek,
+            j.status AS status_jadwal,
             COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS sapi_mandiri,
             COALESCE(SUM(CASE WHEN p.jenis_hewan = 'kambing' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS kambing_mandiri,
             COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'bumm' THEN 1 ELSE 0 END), 0) AS sapi_bumm,
@@ -66,6 +71,7 @@ class PequrbanModel extends Model
         ");
 
         $builder->join('pequrban p', "p.cabang_id = c.id AND p.tahun = " . $this->db->escape($tahun), 'left');
+        $builder->join('jadwal j', 'j.cabang_id = c.id', 'left');
         if ($pusat) {
             $builder->where('c.pusat', $pusat);
         }

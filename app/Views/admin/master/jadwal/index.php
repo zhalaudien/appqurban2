@@ -62,10 +62,10 @@
                                             <tr>
                                                 <td><?= esc($no++) ?></td>
                                                 <td class="text-start fw-semibold"><?= esc($j['nama_cabang']) ?></td>
-                                                <td class="fw-bold text-success"><?= esc($j['sapi']) ?></td>
-                                                <td class="fw-bold text-info"><?= esc($j['kambing']) ?></td>
-                                                <td class="fw-bold text-success"><?= esc($j['sapi']) ?></td>
-                                                <td class="fw-bold text-info"><?= esc($j['kambing']) ?></td>
+                                                <td class="fw-bold text-success"><?= esc($j['sapi_mandiri']) ?></td>
+                                                <td class="fw-bold text-info"><?= esc($j['kambing_mandiri']) ?></td>
+                                                <td class="fw-bold text-success"><?= esc($j['sapi_bumm']) ?></td>
+                                                <td class="fw-bold text-info"><?= esc($j['kambing_bumm']) ?></td>
                                                 <td><span class="badge bg-secondary">#<?= esc($j['antrian']) ?></span></td>
                                                 <td><?= esc($j['kirim_hewan']) ?></td>
                                                 <td><?= esc($j['kirim_besek']) ?></td>
@@ -85,7 +85,7 @@
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <input type="hidden" name="id" value="<?= $j['id'] ?>">
+                                                                        <input type="hidden" name="id" value="<?= $j['jadwal_id'] ?>">
 
                                                                         <div class="mb-3">
                                                                             <label class="form-label">No Antrian</label>
@@ -121,8 +121,8 @@
                                                                         <div class="mb-3">
                                                                             <label class="form-label">Status</label>
                                                                             <select name="status" class="form-select">
-                                                                                <option value="Sementara" <?= $j['status'] == 'Sementara' ? 'selected' : '' ?>>Sementara</option>
-                                                                                <option value="Final" <?= $j['status'] == 'Final' ? 'selected' : '' ?>>Final</option>
+                                                                                <option value="Sementara" <?= ($j['status_jadwal'] ?? '') == 'Sementara' ? 'selected' : '' ?>>Sementara</option>
+                                                                                <option value="Final" <?= ($j['status_jadwal'] ?? '') == 'Final' ? 'selected' : '' ?>>Final</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -139,6 +139,30 @@
                             </tr>
                         <?php endforeach ?>
                         </tbody>
+                        <tfoot>
+                            <tr class="table-light fw-bold">
+                                <td colspan="2" class="text-end text-dark">Total Per Hari:</td>
+                                <td class="text-success">
+                                    <?php
+                                    $total_sm = array_sum(array_column($data_jadwal, 'sapi_mandiri_raw'));
+                                    $w = intdiv($total_sm, 7);
+                                    $r = $total_sm % 7;
+                                    echo ($total_sm == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
+                                    ?>
+                                </td>
+                                <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_mandiri')) ?></td>
+                                <td class="text-success">
+                                    <?php
+                                    $total_sb = array_sum(array_column($data_jadwal, 'sapi_bumm_raw'));
+                                    $w = intdiv($total_sb, 7);
+                                    $r = $total_sb % 7;
+                                    echo ($total_sb == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
+                                    ?>
+                                </td>
+                                <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_bumm')) ?></td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tfoot>
                         </table>
                         </div>
                     </div>

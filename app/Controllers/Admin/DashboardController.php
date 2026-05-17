@@ -49,19 +49,29 @@ class DashboardController extends BaseController
         $muspikaCount  = $muspikaModel->countAllResults(); // Asumsi kolom seksi
 
         // 3. Penerimaan (Hewan yang sudah datang & Dana)
-        $terima = $penerimaanModel->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->selectSum('pembayaran', 'uang')->selectSum('shadaqoh', 'shadaqoh')->get()->getRow();
-        $terimaSapi = $terima->sapi ?? 0;
-        $terimaKambing = $terima->kambing ?? 0;
+        $terima = $penerimaanModel->where("YEAR(date_input)", $tahun)->selectSum('pembayaran', 'uang')->selectSum('shadaqoh', 'shadaqoh')->get()->getRow();
         $totalUang = ($terima->uang ?? 0) + ($terima->shadaqoh ?? 0);
 
+        // Penerimaan BUMM (Tahun Sekarang)
+        $terimaBumm = $penerimaanModel->where("YEAR(date_input)", $tahun)->where('cabang', 'BUMM Sragen')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
+        $terimaSapiBumm = (int)($terimaBumm->sapi ?? 0);
+        $terimaKambingBumm = (int)($terimaBumm->kambing ?? 0);
+
+        // Penerimaan Cabang (Tahun Sekarang)
+        $terimaCabang = $penerimaanModel->where("YEAR(date_input)", $tahun)->where('cabang !=', 'BUMM Sragen')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
+        $terimaSapiCabang = (int)($terimaCabang->sapi ?? 0);
+        $terimaKambingCabang = (int)($terimaCabang->kambing ?? 0);
+
         // 4. Kandang (Data Hewan Disembelih)
-        $sembelih = $kandangModel->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
+        $sembelih = $kandangModel->where("YEAR(date_input)", $tahun)->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
         $sembelihSapi = $sembelih->sapi ?? 0;
         $sembelihKambing = $sembelih->kambing ?? 0;
 
         // 5. Stok Kandang (Hewan Hidup yang belum disembelih)
-        $stokSapi = $terimaSapi - $sembelihSapi;
-        $stokKambing = $terimaKambing - $sembelihKambing;
+        $terimaSapiTotal = $terimaSapiBumm + $terimaSapiCabang;
+        $terimaKambingTotal = $terimaKambingBumm + $terimaKambingCabang;
+        $stokSapi = $terimaSapiTotal - $sembelihSapi;
+        $stokKambing = $terimaKambingTotal - $sembelihKambing;
 
         // 6. Produksi Besek (Total agregat produksi)
         $prod = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('m', 'm')->selectSum('os', 'os')->selectSum('ok', 'ok')->get()->getRow();
@@ -93,6 +103,13 @@ class DashboardController extends BaseController
             return ($whole > 0 ? $whole . ' ' : '') . $remain . '/7';
         };
 
+        // Helper Format Sisa Sapi
+        $formatSisaSapi = function ($targetOrang, $terimaEkor) use ($formatSapi) {
+            $sisaRaw = $targetOrang - ($terimaEkor * 7);
+            if ($sisaRaw <= 0) return "Lengkap";
+            return "Sisa: " . $formatSapi($sisaRaw);
+        };
+
         return view('admin/dashboard', [
             'totalPanitia'    => $totalPanitia,
             'totalPequrban'   => $totalPequrban,
@@ -106,17 +123,34 @@ class DashboardController extends BaseController
             'kambingBumm'     => $kambingBumm,
             'kambingCabang'   => $kambingCabang,
 
-            'terimaSapi'      => $terimaSapi,
-            'terimaKambing'   => $terimaKambing,
-            'terimaSapiFmt'   => $formatSapi($terimaSapi),
+            // Status Pengiriman BUMM
+            'terimaSapiBumm'    => $terimaSapiBumm,
+            'targetSapiBummFmt' => $formatSapi($sapiBumm),
+            'sisaSapiBummFmt'   => $formatSisaSapi($sapiBumm, $terimaSapiBumm),
+            'percSapiBumm'      => $sapiBumm > 0 ? min(100, (($terimaSapiBumm * 7) / $sapiBumm) * 100) : 0,
+
+            'terimaKambingBumm' => $terimaKambingBumm,
+            'sisaKambingBummFmt' => ($kambingBumm - $terimaKambingBumm) <= 0 ? "Lengkap" : "Sisa: " . ($kambingBumm - $terimaKambingBumm),
+            'percKambingBumm'   => $kambingBumm > 0 ? min(100, ($terimaKambingBumm / $kambingBumm) * 100) : 0,
+
+            // Status Pengiriman Cabang
+            'terimaSapiCabang'    => $terimaSapiCabang,
+            'targetSapiCabangFmt' => $formatSapi($sapiCabang),
+            'sisaSapiCabangFmt'   => $formatSisaSapi($sapiCabang, $terimaSapiCabang),
+            'percSapiCabang'      => $sapiCabang > 0 ? min(100, (($terimaSapiCabang * 7) / $sapiCabang) * 100) : 0,
+
+            'terimaKambingCabang' => $terimaKambingCabang,
+            'sisaKambingCabangFmt' => ($kambingCabang - $terimaKambingCabang) <= 0 ? "Lengkap" : "Sisa: " . ($kambingCabang - $terimaKambingCabang),
+            'percKambingCabang'   => $kambingCabang > 0 ? min(100, ($terimaKambingCabang / $kambingCabang) * 100) : 0,
 
             'totalUang'       => $totalUang,
 
             'sembelihSapi'    => $sembelihSapi,
             'sembelihKambing' => $sembelihKambing,
-            'sembelihSapiFmt' => $formatSapi($sembelihSapi),
+            'sembelihSapiFmt' => $formatSapi($sembelihSapi * 7),
+            'terimaSapiFmt'   => $formatSapi($terimaSapiTotal * 7),
 
-            'stokSapi'        => $formatSapi($stokSapi),
+            'stokSapi'        => $formatSapi($stokSapi * 7),
             'stokKambing'     => $stokKambing,
             'prod'            => $prod,
             'harian'          => $harian,
