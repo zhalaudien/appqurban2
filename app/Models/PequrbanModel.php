@@ -71,7 +71,8 @@ class PequrbanModel extends Model
         ");
 
         $builder->join('pequrban p', "p.cabang_id = c.id AND p.tahun = " . $this->db->escape($tahun), 'left');
-        $builder->join('jadwal j', 'j.cabang_id = c.id', 'left');
+        // Menggunakan subquery untuk memastikan hanya 1 baris jadwal yang di-join per cabang
+        $builder->join('jadwal j', "j.id = (SELECT id FROM jadwal WHERE cabang_id = c.id AND tahun = " . $this->db->escape($tahun) . " ORDER BY id DESC LIMIT 1)", 'left');
         if ($pusat) {
             $builder->where('c.pusat', $pusat);
         }

@@ -56,11 +56,13 @@ class JadwalController extends BaseController
                 }
             }
         }
+        unset($j); // Penting: Hapus referensi agar tidak merusak loop pengelompokan di bawahnya
 
         // Kelompokkan berdasarkan jadwal kirim besek
         $grouped = [];
         foreach ($jadwalRaw as $j) {
-            $key = $j['kirim_besek'] ?: 'Belum Ditentukan';
+            // Gunakan trim untuk menghindari spasi yang membuat grup berbeda
+            $key = trim($j['kirim_besek'] ?? '') ?: 'Belum Ditentukan';
             $grouped[$key][] = $j;
         }
         ksort($grouped);

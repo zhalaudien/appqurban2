@@ -79,16 +79,17 @@ $sapiBumm    = array_filter($prices, fn($p) => $p['jenis_hewan'] === 'sapi');
                                     <td><?= esc($c['bumm_sapi_' . $p['harga']] ?? 0) ?></td>
                                 <?php endforeach;
                                 if (empty($sapiBumm)): ?> <td>0</td> <?php endif; ?>
-
-                            <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <?php $totalCol = 7 + (count($kambingBumm) ?: 1) + (count($sapiBumm) ?: 1); ?>
-                                <td colspan="<?= $totalCol ?>" class="text-center text-muted py-4">
-                                    Tidak ada data rekap tahun <?= esc($year) ?>
-                                </td>
                             </tr>
-                        <?php endif ?>
+
+                        <?php endforeach ?>
+                    <?php else: ?>
+                        <tr>
+                            <?php $totalCol = 7 + (count($kambingBumm) ?: 1) + (count($sapiBumm) ?: 1); ?>
+                            <td colspan="<?= $totalCol ?>" class="text-center text-muted py-4">
+                                Tidak ada data rekap tahun <?= esc($year) ?>
+                            </td>
+                        </tr>
+                    <?php endif ?>
                 </tbody>
             </table>
         </div>

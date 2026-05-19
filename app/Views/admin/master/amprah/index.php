@@ -54,7 +54,6 @@
                                     <th>K_KB</th>
                                     <th>KK_S</th>
                                     <th>KLS</th>
-                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 
@@ -79,11 +78,6 @@
                                             <td><?= esc($c['K_KB']) ?></td>
                                             <td><?= esc($c['KK_S']) ?></td>
                                             <td><?= esc($c['KLS']) ?></td>
-                                            <td>
-                                                <a href="/qurban/amprah/edit/<?= esc($c['id']) ?>"
-                                                    class="btn btn-sm btn-warning">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
                                         </tr>
                                     <?php endforeach ?>
                                 <?php else: ?>

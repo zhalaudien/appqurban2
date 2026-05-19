@@ -134,50 +134,49 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-light fw-bold">
+                                            <td colspan="2" class="text-end text-dark">Total Per Hari:</td>
+                                            <td class="text-success">
+                                                <?php
+                                                $total_sm = array_sum(array_column($data_jadwal, 'sapi_mandiri_raw'));
+                                                $w = intdiv($total_sm, 7);
+                                                $r = $total_sm % 7;
+                                                echo ($total_sm == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
+                                                ?>
+                                            </td>
+                                            <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_mandiri')) ?></td>
+                                            <td class="text-success">
+                                                <?php
+                                                $total_sb = array_sum(array_column($data_jadwal, 'sapi_bumm_raw'));
+                                                $w = intdiv($total_sb, 7);
+                                                $r = $total_sb % 7;
+                                                echo ($total_sb == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
+                                                ?>
+                                            </td>
+                                            <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_bumm')) ?></td>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
-                            </td>
-                            </tr>
-                        <?php endforeach ?>
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-light fw-bold">
-                                <td colspan="2" class="text-end text-dark">Total Per Hari:</td>
-                                <td class="text-success">
-                                    <?php
-                                    $total_sm = array_sum(array_column($data_jadwal, 'sapi_mandiri_raw'));
-                                    $w = intdiv($total_sm, 7);
-                                    $r = $total_sm % 7;
-                                    echo ($total_sm == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
-                                    ?>
-                                </td>
-                                <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_mandiri')) ?></td>
-                                <td class="text-success">
-                                    <?php
-                                    $total_sb = array_sum(array_column($data_jadwal, 'sapi_bumm_raw'));
-                                    $w = intdiv($total_sb, 7);
-                                    $r = $total_sb % 7;
-                                    echo ($total_sb == 0) ? '0' : (($r === 0) ? $w : (($w > 0) ? "$w $r/7" : "$r/7"));
-                                    ?>
-                                </td>
-                                <td class="text-info"><?= array_sum(array_column($data_jadwal, 'kambing_bumm')) ?></td>
-                                <td colspan="4"></td>
-                            </tr>
-                        </tfoot>
-                        </table>
                         </div>
                     </div>
-        </div>
-    <?php endforeach ?>
-<?php else: ?>
-    <div class="card border-0 shadow-sm rounded-3">
-        <div class="card-body text-center py-5">
-            <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
-            <h5 class="text-muted">Tidak ada data jadwal tersedia</h5>
-        </div>
-    </div>
-<?php endif ?>
+                <?php endforeach ?>
+            <?php else: ?>
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+                        <h5 class="text-muted">Tidak ada data jadwal tersedia</h5>
+                    </div>
+                </div>
+            <?php endif ?>
 
-    </div>
+        </div>
     </div>
 
     <!-- Modal Input Data -->

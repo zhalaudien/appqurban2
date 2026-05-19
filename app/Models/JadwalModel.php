@@ -14,6 +14,7 @@ class JadwalModel extends Model
         'kirim_hewan',
         'kirim_besek',
         'status',
+        'tahun',
     ];
 
     protected $useTimestamps = true;
