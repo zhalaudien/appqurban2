@@ -8,6 +8,26 @@
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
+                <!-- Filter Tahun -->
+                <div class="row mb-3">
+                    <div class="col-md-3 ms-auto">
+                        <form action="" method="get" id="formFilterTahun">
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-info text-white border-info">
+                                    <i class="bi bi-calendar-event me-2"></i> Tahun Data
+                                </span>
+                                <select name="tahun" class="form-select border-info" onchange="this.form.submit()">
+                                    <?php
+                                    $tahun_aktif = $tahun_selected ?? date('Y');
+                                    for ($i = date('Y'); $i >= 2020; $i--): ?>
+                                        <option value="<?= $i ?>" <?= ($tahun_aktif == $i) ? 'selected' : '' ?>><?= $i ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="row g-4">
                     <!-- Form Input Hewan -->
                     <div class="col-12 col-lg-6">
@@ -15,14 +35,14 @@
                             <div class="card-header bg-info text-white">
                                 <h6 class="mb-0">Input Hewan Masuk</h6>
                             </div>
-                            <form action="/penerimaan/tambah" method="post" class="needs-validation" novalidate>
+                            <form action="/penerimaan/create" method="post" class="needs-validation" novalidate>
                                 <?= csrf_field(); ?>
                                 <div class="card-body row g-3">
                                     <div class="col-md-6">
                                         <label for="cabang" class="form-label">Cabang</label>
                                         <select class="form-select" name="cabang" required>
                                             <option value="" disabled selected>Pilih Cabang</option>
-                                            <option value="BUMM Sragen">BUMM</option>
+                                            <option value="9999">BUMM</option>
                                             <?php foreach ($cabang as $c): ?>
                                                 <option value="<?= $c['id'] ?>"><?= $c['nama_cabang'] ?></option>
                                             <?php endforeach; ?>
@@ -62,6 +82,82 @@
                             </form>
                         </div>
                     </div>
+
+                    <!-- Ringkasan Data Hewan & Uang -->
+                    <div class="col-12 col-lg-6">
+                        <div class="row g-4">
+                            <!-- Data Hewan -->
+                            <div class="col-12">
+                                <div class="card border-primary shadow-sm">
+                                    <div class="card-header bg-primary text-white">
+                                        <h6 class="mb-0">Ringkasan Pengiriman Hewan</h6>
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <table class="table table-bordered table-sm mb-0">
+                                            <thead class="table-light">
+                                                <tr class="text-center">
+                                                    <th>Jenis</th>
+                                                    <th>Target</th>
+                                                    <th>Masuk</th>
+                                                    <th>Sisa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Sapi BUMM</td>
+                                                    <td class="text-center"><?= number_format(($sapi_bumm ?? 0) + (($sapib_bumm ?? 0) / 7), 1) ?></td>
+                                                    <td class="text-center"><?= $total_sapi_bumm ?? 0 ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= number_format((($sapi_bumm ?? 0) + (($sapib_bumm ?? 0) / 7)) - ($total_sapi_bumm ?? 0), 1) ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sapi Cabang</td>
+                                                    <td class="text-center"><?= $sapi_mandiri ?? 0 ?></td>
+                                                    <td class="text-center"><?= $total_sapi_cabang ?? 0 ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= ($sapi_mandiri ?? 0) - ($total_sapi_cabang ?? 0) ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kambing BUMM</td>
+                                                    <td class="text-center"><?= $kambing_bumm ?? 0 ?></td>
+                                                    <td class="text-center"><?= $total_kambing_bumm ?? 0 ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= ($kambing_bumm ?? 0) - ($total_kambing_bumm ?? 0) ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kambing Cabang</td>
+                                                    <td class="text-center"><?= $kambing_mandiri ?? 0 ?></td>
+                                                    <td class="text-center"><?= $total_kambing_cabang ?? 0 ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= ($kambing_mandiri ?? 0) - ($total_kambing_cabang ?? 0) ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Uang Masuk -->
+                            <div class="col-12">
+                                <div class="card border-warning shadow-sm">
+                                    <div class="card-header bg-warning text-dark">
+                                        <h6 class="mb-0">Status Pembayaran | Biaya: Rp. <?= number_format($biaya ?? 0, 0, ',', '.') ?></h6>
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <table class="table table-bordered table-sm mb-0">
+                                            <thead class="table-light">
+                                                <tr class="text-center">
+                                                    <th>Asal</th>
+                                                    <th>Masuk</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Total Uang (BUMM + Cabang)</td>
+                                                    <td class="text-end fw-bold text-success">Rp. <?= number_format(($uang_bumm ?? 0) + ($uang_cabang ?? 0), 0, ',', '.') ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-lg-12">
                         <div class="row g-4">
                             <!-- Data Hewan -->
@@ -89,9 +185,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $no = 1; ?>
-                                                <?php if ($viewpenerimaan): ?>
-                                                    <?php foreach ($viewpenerimaan as $terima): ?>
+                                                <?php
+                                                $no = 1;
+                                                $sum_sapi = 0;
+                                                $sum_kambing = 0;
+                                                $sum_bayar = 0;
+                                                $sum_shadaqoh = 0;
+                                                ?>
+                                                <?php if ($penerimaan): ?>
+                                                    <?php foreach ($penerimaan as $terima): ?>
+                                                        <?php
+                                                        $sum_sapi += (int)$terima['sapi'];
+                                                        $sum_kambing += (int)$terima['kambing'];
+                                                        $sum_bayar += (float)$terima['pembayaran'];
+                                                        $sum_shadaqoh += (float)$terima['shadaqoh'];
+                                                        ?>
                                                         <tr class="align-middle">
                                                             <td><?= $no++; ?></td>
                                                             <td><?php echo $terima['cabang']; ?></td>
@@ -198,6 +306,16 @@
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </tbody>
+                                            <tfoot class="table-info fw-bold">
+                                                <tr>
+                                                    <td colspan="3" class="text-end">TOTAL KESELURUHAN (Halaman Ini):</td>
+                                                    <td><?= $sum_sapi ?></td>
+                                                    <td><?= $sum_kambing ?></td>
+                                                    <td>Rp. <?= number_format($sum_bayar, 0, ',', '.') ?></td>
+                                                    <td>Rp. <?= number_format($sum_shadaqoh, 0, ',', '.') ?></td>
+                                                    <td colspan="3"></td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
