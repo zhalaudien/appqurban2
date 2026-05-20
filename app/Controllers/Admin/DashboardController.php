@@ -49,16 +49,16 @@ class DashboardController extends BaseController
         $muspikaCount  = $muspikaModel->countAllResults(); // Asumsi kolom seksi
 
         // 3. Penerimaan (Hewan yang sudah datang & Dana)
-        $terima = $penerimaanModel->where("YEAR(date_input)", $tahun)->selectSum('pembayaran', 'uang')->selectSum('shadaqoh', 'shadaqoh')->get()->getRow();
+        $terima = $penerimaanModel->where("YEAR(created_at)", $tahun)->selectSum('pembayaran', 'uang')->selectSum('shadaqoh', 'shadaqoh')->get()->getRow();
         $totalUang = ($terima->uang ?? 0) + ($terima->shadaqoh ?? 0);
 
         // Penerimaan BUMM (Tahun Sekarang)
-        $terimaBumm = $penerimaanModel->where("YEAR(date_input)", $tahun)->where('cabang', 'BUMM Sragen')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
+        $terimaBumm = $penerimaanModel->where("YEAR(created_at)", $tahun)->where('cabang_id', '9999')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
         $terimaSapiBumm = (int)($terimaBumm->sapi ?? 0);
         $terimaKambingBumm = (int)($terimaBumm->kambing ?? 0);
 
         // Penerimaan Cabang (Tahun Sekarang)
-        $terimaCabang = $penerimaanModel->where("YEAR(date_input)", $tahun)->where('cabang !=', 'BUMM Sragen')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
+        $terimaCabang = $penerimaanModel->where("YEAR(created_at)", $tahun)->where('cabang_id !=', '9999')->selectSum('sapi', 'sapi')->selectSum('kambing', 'kambing')->get()->getRow();
         $terimaSapiCabang = (int)($terimaCabang->sapi ?? 0);
         $terimaKambingCabang = (int)($terimaCabang->kambing ?? 0);
 
