@@ -118,7 +118,7 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('/', 'Admin\Penerimaan\PenerimaanController::index');
         $routes->post('create', 'Admin\Penerimaan\PenerimaanController::create');
         $routes->post('update/(:num)', 'Admin\Penerimaan\PenerimaanController::update/$1');
-        $routes->get('delete/(:num)', 'Admin\Penerimaan\PenerimaanController::delete/$1');
+        $routes->get('hapus/(:num)', 'Admin\Penerimaan\PenerimaanController::hapus/$1');
         $routes->get('export', 'Admin\Penerimaan\PenerimaanController::export');
         $routes->get('print/(:num)', 'Admin\Penerimaan\PenerimaanController::print/$1');
     });

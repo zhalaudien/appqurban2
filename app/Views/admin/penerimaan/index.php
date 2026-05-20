@@ -132,15 +132,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Sapi BUMM</td>
-                                                    <td class="text-center"><?= number_format(($sapi_bumm ?? 0) + (($sapib_bumm ?? 0) / 7), 1) ?></td>
+                                                    <td class="text-center"><?= $sapi_bumm ?? 0 ?></td>
                                                     <td class="text-center"><?= $total_sapi_bumm ?? 0 ?></td>
-                                                    <td class="text-center text-danger fw-bold"><?= number_format((($sapi_bumm ?? 0) + (($sapib_bumm ?? 0) / 7)) - ($total_sapi_bumm ?? 0), 1) ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= number_format(($sapi_bumm_raw ?? 0) - ($total_sapi_bumm ?? 0), 1) ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Sapi Cabang</td>
                                                     <td class="text-center"><?= $sapi_mandiri ?? 0 ?></td>
                                                     <td class="text-center"><?= $total_sapi_cabang ?? 0 ?></td>
-                                                    <td class="text-center text-danger fw-bold"><?= ($sapi_mandiri ?? 0) - ($total_sapi_cabang ?? 0) ?></td>
+                                                    <td class="text-center text-danger fw-bold"><?= number_format(($sapi_mandiri_raw ?? 0) - ($total_sapi_cabang ?? 0), 1) ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Kambing BUMM</td>
@@ -202,13 +202,22 @@
                             <!-- Data Hewan -->
                             <div class="col-12">
                                 <div class="card border-top border-4 border-success shadow-sm">
-                                    <div class="card-header bg-light">
-                                        <h6 class="mb-0 text-success fw-bold"><i class="bi bi-list-ul me-2"></i>Riwayat Penerimaan Hewan</h6>
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0 text-success fw-bold">
+                                            <i class="bi bi-list-ul me-2"></i>Riwayat Penerimaan Hewan
+                                        </h6>
+                                        <!-- Search Box -->
+                                        <div class="col-md-4 col-12 mt-2 mt-md-0">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-white border-success text-success"><i class="bi bi-search"></i></span>
+                                                <input type="text" id="searchInput" class="form-control border-success" placeholder="Cari Cabang atau Pengirim...">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body p-3">
                                         <div class="table-responsive">
-                                            <table id="datatablesSimple" class="table table-hover table-striped mb-0 text-nowrap">
-                                                <thead class="table-light">
+                                            <table id="penerimaanTable" class="table table-hover table-striped mb-0 text-nowrap">
+                                                <thead class="table-light shadow-sm">
                                                     <tr>
                                                         <th class="text-center" style="width: 50px">No</th>
                                                         <th>Cabang</th>
@@ -265,98 +274,25 @@
                                                                             Hapus
                                                                         </a>
                                                                     </div>
-                                                                    <!-- Modal -->
-                                                                    <div class="modal fade" id="hapusdata<?php echo $terima['id']; ?>"
-                                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                        aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-body">
-                                                                                    <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                                    <p>Menghapus data
-                                                                                        <?= $terima['cabang_id'] == 9999 ? 'BUMM' : ($terima['nama_cabang'] ?? 'Tidak Diketahui') ?>, pengirim
-                                                                                        <?php echo $terima['pengirim']; ?>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-warning"
-                                                                                        data-bs-dismiss="modal">Batal</button>
-                                                                                    <a href="<?= base_url('/penerimaan/hapus/' . $terima['id']) ?>"
-                                                                                        type="button" class="btn btn-danger">Hapus</a>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal fade" id="edit<?php echo $terima['id']; ?>"
-                                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                        aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-body">
-                                                                                    <form action="<?= base_url('penerimaan/update/' . $terima['id']) ?>" method="post" class="needs-validation" novalidate>
-                                                                                        <?= csrf_field(); ?>
-                                                                                        <div class="card-body row g-3">
-                                                                                            <input type="hidden" name="id" value="<?= $terima['id'] ?>">
-                                                                                            <input type="hidden" name="cabang_id" value="<?= $terima['cabang_id'] ?>">
-
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Cabang</label>
-                                                                                                <input type="text" class="form-control" value="<?= $terima['cabang_id'] == 9999 ? 'BUMM' : ($terima['nama_cabang'] ?? 'Tidak Diketahui') ?>" readonly>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Pengirim</label>
-                                                                                                <input type="text" name="pengirim" class="form-control" required value="<?= $terima['pengirim'] ?>">
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Jumlah Sapi</label>
-                                                                                                <input type="number" name="sapi" class="form-control" min="0" required value="<?= $terima['sapi'] ?>">
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Jumlah Kambing</label>
-                                                                                                <input type="number" name="kambing" class="form-control" min="0" required value="<?= $terima['kambing'] ?>">
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Pembayaran</label>
-                                                                                                <input type="text" name="pembayaran_display" id="pembayaran_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['pembayaran'], 0, ',', '.') ?>">
-                                                                                                <input type="hidden" name="pembayaran" id="pembayaran_clean_<?= $terima['id'] ?>">
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="form-label">Shadaqoh</label>
-                                                                                                <input type="text" name="shadaqoh_display" id="shadaqoh_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['shadaqoh'], 0, ',', '.') ?>">
-                                                                                                <input type="hidden" name="shadaqoh" id="shadaqoh_clean_<?= $terima['id'] ?>">
-                                                                                            </div>
-                                                                                            <div class="col-md-12">
-                                                                                                <label class="form-label">Keterangan</label>
-                                                                                                <input type="text" name="ket" class="form-control" value="<?= $terima['ket'] ?>">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Batal</button>
-                                                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     <?php endif; ?>
                                                 </tbody>
-                                                <tfoot class="table-light fw-bold border-top border-dark">
+                                                <tfoot class="table-light fw-bold border-top border-dark" id="tableFooter">
                                                     <tr>
-                                                        <td colspan="3" class="text-end">TOTAL KESELURUHAN (Halaman Ini):</td>
-                                                        <td class="text-center"><?= $sum_sapi ?></td>
-                                                        <td class="text-center"><?= $sum_kambing ?></td>
-                                                        <td class="text-end">Rp <?= number_format($sum_bayar, 0, ',', '.') ?></td>
-                                                        <td class="text-end text-success">Rp <?= number_format($sum_shadaqoh, 0, ',', '.') ?></td>
+                                                        <td colspan="3" class="text-end">TOTAL (Data Tampil):</td>
+                                                        <td class="text-center" id="foot_sum_sapi"><?= $sum_sapi ?></td>
+                                                        <td class="text-center" id="foot_sum_kambing"><?= $sum_kambing ?></td>
+                                                        <td class="text-end" id="foot_sum_bayar">Rp <?= number_format($sum_bayar, 0, ',', '.') ?></td>
+                                                        <td class="text-end text-success" id="foot_sum_shadaqoh">Rp <?= number_format($sum_shadaqoh, 0, ',', '.') ?></td>
                                                         <td colspan="3"></td>
                                                     </tr>
                                                 </tfoot>
                                             </table>
                                         </div>
+                                        <!-- Pagination Container -->
+                                        <div id="paginationContainer" class="mt-3 d-flex justify-content-center"></div>
                                     </div>
                                 </div>
                             </div>
@@ -370,5 +306,135 @@
     </div>
 </main>
 <!--end::App Main-->
+
+<!-- ===================================================== -->
+<!-- MODAL AREA (DI LUAR TABEL)                            -->
+<!-- ===================================================== -->
+<?php if ($penerimaan): ?>
+    <?php foreach ($penerimaan as $terima): ?>
+        <!-- Modal Hapus -->
+        <div class="modal fade" id="hapusdata<?php echo $terima['id']; ?>" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title"><i class="bi bi-trash me-2"></i>Konfirmasi Hapus</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center py-4">
+                        <i class="bi bi-exclamation-circle text-danger" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Apakah anda yakin?</h4>
+                        <p class="text-muted">Data dari pengirim <strong><?= $terima['pengirim'] ?></strong> akan dihapus permanen.</p>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <a href="<?= base_url('/penerimaan/hapus/' . $terima['id']) ?>" class="btn btn-danger px-4">Ya, Hapus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Edit -->
+        <div class="modal fade" id="edit<?php echo $terima['id']; ?>" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Data Penerimaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="<?= base_url('penerimaan/update/' . $terima['id']) ?>" method="post">
+                        <?= csrf_field(); ?>
+                        <div class="modal-body p-4">
+                            <div class="row g-3">
+                                <input type="hidden" name="id" value="<?= $terima['id'] ?>">
+                                <input type="hidden" name="cabang_id" value="<?= $terima['cabang_id'] ?>">
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Cabang</label>
+                                    <input type="text" class="form-control bg-light" value="<?= $terima['cabang_id'] == 9999 ? 'BUMM' : ($terima['nama_cabang'] ?? 'Tidak Diketahui') ?>" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Pengirim</label>
+                                    <input type="text" name="pengirim" class="form-control" required value="<?= $terima['pengirim'] ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Jumlah Sapi</label>
+                                    <input type="number" name="sapi" class="form-control" min="0" value="<?= $terima['sapi'] ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Jumlah Kambing</label>
+                                    <input type="number" name="kambing" class="form-control" min="0" value="<?= $terima['kambing'] ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold text-primary">Pembayaran</label>
+                                    <input type="text" name="pembayaran_display" id="pembayaran_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['pembayaran'], 0, ',', '.') ?>">
+                                    <input type="hidden" name="pembayaran" id="pembayaran_clean_<?= $terima['id'] ?>" value="<?= $terima['pembayaran'] ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold text-success">Shadaqoh</label>
+                                    <input type="text" name="shadaqoh_display" id="shadaqoh_<?= $terima['id'] ?>" class="form-control" oninput="formatRupiah(this, <?= $terima['id'] ?>)" value="<?= number_format($terima['shadaqoh'], 0, ',', '.') ?>">
+                                    <input type="hidden" name="shadaqoh" id="shadaqoh_clean_<?= $terima['id'] ?>" value="<?= $terima['shadaqoh'] ?>">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Keterangan</label>
+                                    <textarea name="ket" class="form-control" rows="2"><?= $terima['ket'] ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary px-4">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<script>
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function updateFooterTotals() {
+        let rows = document.querySelectorAll('#penerimaanTable tbody tr');
+        let totalSapi = 0;
+        let totalKambing = 0;
+        let totalBayar = 0;
+        let totalShadaqoh = 0;
+
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                // Kolom index: Sapi(3), Kambing(4), Bayar(5), Shadaqoh(6)
+                totalSapi += parseInt(row.cells[3].innerText) || 0;
+                totalKambing += parseInt(row.cells[4].innerText) || 0;
+
+                // Bersihkan string Rp dan titik sebelum dihitung
+                let bayarStr = row.cells[5].innerText.replace(/[^\d]/g, '');
+                totalBayar += parseFloat(bayarStr) || 0;
+
+                let shadaqohStr = row.cells[6].innerText.replace(/[^\d]/g, '');
+                totalShadaqoh += parseFloat(shadaqohStr) || 0;
+            }
+        });
+
+        document.getElementById('foot_sum_sapi').innerText = totalSapi;
+        document.getElementById('foot_sum_kambing').innerText = totalKambing;
+        document.getElementById('foot_sum_bayar').innerText = 'Rp ' + formatNumber(totalBayar);
+        document.getElementById('foot_sum_shadaqoh').innerText = 'Rp ' + formatNumber(totalShadaqoh);
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#penerimaanTable tbody tr');
+
+        rows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+
+        updateFooterTotals();
+    });
+</script>
 
 <?= $this->endSection() ?>

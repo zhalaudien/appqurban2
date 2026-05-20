@@ -10,6 +10,7 @@ use App\Models\CabangModel;
 use App\Models\SettingModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\PequrbanModel;
 
 class PenerimaanController extends BaseController
 {
@@ -17,6 +18,8 @@ class PenerimaanController extends BaseController
     protected $cabangModel;
     protected $qurbanModel;
     protected $settingModel;
+    protected $pequrbanModel;
+
 
     public function __construct()
     {
@@ -24,6 +27,7 @@ class PenerimaanController extends BaseController
         $this->cabangModel     = new CabangModel();
         $this->qurbanModel     = new QurbanModel();
         $this->settingModel    = new SettingModel();
+        $this->pequrbanModel   = new PequrbanModel();
     }
 
     // ----------------------------------------------------------------
@@ -33,9 +37,40 @@ class PenerimaanController extends BaseController
     {
         $tahun = $this->request->getGet('tahun') ?? date('Y');
 
-        // Mengambil target qurban dari QurbanModel
-        $target = $this->qurbanModel->selectSum('sapi_bumm')->selectSum('sapib_bumm')->selectSum('kambing_bumm')
-            ->selectSum('sapi_mandiri')->selectSum('kambing_mandiri')->get()->getRow();
+        // Mengambil target qurban dari PequrbanModel menggunakan getRekapPerCabang
+        $rekapData = $this->pequrbanModel->getRekapPerCabang($tahun);
+        $rekapPerCabang = $rekapData['rekap'];
+
+        // Inisialisasi total target
+        $target = (object)[
+            'sapi_bumm'       => 0, // Ini akan menjadi total sapi utuh BUMM
+            'sapib_bumm'      => 0, // Ini akan menjadi total peserta sapi BUMM
+            'kambing_bumm'    => 0,
+            'sapi_mandiri'    => 0,
+            'kambing_mandiri' => 0,
+        ];
+
+        foreach ($rekapPerCabang as $rekap) {
+            $target->sapib_bumm      += $rekap['sapi_bumm']; // Sum of individual BUMM sapi participants
+            $target->kambing_bumm    += $rekap['kambing_bumm'];
+            $target->sapi_mandiri    += $rekap['sapi_mandiri'];
+            $target->kambing_mandiri += $rekap['kambing_mandiri'];
+        }
+
+        // Helper untuk format pecahan sapi (n/7)
+        $formatSapi = function ($count) {
+            $whole = intdiv($count, 7);
+            $remain = $count % 7;
+            if ($count == 0) return "0";
+            if ($remain === 0) return (string)$whole;
+            return ($whole > 0 ? $whole . ' ' : '') . $remain . '/7';
+        };
+
+        $target->sapi_bumm_raw = $target->sapib_bumm / 7;
+        $target->sapi_mandiri_raw = $target->sapi_mandiri / 7;
+        $target->sapi_bumm = $formatSapi($target->sapib_bumm);
+        $target->sapi_mandiri = $formatSapi($target->sapi_mandiri);
+
 
         // Mengambil akumulasi penerimaan untuk ringkasan di view
         $total_sapi_bumm      = $this->penerimaanModel->where('cabang_id', 9999)->where('YEAR(created_at)', $tahun)->selectSum('sapi')->get()->getRow()->sapi ?? 0;
@@ -65,9 +100,11 @@ class PenerimaanController extends BaseController
 
             // Data Summary untuk Ringkasan Tabel di View
             'sapi_bumm'            => $target->sapi_bumm ?? 0,
+            'sapi_bumm_raw'        => $target->sapi_bumm_raw ?? 0,
             'sapib_bumm'           => $target->sapib_bumm ?? 0,
             'kambing_bumm'         => $target->kambing_bumm ?? 0,
             'sapi_mandiri'         => $target->sapi_mandiri ?? 0,
+            'sapi_mandiri_raw'     => $target->sapi_mandiri_raw ?? 0,
             'kambing_mandiri'      => $target->kambing_mandiri ?? 0,
             'total_sapi_bumm'      => $total_sapi_bumm,
             'total_sapi_cabang'    => $total_sapi_cabang,
@@ -114,35 +151,10 @@ class PenerimaanController extends BaseController
     }
 
     // ----------------------------------------------------------------
-    // EDIT — tampilkan form edit (biasanya modal / halaman terpisah)
-    // ----------------------------------------------------------------
-    public function edit($id)
-    {
-        $item = $this->penerimaanModel->find($id);
-
-        if (! $item) {
-            return redirect()->to('/penerimaan')
-                ->with('error', 'Data tidak ditemukan.');
-        }
-
-        $data = [
-            'title'   => 'Edit Penerimaan',
-            'item'    => $item,
-            'cabang'  => $this->cabangModel->findAll(),
-        ];
-
-        return view('penerimaan/edit', $data);
-    }
-
-    // ----------------------------------------------------------------
     // UPDATE — simpan perubahan data
     // ----------------------------------------------------------------
     public function update($id)
     {
-        if ($this->request->getMethod() !== 'post') {
-            return redirect()->to('/penerimaan');
-        }
-
         $item = $this->penerimaanModel->find($id);
 
         if (! $item) {
@@ -211,7 +223,7 @@ class PenerimaanController extends BaseController
         ];
 
         foreach ($headers as $col => $header) {
-            $sheet->setCellValueByColumnAndRow($col + 1, 1, $header);
+            $sheet->setCellValue([$col + 1, 1], $header);
         }
 
         // Style header
@@ -228,15 +240,15 @@ class PenerimaanController extends BaseController
         // ── Baris data ───────────────────────────────────────────────
         foreach ($data as $i => $row) {
             $r = $i + 2;
-            $sheet->setCellValueByColumnAndRow(1, $r, $i + 1);
-            $sheet->setCellValueByColumnAndRow(2, $r, $row['cabang_id'] == 9999 ? 'BUMM' : $row['nama_cabang']);
-            $sheet->setCellValueByColumnAndRow(3, $r, $row['pengirim']);
-            $sheet->setCellValueByColumnAndRow(4, $r, $row['sapi']);
-            $sheet->setCellValueByColumnAndRow(5, $r, $row['kambing']);
-            $sheet->setCellValueByColumnAndRow(6, $r, $row['pembayaran']);
-            $sheet->setCellValueByColumnAndRow(7, $r, $row['shadaqoh']);
-            $sheet->setCellValueByColumnAndRow(8, $r, $row['ket']);
-            $sheet->setCellValueByColumnAndRow(9, $r, $row['created_at']);
+            $sheet->setCellValue([1, $r], $i + 1);
+            $sheet->setCellValue([2, $r], $row['cabang_id'] == 9999 ? 'BUMM' : $row['nama_cabang']);
+            $sheet->setCellValue([3, $r], $row['pengirim']);
+            $sheet->setCellValue([4, $r], $row['sapi']);
+            $sheet->setCellValue([5, $r], $row['kambing']);
+            $sheet->setCellValue([6, $r], $row['pembayaran']);
+            $sheet->setCellValue([7, $r], $row['shadaqoh']);
+            $sheet->setCellValue([8, $r], $row['ket']);
+            $sheet->setCellValue([9, $r], $row['created_at']);
         }
 
         // Auto-size kolom
