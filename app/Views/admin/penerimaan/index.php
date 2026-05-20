@@ -202,7 +202,7 @@
                                                         ?>
                                                         <tr class="align-middle">
                                                             <td><?= $no++; ?></td>
-                                                            <td><?php echo $terima['cabang']; ?></td>
+                                                            <td><?php echo $terima['cabang_id']; ?></td>
                                                             <td><?php echo $terima['pengirim']; ?></td>
                                                             <td><?php echo $terima['sapi']; ?></td>
                                                             <td><?php echo $terima['kambing']; ?></td>
