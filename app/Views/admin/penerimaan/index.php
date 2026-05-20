@@ -262,7 +262,7 @@
 
                                                                                         <div class="col-md-6">
                                                                                             <label class="form-label">Cabang</label>
-                                                                                            <input type="text" name="Cabang_id" class="form-control" required value="<?= $terima['cabang'] ?>" readonly>
+                                                                                            <input type="text" name="Cabang_id" class="form-control" required value="<?= $terima['cabang_id'] ?>" readonly>
                                                                                         </div>
                                                                                         <div class="col-md-6">
                                                                                             <label class="form-label">Pengirim</label>
