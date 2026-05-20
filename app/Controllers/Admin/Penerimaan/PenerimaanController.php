@@ -4,6 +4,7 @@ namespace App\Controllers\Admin\Penerimaan;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\QurbanModel;
 use App\Models\PenerimaanModel;
 use App\Models\CabangModel;
 use App\Models\SettingModel;
@@ -14,11 +15,15 @@ class PenerimaanController extends BaseController
 {
     protected $penerimaanModel;
     protected $cabangModel;
+    protected $qurbanModel;
+    protected $settingModel;
 
     public function __construct()
     {
         $this->penerimaanModel = new PenerimaanModel();
         $this->cabangModel     = new CabangModel();
+        $this->qurbanModel     = new QurbanModel();
+        $this->settingModel    = new SettingModel();
     }
 
     // ----------------------------------------------------------------
@@ -26,10 +31,54 @@ class PenerimaanController extends BaseController
     // ----------------------------------------------------------------
     public function index()
     {
+        $tahun = $this->request->getGet('tahun') ?? date('Y');
+
+        // Mengambil target qurban dari QurbanModel
+        $target = $this->qurbanModel->selectSum('sapi_bumm')->selectSum('sapib_bumm')->selectSum('kambing_bumm')
+            ->selectSum('sapi_mandiri')->selectSum('kambing_mandiri')->get()->getRow();
+
+        // Mengambil akumulasi penerimaan untuk ringkasan di view
+        $total_sapi_bumm      = $this->penerimaanModel->where('cabang_id', 9999)->where('YEAR(created_at)', $tahun)->selectSum('sapi')->get()->getRow()->sapi ?? 0;
+        $total_sapi_cabang    = $this->penerimaanModel->where('cabang_id !=', 9999)->where('YEAR(created_at)', $tahun)->selectSum('sapi')->get()->getRow()->sapi ?? 0;
+        $total_kambing_bumm   = $this->penerimaanModel->where('cabang_id', 9999)->where('YEAR(created_at)', $tahun)->selectSum('kambing')->get()->getRow()->kambing ?? 0;
+        $total_kambing_cabang = $this->penerimaanModel->where('cabang_id !=', 9999)->where('YEAR(created_at)', $tahun)->selectSum('kambing')->get()->getRow()->kambing ?? 0;
+
+        $uang_bumm   = $this->penerimaanModel->where('cabang_id', 9999)->where('YEAR(created_at)', $tahun)->selectSum('pembayaran')->get()->getRow()->pembayaran ?? 0;
+        $uang_cabang = $this->penerimaanModel->where('cabang_id !=', 9999)->where('YEAR(created_at)', $tahun)->selectSum('pembayaran')->get()->getRow()->pembayaran ?? 0;
+        $total_shadaqah = $this->penerimaanModel->where('YEAR(created_at)', $tahun)->selectSum('shadaqoh')->get()->getRow()->shadaqoh ?? 0;
+
+        // Menghitung total pembayaran (BUMM + Cabang) khusus untuk hari ini saja
+        $today = date('Y-m-d');
+        $uang_hari_ini = $this->penerimaanModel->where('DATE(created_at)', $today)->selectSum('pembayaran')->get()->getRow()->pembayaran ?? 0;
+        $shadaqoh_hari_ini = $this->penerimaanModel->where('DATE(created_at)', $today)->selectSum('shadaqoh')->get()->getRow()->shadaqoh ?? 0;
+
         $data = [
-            'title'      => 'Penerimaan Hewan',
-            'penerimaan' => $this->penerimaanModel->orderBy('created_at', 'DESC')->findAll(),
-            'cabang'     => $this->cabangModel->findAll(),
+            'title'          => 'Penerimaan Hewan',
+            'tahun_selected' => $tahun,
+            'penerimaan'     => $this->penerimaanModel
+                ->select('penerimaan.*, cabang.nama_cabang')
+                ->join('cabang', 'cabang.id = penerimaan.cabang_id', 'left')
+                ->where('YEAR(penerimaan.created_at)', $tahun)
+                ->orderBy('penerimaan.created_at', 'DESC')
+                ->findAll(),
+            'cabang'         => $this->cabangModel->findAll(),
+
+            // Data Summary untuk Ringkasan Tabel di View
+            'sapi_bumm'            => $target->sapi_bumm ?? 0,
+            'sapib_bumm'           => $target->sapib_bumm ?? 0,
+            'kambing_bumm'         => $target->kambing_bumm ?? 0,
+            'sapi_mandiri'         => $target->sapi_mandiri ?? 0,
+            'kambing_mandiri'      => $target->kambing_mandiri ?? 0,
+            'total_sapi_bumm'      => $total_sapi_bumm,
+            'total_sapi_cabang'    => $total_sapi_cabang,
+            'total_kambing_bumm'   => $total_kambing_bumm,
+            'total_kambing_cabang' => $total_kambing_cabang,
+            'uang_bumm'            => $uang_bumm,
+            'uang_cabang'          => $uang_cabang,
+            'total_shadaqah'       => $total_shadaqah,
+            'shadaqoh_hari_ini'    => $shadaqoh_hari_ini,
+            'uang_hari_ini'        => $uang_hari_ini,
+            'biaya'                => $this->settingModel->select('biaya')->first()['biaya'] ?? 0,
         ];
 
         return view('admin/penerimaan/index', $data);
@@ -40,38 +89,28 @@ class PenerimaanController extends BaseController
     // ----------------------------------------------------------------
     public function create()
     {
-        if ($this->request->getMethod() !== 'post') {
-            return redirect()->to('/penerimaan');
+        try {
+            // Bersihkan input pembayaran dan shadaqoh dari karakter non-digit
+            $pembayaran_clean = (float) preg_replace('/[^0-9]/', '', $this->request->getPost('pembayaran'));
+            $shadaqoh_clean   = (float) preg_replace('/[^0-9]/', '', $this->request->getPost('shadaqoh'));
+
+            $this->penerimaanModel->insert([
+                'cabang_id'  => $this->request->getPost('cabang_id'),
+                'pengirim'   => $this->request->getPost('pengirim'),
+                'sapi'       => (int) $this->request->getPost('sapi'),
+                'kambing'    => (int) $this->request->getPost('kambing'),
+                'pembayaran' => $pembayaran_clean,
+                'shadaqoh'   => $shadaqoh_clean,
+                'tahun'      => date('Y'),
+                'ket'        => $this->request->getPost('ket'),
+            ]);
+
+            return redirect()->to(base_url('penerimaan'))
+                ->with('success', 'Data penerimaan berhasil disimpan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
-
-        $rules = [
-            'cabang'     => 'required',
-            'pengirim'   => 'required|min_length[3]|max_length[100]',
-            'sapi'       => 'required|integer|greater_than_equal_to[0]',
-            'kambing'    => 'required|integer|greater_than_equal_to[0]',
-            'pembayaran' => 'required|integer|greater_than_equal_to[0]',
-            'shadaqoh'   => 'required|integer|greater_than_equal_to[0]',
-            'ket'        => 'permit_empty|max_length[255]',
-        ];
-
-        if (! $this->validate($rules)) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $this->validator->getErrors());
-        }
-
-        $this->penerimaanModel->insert([
-            'cabang_id'  => $this->request->getPost('cabang'),
-            'pengirim'   => $this->request->getPost('pengirim'),
-            'sapi'       => $this->request->getPost('sapi'),
-            'kambing'    => $this->request->getPost('kambing'),
-            'pembayaran' => $this->request->getPost('pembayaran'),   // nilai bersih (hidden)
-            'shadaqoh'   => $this->request->getPost('shadaqoh'),     // nilai bersih (hidden)
-            'ket'        => $this->request->getPost('ket'),
-        ]);
-
-        return redirect()->to('/penerimaan')
-            ->with('success', 'Data berhasil disimpan.');
     }
 
     // ----------------------------------------------------------------
@@ -111,29 +150,14 @@ class PenerimaanController extends BaseController
                 ->with('error', 'Data tidak ditemukan.');
         }
 
-        $rules = [
-            'cabang'     => 'required',
-            'pengirim'   => 'required|min_length[3]|max_length[100]',
-            'sapi'       => 'required|integer|greater_than_equal_to[0]',
-            'kambing'    => 'required|integer|greater_than_equal_to[0]',
-            'pembayaran' => 'required|integer|greater_than_equal_to[0]',
-            'shadaqoh'   => 'required|integer|greater_than_equal_to[0]',
-            'ket'        => 'permit_empty|max_length[255]',
-        ];
-
-        if (! $this->validate($rules)) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $this->validator->getErrors());
-        }
-
         $this->penerimaanModel->update($id, [
-            'cabang_id'  => $this->request->getPost('cabang'),
+            'cabang_id'  => $this->request->getPost('cabang_id'),
             'pengirim'   => $this->request->getPost('pengirim'),
-            'sapi'       => $this->request->getPost('sapi'),
-            'kambing'    => $this->request->getPost('kambing'),
-            'pembayaran' => $this->request->getPost('pembayaran'),
-            'shadaqoh'   => $this->request->getPost('shadaqoh'),
+            'sapi'       => (int) $this->request->getPost('sapi'),
+            'kambing'    => (int) $this->request->getPost('kambing'),
+            // Bersihkan input pembayaran dan shadaqoh dari karakter non-digit
+            'pembayaran' => (float) preg_replace('/[^0-9]/', '', $this->request->getPost('pembayaran')),
+            'shadaqoh'   => (float) preg_replace('/[^0-9]/', '', $this->request->getPost('shadaqoh')),
             'ket'        => $this->request->getPost('ket'),
         ]);
 
