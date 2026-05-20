@@ -209,7 +209,7 @@
                                                             <td>Rp. <?= number_format($terima['pembayaran'], 0, ',', '.'); ?></td>
                                                             <td>Rp. <?= number_format($terima['shadaqoh'], 0, ',', '.'); ?></td>
                                                             <td><?php echo $terima['ket']; ?></td>
-                                                            <td><?php echo $terima['date_input']; ?></td>
+                                                            <td><?php echo $terima['created_at']; ?></td>
                                                             <td>
                                                                 <div class="btn-group mb-2" role="group"
                                                                     aria-label="Basic mixed styles example">
