@@ -14,30 +14,24 @@ class PanitiaController extends BaseController
 {
     public function index()
     {
-        $userModel = new PanitiaModel();
-        $idPanitia = new SeksiModel();
-        $cabangModel = new CabangModel();
+        $panitiaModel = new PanitiaModel();
+        $seksiModel   = new SeksiModel();
+        $cabangModel  = new CabangModel();
 
-        $data['idpanitia'] = $idPanitia->orderBy('nama_seksi', 'ASC')->findAll();
-        $data['viewcabang'] = $cabangModel->orderBy('nama_cabang', 'ASC')->findAll();
-
-        $model = new \App\Models\PanitiaModel();
-
-        $builder = $model
-            ->select('panitia.*, cabang.nama_cabang, seksi.nama_seksi')
-            ->join('cabang', 'cabang.id = panitia.cabang_id')
-            ->join('seksi', 'seksi.id = panitia.seksi_id')
-            ->orderBy('panitia.nama', 'ASC');
-
-        $header = [
-            'title' => 'Data Panitia',
-            'navbar' => 'data',
-            'active' => 'panitia'
+        $data = [
+            'title'       => 'Data Panitia',
+            'navbar'      => 'data',
+            'active'      => 'panitia',
+            'idpanitia'   => $seksiModel->orderBy('nama_seksi', 'ASC')->findAll(),
+            'viewcabang'  => $cabangModel->orderBy('nama_cabang', 'ASC')->findAll(),
+            'viewpanitia' => $panitiaModel->select('panitia.*, cabang.nama_cabang, seksi.nama_seksi')
+                ->join('cabang', 'cabang.id = panitia.cabang_id')
+                ->join('seksi', 'seksi.id = panitia.seksi_id')
+                ->orderBy('panitia.nama', 'ASC')
+                ->findAll()
         ];
 
-        $data['viewpanitia'] = $builder->findAll();
-
-        echo view("admin/data/panitia/index", $data, $header);
+        return view("admin/data/panitia/index", $data);
     }
 
     public function create()
