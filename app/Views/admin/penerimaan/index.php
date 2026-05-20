@@ -236,7 +236,7 @@
                                                                             <div class="modal-body">
                                                                                 <h2 class="h2">Apakah anda yakin ?</h2>
                                                                                 <p>Menghapus data
-                                                                                    <?php echo $terima['cabang']; ?>, pengirim
+                                                                                    <?php echo $terima['cabang_id']; ?>, pengirim
                                                                                     <?php echo $terima['pengirim']; ?>
                                                                                 </p>
                                                                             </div>
@@ -262,7 +262,7 @@
 
                                                                                         <div class="col-md-6">
                                                                                             <label class="form-label">Cabang</label>
-                                                                                            <input type="text" name="Cabang" class="form-control" required value="<?= $terima['cabang'] ?>" readonly>
+                                                                                            <input type="text" name="Cabang_id" class="form-control" required value="<?= $terima['cabang'] ?>" readonly>
                                                                                         </div>
                                                                                         <div class="col-md-6">
                                                                                             <label class="form-label">Pengirim</label>
