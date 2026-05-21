@@ -52,11 +52,11 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('export', 'Admin\Data\PanitiaController::export');
     });
 
-    $routes->group('seksi', function ($routes) {
-        $routes->get('/', 'Admin\Data\SeksiController::index');
-        $routes->post('create', 'Admin\Data\SeksiController::create');
-        $routes->post('update/(:num)', 'Admin\Data\SeksiController::update/$1');
-        $routes->get('delete/(:num)', 'Admin\Data\SeksiController::delete/$1');
+    $routes->group('presensi', function ($routes) {
+        $routes->get('/', 'Admin\Data\PresensiController::index');
+        $routes->post('create', 'Admin\Data\PresensiController::create');
+        $routes->post('update/(:num)', 'Admin\Data\PresensiController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Data\PresensiController::delete/$1');
     });
 
     $routes->group('cabang', function ($routes) {
