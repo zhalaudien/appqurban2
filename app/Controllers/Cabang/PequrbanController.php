@@ -95,21 +95,21 @@ class PequrbanController extends BaseController
     public function export()
     {
         $tahun = $this->request->getGet('year') ?? date('Y');
-        $idpusat = session()->get('user')['pusat'];
 
         $data = $this->model
             ->select('pequrban.*, cabang.nama_cabang as nama_cabang')
             ->join('cabang', 'cabang.id = pequrban.cabang_id')
-            ->where('cabang.pusat', $idpusat)
+            ->where('pequrban.cabang_id', $this->cabangId)
             ->where('pequrban.tahun', $tahun)
             ->orderBy('pequrban.updated_at', 'DESC')
             ->findAll();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+        $namaCabang = $data[0]['nama_cabang'] ?? 'semua_cabang';
 
         // Judul laporan
-        $sheet->setCellValue('A1', 'LAPORAN DATA PEQURBAN');
+        $sheet->setCellValue('A1', 'LAPORAN DATA PEQURBAN ' . $namaCabang);
         $sheet->mergeCells('A1:F1');
 
         $sheet->setCellValue('A2', 'Tahun: ' . $tahun);
