@@ -129,8 +129,7 @@ class PanitiaController extends BaseController
             $sheet->setCellValue('B3', 'Nama');
             $sheet->setCellValue('C3', 'Cabang');
             $sheet->setCellValue('D3', 'No HP');
-            $sheet->setCellValue('E3', 'Seksi');
-            $sheet->setCellValue('F3', 'Jabatan');
+            $sheet->setCellValue('E3', 'Jabatan');
 
             // Style header (Warna latar biru dan teks putih tebal)
             $sheet->getStyle('A3:F3')->getFont()->setBold(true);
@@ -146,8 +145,7 @@ class PanitiaController extends BaseController
                 $sheet->setCellValue('B' . $rowNum, $row['nama']);
                 $sheet->setCellValue('C' . $rowNum, $row['nama_cabang']);
                 $sheet->setCellValue('D' . $rowNum, $row['no_hp']);
-                $sheet->setCellValue('E' . $rowNum, $row['nama_seksi']);
-                $sheet->setCellValue('F' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
+                $sheet->setCellValue('E' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
                 $rowNum++;
             }
 
