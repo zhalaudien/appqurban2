@@ -143,6 +143,7 @@ class DashboardController extends BaseController
         // Default 0 kalau setting kosong
         $bSapi = $setting['b_sapi'] ?? 0;
         $bKb   = $setting['b_kb'] ?? 0;
+        $status = $setting['jadwal'];
 
         $jumlahSapiUtuh = intdiv($totalSapi, 7); // 4
         $sisa = $totalSapi % 7; // 6
@@ -196,7 +197,8 @@ class DashboardController extends BaseController
             'cabangId'          => $cabangId,
             'perkiraan'         => $perkiraan,
             'jadwalPengiriman'  => $jadwal,
-            'jumlahsapi'        => $jumlahSapiText
+            'jumlahsapi'        => $jumlahSapiText,
+            'status'            => $status
         ]);
     }
 

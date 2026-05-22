@@ -145,11 +145,10 @@
     <div class="col-md-6">
         <div class="card card-warning shadow-sm">
             <div class="card-header">
-                <h3 class="card-title">Jadwal Pengiriman</h3>
+                <h3 class="card-title">Jadwal Pengiriman <?= $status ?></h3>
             </div>
             <div class="card-body p-0">
                 <ul class="list-group list-group-flush">
-
                     <?php if (!empty($jadwalPengiriman)): ?>
                         <?php foreach ($jadwalPengiriman as $jadwal): ?>
                             <li class="list-group-item">
