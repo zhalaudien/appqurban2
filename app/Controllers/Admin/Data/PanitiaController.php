@@ -122,7 +122,7 @@ class PanitiaController extends BaseController
             // Judul laporan di tiap tab
             $sheet->setCellValue('A1', 'LAPORAN DATA PANITIA - ' . strtoupper($seksiName));
             $sheet->mergeCells('A1:F1');
-            $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+            $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(12);
 
             // Header tabel
             $sheet->setCellValue('A3', 'No');
@@ -132,11 +132,11 @@ class PanitiaController extends BaseController
             $sheet->setCellValue('E3', 'Jabatan');
 
             // Style header (Warna latar biru dan teks putih tebal)
-            $sheet->getStyle('A3:F3')->getFont()->setBold(true);
-            $sheet->getStyle('A3:F3')->getFill()
+            $sheet->getStyle('A3:E3')->getFont()->setBold(true);
+            $sheet->getStyle('A3:E3')->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FF4F81BD');
-            $sheet->getStyle('A3:F3')->getFont()->getColor()->setARGB('FFFFFFFF');
+            $sheet->getStyle('A3:E3')->getFont()->getColor()->setARGB('FFFFFFFF');
 
             $rowNum = 4;
             $no = 1;
@@ -150,7 +150,7 @@ class PanitiaController extends BaseController
             }
 
             // Tambahkan border pada seluruh tabel (Header sampai baris terakhir data)
-            $sheet->getStyle('A3:F' . ($rowNum - 1))->applyFromArray([
+            $sheet->getStyle('A3:E' . ($rowNum - 1))->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -160,7 +160,7 @@ class PanitiaController extends BaseController
             ]);
 
             // Auto width untuk semua kolom agar rapi
-            foreach (range('A', 'F') as $col) {
+            foreach (range('A', 'E') as $col) {
                 $sheet->getColumnDimension($col)->setAutoSize(true);
             }
 
