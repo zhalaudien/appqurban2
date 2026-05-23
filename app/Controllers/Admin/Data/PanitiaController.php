@@ -80,6 +80,7 @@ class PanitiaController extends BaseController
 
     public function export()
     {
+        $type = $this->request->getGet('type') ?? 'all';
         $model = new PanitiaModel();
 
         $data = $model
@@ -93,84 +94,38 @@ class PanitiaController extends BaseController
             return redirect()->back()->with('error', 'Tidak ada data untuk diekspor.');
         }
 
-        // Kelompokkan data berdasarkan nama seksi
-        $grouped = [];
-        foreach ($data as $row) {
-            $grouped[$row['nama_seksi']][] = $row;
-        }
-
         $spreadsheet = new Spreadsheet();
 
-        $sheetIndex = 0;
-        foreach ($grouped as $seksiName => $rows) {
-            // Buat sheet baru jika bukan index pertama
-            if ($sheetIndex > 0) {
-                $spreadsheet->createSheet();
-            }
-
-            $spreadsheet->setActiveSheetIndex($sheetIndex);
+        if ($type === 'all') {
             $sheet = $spreadsheet->getActiveSheet();
-
-            // Nama sheet (maks 31 karakter dan hapus karakter ilegal Excel)
-            $safeName = substr(preg_replace('/[\\\\\/\\*\\?\\:\\[\\]]/', '', $seksiName), 0, 31);
-            $sheet->setTitle($safeName ?: 'Seksi ' . ($sheetIndex + 1));
-
-            // Set Page Setup: A4 & Landscape
-            $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT);
-            $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
-
-            // Judul laporan di tiap tab
-            $sheet->setCellValue('A1', 'LAPORAN DATA PANITIA - ' . strtoupper($seksiName));
-            $sheet->mergeCells('A1:F1');
-            $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(12);
-
-            // Header tabel
-            $sheet->setCellValue('A3', 'No');
-            $sheet->setCellValue('B3', 'Nama');
-            $sheet->setCellValue('C3', 'Cabang');
-            $sheet->setCellValue('D3', 'No HP');
-            $sheet->setCellValue('E3', 'Jabatan');
-
-            // Style header (Warna latar biru dan teks putih tebal)
-            $sheet->getStyle('A3:E3')->getFont()->setBold(true);
-            $sheet->getStyle('A3:E3')->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('FF4F81BD');
-            $sheet->getStyle('A3:E3')->getFont()->getColor()->setARGB('FFFFFFFF');
-
-            $rowNum = 4;
-            $no = 1;
-            foreach ($rows as $row) {
-                $sheet->setCellValue('A' . $rowNum, $no++);
-                $sheet->setCellValue('B' . $rowNum, $row['nama']);
-                $sheet->setCellValue('C' . $rowNum, $row['nama_cabang']);
-                $sheet->setCellValue('D' . $rowNum, $row['no_hp']);
-                $sheet->setCellValue('E' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
-                $rowNum++;
+            $sheet->setTitle('Semua Panitia');
+            $this->generateSheetData($sheet, 'LAPORAN SEMUA DATA PANITIA', $data, 'all');
+        } else {
+            $groupKey = ($type === 'cabang') ? 'nama_cabang' : 'nama_seksi';
+            $grouped = [];
+            foreach ($data as $row) {
+                $grouped[$row[$groupKey]][] = $row;
             }
 
-            // Tambahkan border pada seluruh tabel (Header sampai baris terakhir data)
-            $sheet->getStyle('A3:E' . ($rowNum - 1))->applyFromArray([
-                'borders' => [
-                    'allBorders' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => 'FF000000'],
-                    ],
-                ],
-            ]);
+            $sheetIndex = 0;
+            foreach ($grouped as $name => $rows) {
+                if ($sheetIndex > 0) $spreadsheet->createSheet();
+                $spreadsheet->setActiveSheetIndex($sheetIndex);
+                $sheet = $spreadsheet->getActiveSheet();
 
-            // Auto width untuk semua kolom agar rapi
-            foreach (range('A', 'E') as $col) {
-                $sheet->getColumnDimension($col)->setAutoSize(true);
+                $safeName = substr(preg_replace('/[\\\\\/\\*\\?\\:\\[\\]]/', '', $name), 0, 31);
+                $sheet->setTitle($safeName ?: 'Sheet ' . ($sheetIndex + 1));
+
+                $title = 'LAPORAN DATA PANITIA - ' . strtoupper($type) . ' ' . strtoupper($name);
+                $this->generateSheetData($sheet, $title, $rows, $type);
+                $sheetIndex++;
             }
-
-            $sheetIndex++;
         }
 
         // Set sheet pertama sebagai yang aktif saat file dibuka
         $spreadsheet->setActiveSheetIndex(0);
 
-        $filename = 'data_panitia_per_seksi_' . date('Y-m-d_His') . '.xlsx';
+        $filename = 'data_panitia_' . $type . '_' . date('Ymd_His') . '.xlsx';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -179,5 +134,70 @@ class PanitiaController extends BaseController
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
         exit;
+    }
+
+    private function generateSheetData($sheet, $title, $data, $type)
+    {
+        $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT);
+        $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+
+        if ($type === 'all') {
+            $headers = ['No', 'Nama', 'Cabang', 'No HP', 'Seksi', 'Jabatan'];
+            $maxCol = 'F';
+        } elseif ($type === 'cabang') {
+            $headers = ['No', 'Nama', 'No HP', 'Seksi', 'Jabatan'];
+            $maxCol = 'E';
+        } else { // seksi
+            $headers = ['No', 'Nama', 'Cabang', 'No HP', 'Jabatan'];
+            $maxCol = 'E';
+        }
+
+        $sheet->setCellValue('A1', $title);
+        $sheet->mergeCells("A1:{$maxCol}1");
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(12);
+
+        foreach ($headers as $index => $h) {
+            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
+            $sheet->setCellValue($colLetter . '3', $h);
+        }
+
+        $headerRange = "A3:{$maxCol}3";
+        $sheet->getStyle($headerRange)->getFont()->setBold(true);
+        $sheet->getStyle($headerRange)->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('FF4F81BD');
+        $sheet->getStyle($headerRange)->getFont()->getColor()->setARGB('FFFFFFFF');
+
+        $rowNum = 4;
+        $no = 1;
+        foreach ($data as $row) {
+            $sheet->setCellValue('A' . $rowNum, $no++);
+            $sheet->setCellValue('B' . $rowNum, $row['nama']);
+
+            if ($type === 'all') {
+                $sheet->setCellValue('C' . $rowNum, $row['nama_cabang']);
+                $sheet->setCellValue('D' . $rowNum, $row['no_hp']);
+                $sheet->setCellValue('E' . $rowNum, $row['nama_seksi']);
+                $sheet->setCellValue('F' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
+            } elseif ($type === 'cabang') {
+                $sheet->setCellValue('C' . $rowNum, $row['no_hp']);
+                $sheet->setCellValue('D' . $rowNum, $row['nama_seksi']);
+                $sheet->setCellValue('E' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
+            } else { // seksi
+                $sheet->setCellValue('C' . $rowNum, $row['nama_cabang']);
+                $sheet->setCellValue('D' . $rowNum, $row['no_hp']);
+                $sheet->setCellValue('E' . $rowNum, ($row['jabatan'] == 'koordinator' ? 'Koordinator' : 'Anggota'));
+            }
+            $rowNum++;
+        }
+
+        $tableRange = "A3:{$maxCol}" . ($rowNum - 1);
+        $sheet->getStyle($tableRange)->applyFromArray([
+            'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]]
+        ]);
+
+        foreach (range('A', $maxCol) as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
     }
 }

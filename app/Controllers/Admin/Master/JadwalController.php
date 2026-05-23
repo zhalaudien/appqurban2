@@ -114,4 +114,89 @@ class JadwalController extends BaseController
 
         return redirect()->back()->with('error', 'Gagal memperbarui jadwal.');
     }
+
+    public function export()
+    {
+        // 1. Ambil data gabungan dari Jadwal dan Pequrban (Rekap)
+        $model = new \App\Models\JadwalModel();
+        $data = $model->select('jadwal.*, cabang.nama_cabang')
+            ->join('cabang', 'cabang.id = jadwal.cabang_id')
+            ->orderBy('jadwal.kirim_besek', 'ASC')
+            ->orderBy('jadwal.antrian', 'ASC')
+            ->findAll();
+
+        // 2. Ambil rekap penderita qurban untuk angka sapi/kambing
+        $pequrbanModel = new \App\Models\PequrbanModel();
+        $rekap = $pequrbanModel->getRekapPerCabang(date('Y'))['rekap'];
+
+        // 3. Gabungkan data (Mapping)
+        foreach ($data as &$j) {
+            $found = $rekap[$j['cabang_id']] ?? null;
+            $j['sapi_mandiri'] = $found['sapi_mandiri'] ?? 0;
+            $j['kambing_mandiri'] = $found['kambing_mandiri'] ?? 0;
+            $j['sapi_bumm'] = $found['sapi_bumm'] ?? 0;
+            $j['kambing_bumm'] = $found['kambing_bumm'] ?? 0;
+        }
+
+        // 4. Kelompokkan berdasarkan hari (Kirim Besek)
+        $grouped = [];
+        foreach ($data as $row) {
+            $hari = $row['kirim_besek'] ?: 'Belum Terjadwal';
+            $grouped[$hari][] = $row;
+        }
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheetIndex = 0;
+
+        foreach ($grouped as $hari => $rows) {
+            if ($sheetIndex > 0) $spreadsheet->createSheet();
+            $spreadsheet->setActiveSheetIndex($sheetIndex);
+            $sheet = $spreadsheet->getActiveSheet();
+
+            // Nama Sheet (Hapus karakter ilegal Excel)
+            $sheet->setTitle(substr(preg_replace('/[\\\\\/\\*\\?\\:\\[\\]]/', '', $hari), 0, 31));
+
+            // Judul & Header
+            $sheet->setCellValue('A1', 'JADWAL PENGIRIMAN - ' . strtoupper($hari));
+            $sheet->mergeCells('A1:I1');
+            $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+
+            $headers = ['No', 'Cabang', 'Sapi Cabang', 'Kambing Cabang', 'Sapi Bumm', 'Kambing Bumm', 'Antrian', 'Kirim Hewan', 'Kirim Besek'];
+            foreach ($headers as $k => $v) {
+                $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($k + 1);
+                $sheet->setCellValue($col . '3', $v);
+            }
+
+            // Style Header
+            $sheet->getStyle('A3:I3')->getFont()->setBold(true)->getColor()->setARGB('FFFFFFFF');
+            $sheet->getStyle('A3:I3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF4F81BD');
+
+            // Isi Data
+            $rowNum = 4;
+            foreach ($rows as $i => $r) {
+                $sheet->setCellValue('A' . $rowNum, $i + 1);
+                $sheet->setCellValue('B' . $rowNum, $r['nama_cabang']);
+                $sheet->setCellValue('C' . $rowNum, $r['sapi_mandiri']);
+                $sheet->setCellValue('D' . $rowNum, $r['kambing_mandiri']);
+                $sheet->setCellValue('E' . $rowNum, $r['sapi_bumm']);
+                $sheet->setCellValue('F' . $rowNum, $r['kambing_bumm']);
+                $sheet->setCellValue('G' . $rowNum, '#' . $r['antrian']);
+                $sheet->setCellValue('H' . $rowNum, $r['kirim_hewan']);
+                $sheet->setCellValue('I' . $rowNum, $r['kirim_besek']);
+                $rowNum++;
+            }
+
+            // Auto Size & Border
+            foreach (range('A', 'I') as $col) $sheet->getColumnDimension($col)->setAutoSize(true);
+            $sheet->getStyle('A3:I' . ($rowNum - 1))->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+            $sheetIndex++;
+        }
+
+        $spreadsheet->setActiveSheetIndex(0);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Jadwal_Cabang_' . date('Ymd_His') . '.xlsx"');
+        (new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet))->save('php://output');
+        exit;
+    }
 }

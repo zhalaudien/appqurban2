@@ -20,7 +20,11 @@
                         <i class="bi bi-plus-circle"></i> Input Data
                     </button>
 
-                    <a href="/panitia/export" class="btn btn-success shadow-sm">
+                    <button type="button" class="btn btn-info shadow-sm text-white" onclick="exportToJPG()">
+                        <i class="bi bi-image"></i> Export JPG
+                    </button>
+
+                    <a href="/jadwal/export" class="btn btn-success shadow-sm">
                         <i class="bi bi-file-earmark-excel"></i> Export Excel
                     </a>
                 </div>
@@ -242,5 +246,37 @@
 
 </main>
 <!--end::App Main-->
+
+
+</main>
+<!--end::App Main-->
+
+<!-- Pustaka html2canvas untuk konversi HTML ke Gambar -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+    function exportToJPG() {
+        const element = document.querySelector('.app-content');
+        const btn = event.currentTarget;
+
+        // Loading state
+        const originalContent = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+
+        html2canvas(element, {
+            scale: 2, // Kualitas lebih tajam
+            useCORS: true,
+            backgroundColor: '#f4f6f9' // Menyesuaikan background AdminLTE
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'jadwal_pengiriman_cabang_' + new Date().getTime() + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        });
+    }
+</script>
 
 <?= $this->endSection() ?>

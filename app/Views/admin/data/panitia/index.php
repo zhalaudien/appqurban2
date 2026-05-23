@@ -19,9 +19,16 @@
                         <i class="bi bi-plus-circle"></i> Tambah
                     </button>
 
-                    <a href="/panitia/export" class="btn btn-success shadow-sm">
-                        <i class="bi bi-file-earmark-excel"></i> Export Excel
-                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-success dropdown-toggle shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-file-earmark-excel"></i> Export Excel
+                        </button>
+                        <ul class="dropdown-menu shadow">
+                            <li><a class="dropdown-item" href="/panitia/export?type=all"><i class="bi bi-list-check me-2"></i>Semua Data Panitia</a></li>
+                            <li><a class="dropdown-item" href="/panitia/export?type=cabang"><i class="bi bi-buildings me-2"></i>Panitia Per Cabang</a></li>
+                            <li><a class="dropdown-item" href="/panitia/export?type=seksi"><i class="bi bi-people me-2"></i>Panitia Per Seksi</a></li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>
