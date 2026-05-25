@@ -190,6 +190,10 @@
             font-size: 11px;
         }
 
+        .page-break {
+            page-break-before: always;
+        }
+
         /* Mencegah elemen penting terpotong di tengah */
         .section-title,
         .note-box,
@@ -393,9 +397,40 @@
             </tr>
         </table>
 
+        <!-- ================= TANDA TANGAN ================= -->
+        <div class="signature-wrapper clearfix">
+
+            <div class="signature">
+
+                <div class="mb-2">
+                    <?= $cabang['kota'] ?? '................' ?>,
+                    <?= (new \IntlDateFormatter('id_ID', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE))->format(new \DateTime()) ?>
+                </div>
+
+                <div class="fw-bold">
+                    PIMPINAN CABANG
+                </div>
+
+                <div class="ttd-space"></div>
+
+                <div class="fw-bold">
+                    <?= $penyetor['atas_nama'] ?? '-' ?>
+                </div>
+
+            </div>
+
+        </div>
+
+
         <!-- ================= DATA PEQURBAN ================= -->
+        <div class="page-break"></div>
+
+        <div class="header text-center">
+            <img src="<?= base_url('kopsurat.png') ?>" alt="Kop Surat">
+        </div>
+
         <div class="section-title">
-            DATA PEQURBAN CABANG
+            LAMPIRAN: DATA PEQURBAN CABANG
             <?= $cabang['nama_cabang'] ?? '' ?>
         </div>
 
@@ -465,30 +500,6 @@
                 <li>Pastikan nomor telepon aktif dan mudah dihubungi.</li>
                 <li>Dokumen ini dicetak melalui sistem AppQurban V3.</li>
             </ul>
-        </div>
-
-        <!-- ================= TANDA TANGAN ================= -->
-        <div class="signature-wrapper clearfix">
-
-            <div class="signature">
-
-                <div class="mb-2">
-                    <?= $cabang['kota'] ?? '................' ?>,
-                    <?= date('d F Y') ?>
-                </div>
-
-                <div class="fw-bold">
-                    PIMPINAN CABANG
-                </div>
-
-                <div class="ttd-space"></div>
-
-                <div class="fw-bold">
-                    <?= $penyetor['atas_nama'] ?? '-' ?>
-                </div>
-
-            </div>
-
         </div>
 
     </div>
