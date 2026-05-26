@@ -19,7 +19,10 @@ class RealisasiModel extends Model
         'R_K_S',
         'R_K_KB',
         'R_KK_S',
-        'R_KLS'
+        'R_KLS',
+        'status',
+        'created_at',
+        'updated_at'
     ];
     protected $useTimestamps = true;
 

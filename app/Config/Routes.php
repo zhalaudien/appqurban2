@@ -157,12 +157,12 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
     // SURAT
     // =================================================
     $routes->group('kirimbesek', function ($routes) {
-        $routes->get('/', 'Surat::index');
-        $routes->post('create', 'Surat::create');
-        $routes->post('update/(:num)', 'Surat::update/$1');
-        $routes->get('delete/(:num)', 'Surat::delete/$1');
-        $routes->get('export', 'Surat::export');
-        $routes->get('print/(:num)', 'Surat::print/$1');
+        $routes->get('/', 'Admin\Surat\SuratController::index');
+        $routes->post('create', 'Admin\Surat\SuratController::create');
+        $routes->post('update/(:num)', 'Admin\Surat\SuratController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\Surat\SuratController::delete/$1');
+        $routes->get('export', 'Admin\Surat\SuratController::export');
+        $routes->get('print/(:num)', 'Admin\Surat\SuratController::print/$1');
     });
 
     $routes->group('kirimkulit', function ($routes) {

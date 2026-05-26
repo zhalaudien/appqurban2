@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin\Surat;
 
 use App\Models\QurbanModel;
-use App\Models\PermintaanModel;
+use App\Models\RealisasiModel;
+use App\Models\PermintaanModel; // Added PermintaanModel
+use App\Models\CabangModel;
+
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\TemplateProcessor;
 
-class Surat extends Controller
+class SuratController extends Controller
 {
     // Realaisasi kontroler
     public function index()
@@ -20,25 +23,20 @@ class Surat extends Controller
             'active' => 'kirimbesek'
         ];
 
-        $userModel = new QurbanModel();
-        $data['join'] = $userModel->orderBy('cabang', 'ASC')->findAll();
-        $data['dataqurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
-        $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $userModel = new RealisasiModel();
+        $data['realisasi'] = $userModel->select('realisasi.*, cabang.nama_cabang as cabang')
+            ->join('cabang', 'cabang.id = realisasi.cabang_id', 'left')
+            ->orderBy('cabang.nama_cabang', 'ASC')
+            ->findAll();
 
-        $userModel = new PermintaanModel();
-        $data['permintaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
-
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view("kirimbesek", $data, $header,);
-        echo view("pages/footer");
+        echo view("admin/surat/kirimbesek", $data, $header,);
     }
 
     public function tambah()
     {
-        $model = new PermintaanModel();
+        $model = new PermintaanModel(); // Corrected model
         $data = array(
-            'cabang' => $this->request->getPost('cabang'),
+            'cabang_id' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
             'tk' => $this->request->getPost('tk'),
             'a' => $this->request->getPost('a'),
@@ -49,16 +47,16 @@ class Surat extends Controller
             'kks' => $this->request->getPost('kks'),
             'kls' => $this->request->getPost('kls'),
         );
-        $model->savepermintaan($data);
+        $model->save($data); // Assuming save method in PermintaanModel
         echo '<script>
-                alert("Sukses Tambah Data Realaisasi");
+                alert("Sukses Tambah Data Permintaan"); // Changed message
                 window.location="' . base_url('/kirimbesek') . '"
             </script>';
     }
 
-    public function updatekirim()
+    public function edit()
     {
-        $userModel = new QurbanModel();
+        $userModel = new RealisasiModel(); // Changed from QurbanModel to RealisasiModel
         $id = $this->request->getPost('id');
         if (!$id) {
             echo '<script>
@@ -227,71 +225,76 @@ class Surat extends Controller
         $writer->save('php://output');
     }
 
-    public function printsurat($id)
+    public function print($id)
     {
-        // Ambil data berdasarkan ID cabang
-        $userModel = new QurbanModel();
-        $cabang = $userModel->find($id); // Asumsi Anda menggunakan ID untuk menemukan data
+        $userModel = new RealisasiModel();
+        $row = $userModel->select('realisasi.*, cabang.nama_cabang as nama_cabang')
+            ->join('cabang', 'cabang.id = realisasi.cabang_id', 'left')
+            ->find($id);
 
-        if (!$cabang) {
-            return 'Cabang tidak ditemukan';
+        if (!$row) {
+            return "Data tidak ditemukan.";
         }
+
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
+        $date = $formatter->format(new \DateTime());
 
         $data = [
-            'cabang' => $cabang['cabang'],  // Misalnya nama cabang
-            'ts' => $cabang['r_ts'],
-            'tk' => $cabang['r_tk'],
-            'a' => $cabang['r_a'],
-            'ok' => $cabang['r_ok'],
-            'os' => $cabang['r_os'],
-            'ks' => $cabang['r_ks'],
-            'kb' => $cabang['r_kb'],
-            'kks' => $cabang['r_kks'],
-            'kls' => $cabang['r_kls'],
+            'cabang' => $row['nama_cabang'],
+            'ts'     => $row['R_TS'],
+            'tk'     => $row['R_TK'],
+            'm'      => $row['R_M'],
+            'a'      => $row['R_A'],  // Menggunakan R_M untuk baris label 'M' di template
+            'os'     => $row['R_OS'],
+            'ok'     => $row['R_OK'],
+            'ks'     => $row['R_K_S'],
+            'kks'    => $row['R_KK_S'],
+            'kls'    => $row['R_KLS'],
+            'kb'     => $row['R_K_KB'],
+            'date'   => $date
         ];
 
-        // Lokasi template
-        $templatePath = FCPATH . 'templates/surat-jalan.docx';
-
-        // Cek apakah template ada
-        if (!file_exists($templatePath)) {
-            return 'Template file tidak ditemukan.';
-        }
-
-        // Memuat template Word
-        try {
-            $templateProcessor = new TemplateProcessor($templatePath);
-        } catch (\Exception $e) {
-            log_message('error', 'Error saat memuat template: ' . $e->getMessage());
-            return 'Terjadi kesalahan saat memuat template.';
-        }
-
-        // Ganti placeholder dengan data
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
-        $date = $formatter->format(new \DateTime()); // Format tanggal Indonesia
-        $templateProcessor->setValue('date', $date);
-
-        // Nama file Word yang akan diunduh
-        $date = date('Y-m-d_H-i-s');
-        $fileName = 'Surat_Jalan_' . $data['cabang'] . '_' . $date . '.docx';
-
-        // Output file Word
-        ob_start();
-        $templateProcessor->saveAs("php://output");
-        $content = ob_get_clean();
-
-        header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        echo $content;
-        exit;
+        echo view("admin/surat/templatebesek", $data);
     }
 
-    public function printpermintaan($id)
+    public function pdf($id)
+    {
+        $userModel = new RealisasiModel();
+        $row = $userModel->select('realisasi.*, cabang.nama_cabang as nama_cabang')
+            ->join('cabang', 'cabang.id = realisasi.cabang_id', 'left')
+            ->find($id);
+
+        if (!$row) {
+            return "Data tidak ditemukan.";
+        }
+
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
+        $date = $formatter->format(new \DateTime());
+
+        $data = [
+            'cabang' => $row['nama_cabang'],
+            'ts'     => $row['R_TS'],
+            'tk'     => $row['R_TK'],
+            'a'      => $row['R_M'],
+            'os'     => $row['R_OS'],
+            'ok'     => $row['R_OK'],
+            'ks'     => $row['R_K_S'],
+            'kks'    => $row['R_KK_S'],
+            'kls'    => $row['R_KLS'],
+            'kb'     => $row['R_K_KB'],
+            'date'   => $date
+        ];
+
+        $html = view("admin/surat/templatebesek", $data);
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('F4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("Surat_Jalan_" . $row['nama_cabang'] . ".pdf", ["Attachment" => 1]);
+    }
+
+    public function permintaan($id)
     {
         // Ambil data berdasarkan ID cabang
         $userModel = new PermintaanModel();

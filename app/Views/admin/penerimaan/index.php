@@ -105,7 +105,6 @@
                                 <div class="card-footer text-end">
                                     <button type="submit" class="btn btn-info">Simpan Data</button>
                                     <a href="/penerimaan/export" class="btn btn-success">Export Data ke Excel</a>
-                                    <a href="/penerimaan/perbandingan" class="btn btn-primary">Cek Perbandingan</a>
                                 </div>
                             </form>
                         </div>

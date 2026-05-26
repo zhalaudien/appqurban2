@@ -69,7 +69,7 @@ class Menu
 
                         ['title' => 'Hewan Masuk', 'url' => '/penerimaan', 'key' => 'penerimaan', 'icon' => 'bi bi-box-fill'],
                         ['title' => 'Data Sapi',   'url' => '/datasapi',   'key' => 'datasapi', 'icon' => 'bi bi-box-fill'],
-                        ['title' => 'Data Pengiriman hewan', 'url' => '/pengiriman', 'key' => 'pengiriman', 'icon' => 'bi bi-box-fill']
+                        ['title' => 'Pengiriman Hewan', 'url' => '/pengiriman', 'key' => 'pengiriman', 'icon' => 'bi bi-box-fill']
 
                     ]
                 ],

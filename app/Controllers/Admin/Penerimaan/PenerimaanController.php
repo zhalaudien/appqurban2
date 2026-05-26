@@ -88,7 +88,7 @@ class PenerimaanController extends BaseController
         $shadaqoh_hari_ini = $this->penerimaanModel->where('DATE(created_at)', $today)->selectSum('shadaqoh')->get()->getRow()->shadaqoh ?? 0;
 
         $data = [
-            'title'          => 'Penerimaan Hewan',
+            'title'  => 'Penerimaan Hewan',
             'navbar' => 'penerimaan',
             'active' => 'penerimaan',
             'tahun_selected' => $tahun,

@@ -48,17 +48,15 @@ class pengirimanController extends BaseController
             $r['kambing_kurang'] = (int)$r['kambing_mandiri'] - $r['kambing_masuk'];
         }
 
-        $header = [
-            'navbar' => 'pengiriman',
-            'active' => 'pengiriman'
-        ];
-
         $data = [
-            'year'  => $tahun,
+            'title'  => 'Pengiriman Hewan',
+            'year'   => $tahun,
             'rekap'  => $rekap,
             'prices' => $rekapResult['prices'],
+            'navbar' => 'pengiriman',
+            'active' => 'pengiriman',
         ];
 
-        echo view('admin/penerimaan/pengiriman', $data, $header);
+        echo view('admin/penerimaan/pengiriman', $data);
     }
 }
