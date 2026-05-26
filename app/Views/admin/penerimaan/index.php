@@ -36,9 +36,9 @@
                 <?php endif; ?>
 
                 <!-- Filter Tahun -->
-                <div class="row mb-3">
-                    <div class="col-md-3 ms-auto">
-                        <form action="" method="get" id="formFilterTahun">
+                <div class="col-12">
+                    <form action="" method="get" id="formFilterTahun" class="row mb-3">
+                        <div class="col-md-3 ms-auto">
                             <div class="input-group shadow-sm">
                                 <span class="input-group-text bg-info text-white border-info">
                                     <i class="bi bi-calendar-event me-2"></i> Tahun Data
@@ -51,8 +51,8 @@
                                     <?php endfor; ?>
                                 </select>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="row g-4">

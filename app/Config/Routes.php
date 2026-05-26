@@ -13,8 +13,8 @@ use CodeIgniter\Router\Router;
 // =====================================================
 $routes->get('/', 'Home::index');
 $routes->get('jadwal2', 'Home::jadwal');
-$routes->get('datasapi', 'Home::datasapi');
-$routes->get('dataqurban', 'Home::dataqurban');
+$routes->get('datasapi2', 'Home::datasapi');
+$routes->get('dataqurban2', 'Home::dataqurban');
 $routes->get('realisasi2', 'Home::realisasi');
 $routes->get('register', 'Auth\RegisterController::index');
 $routes->post('register', 'Auth\RegisterController::store');
@@ -123,12 +123,21 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('print/(:num)', 'Admin\Penerimaan\PenerimaanController::print/$1');
     });
 
+    $routes->group('datasapi', function ($routes) {
+        $routes->get('/', 'Admin\Penerimaan\SapiController::index');
+        $routes->post('create', 'Admin\Penerimaan\SapiController::create');
+        $routes->post('update/(:num)', 'Admin\Penerimaan\SapiController::update/$1');
+        $routes->get('hapus/(:num)', 'Admin\Penerimaan\SapiController::hapus/$1');
+        $routes->get('export', 'Admin\Penerimaan\SapiController::export');
+        $routes->get('print/(:num)', 'Admin\Penerimaan\SapiController::print/$1');
+    });
+
     $routes->group('kandang', function ($routes) {
-        $routes->get('/', 'Kandang::index');
-        $routes->post('create', 'Kandang::create');
-        $routes->post('update/(:num)', 'Kandang::update/$1');
-        $routes->get('delete/(:num)', 'Kandang::delete/$1');
-        $routes->get('export', 'Kandang::export');
+        $routes->get('/', 'Admin\KandangController::index');
+        $routes->post('create', 'Admin\KandangController::create');
+        $routes->post('update/(:num)', 'Admin\KandangController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\KandangController::delete/$1');
+        $routes->get('export', 'Admin\KandangController::export');
     });
 
     $routes->group('besek', function ($routes) {

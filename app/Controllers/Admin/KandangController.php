@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\KandangModel;
 use App\Models\PenerimaanModel;
@@ -12,26 +12,29 @@ use App\Models\PermintaanModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class Kandang extends Controller
+class KandangController extends Controller
 {
     public function index()
     {
+        $tahun = $this->request->getGet('tahun') ?? date('Y');
+
         $header = [
             'title' => 'Data Kandang',
             'navbar' => 'kandang',
-            'active' => 'kandang'
+            'active' => 'kandang',
+            'tahun_selected' => $tahun
         ];
 
         // Ambil total hewan masuk
         $penerimaanModel = new PenerimaanModel();
-        $data['total_sapi'] = $penerimaanModel->selectSum('sapi')->get()->getRow()->sapi;
-        $data['total_kambing'] = $penerimaanModel->selectSum('kambing')->get()->getRow()->kambing;
+        $data['total_sapi'] = $penerimaanModel->where('YEAR(created_at)', $tahun)->selectSum('sapi')->get()->getRow()->sapi ?? 0;
+        $data['total_kambing'] = $penerimaanModel->where('YEAR(created_at)', $tahun)->selectSum('kambing')->get()->getRow()->kambing ?? 0;
 
         // Ambil data hewan disembelih
         $kandangModel = new KandangModel();
-        $data['viewkandang'] = $kandangModel->orderBy('date_input', 'DESC')->findAll();
-        $data['disembelih_sapi'] = $kandangModel->selectSum('sapi')->get()->getRow()->sapi;
-        $data['disembelih_kambing'] = $kandangModel->selectSum('kambing')->get()->getRow()->kambing;
+        $data['viewkandang'] = $kandangModel->where('YEAR(date_input)', $tahun)->orderBy('date_input', 'DESC')->findAll();
+        $data['disembelih_sapi'] = $kandangModel->where('YEAR(date_input)', $tahun)->selectSum('sapi')->get()->getRow()->sapi ?? 0;
+        $data['disembelih_kambing'] = $kandangModel->where('YEAR(date_input)', $tahun)->selectSum('kambing')->get()->getRow()->kambing ?? 0;
 
         // Hewan disembelih hari ini
         $today = date('Y-m-d');
@@ -45,50 +48,70 @@ class Kandang extends Controller
             ->selectSum('kambing')
             ->first()['kambing'] ?? 0;
 
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view("kandang", array_merge($data, $header)); // kirim $data dan $header ke view
-        echo view("pages/footer");
+        return view('admin/kandang', array_merge($data, $header)); // kirim $data dan $header ke view
+
     }
 
 
-    public function tambah()
-    {
-        $model = new KandangModel;
-        $data = array(
-            'sapi' => $this->request->getPost('sapi'),
-            'kambing' => $this->request->getPost('kambing'),
-        );
-        $model->save($data);
-        echo '<script>
-                alert("Sukses Tambah Data Kandang");
-                window.location="' . base_url('kandang') . '"
-            </script>';
-    }
-
-    public function edit()
-    {
-        $model = new KandangModel;
-        $id = $this->request->getPost('id');
-        $data = array(
-            'sapi' => $this->request->getPost('sapi'),
-            'kambing' => $this->request->getPost('kambing'),
-        );
-        $model->update($id, $data);
-        echo '<script>
-                alert("Sukses Edit Data Kandang");
-                window.location="' . base_url('kandang') . '"
-            </script>';
-    }
-
-    public function hapus($id = null)
+    public function create()
     {
         $model = new KandangModel();
-        $data['kandang'] = $model->where('id', $id)->delete($id);
-        echo '<script>
-                alert("Sukses Hapus Data Kandang");
-                window.location="' . base_url('kandang') . '"
-            </script>';
+
+        $rules = [
+            'sapi'    => 'required|numeric',
+            'kambing' => 'required|numeric',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $model->save([
+            'sapi'    => $this->request->getPost('sapi'),
+            'kambing' => $this->request->getPost('kambing'),
+        ]);
+
+        return redirect()->to(base_url('kandang'))->with('success', 'Sukses Tambah Data Kandang');
+    }
+
+    public function update($id)
+    {
+        $model = new KandangModel();
+
+        $rules = [
+            'sapi'    => 'required|numeric',
+            'kambing' => 'required|numeric',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->with('errors', $this->validator->getErrors());
+        }
+
+        $item = $model->find($id);
+        if (!$item) {
+            return redirect()->to(base_url('kandang'))->with('error', 'Data tidak ditemukan.');
+        }
+
+        $model->update($id, [
+            'sapi'    => $this->request->getPost('sapi'),
+            'kambing' => $this->request->getPost('kambing'),
+        ]);
+
+        return redirect()->to(base_url('kandang'))->with('success', 'Sukses Edit Data Kandang');
+    }
+
+    public function delete($id = null)
+    {
+        $model = new KandangModel();
+
+        $item = $model->find($id);
+        if (!$item) {
+            return redirect()->to(base_url('kandang'))->with('error', 'Data tidak ditemukan.');
+        }
+
+        $model->delete($id);
+
+        return redirect()->to(base_url('kandang'))->with('success', 'Sukses Hapus Data Kandang');
     }
 
     public function export()

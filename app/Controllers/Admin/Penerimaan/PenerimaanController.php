@@ -89,6 +89,8 @@ class PenerimaanController extends BaseController
 
         $data = [
             'title'          => 'Penerimaan Hewan',
+            'navbar' => 'penerimaan',
+            'active' => 'penerimaan',
             'tahun_selected' => $tahun,
             'penerimaan'     => $this->penerimaanModel
                 ->select('penerimaan.*, cabang.nama_cabang')
