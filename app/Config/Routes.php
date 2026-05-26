@@ -123,6 +123,10 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('print/(:num)', 'Admin\Penerimaan\PenerimaanController::print/$1');
     });
 
+    $routes->group('pengiriman', function ($routes) {
+        $routes->get('/', 'Admin\Penerimaan\PengirimanController::index');
+    });
+
     $routes->group('datasapi', function ($routes) {
         $routes->get('/', 'Admin\Penerimaan\SapiController::index');
         $routes->post('create', 'Admin\Penerimaan\SapiController::create');

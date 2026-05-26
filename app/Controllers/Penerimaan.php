@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\PenerimaanModel;
 use App\Models\SapiModel;
 use App\Models\CabangModel;
+use App\Models\PequrbanModel;
 use App\Models\QurbanModel;
 use App\Models\SettingModel;
 use CodeIgniter\Controller;
@@ -228,6 +229,45 @@ class Penerimaan extends Controller
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         echo $content;
         exit;
+    }
+
+    public function perbandingan()
+    {
+        $tahun = $this->request->getGet('tahun') ?? date('Y');
+        $header = [
+            'title' => 'Perbandingan Hewan Cabang',
+            'navbar' => 'penerimaan',
+            'active' => 'perbandingan',
+            'tahun_selected' => $tahun
+        ];
+
+        $pequrbanModel = new PequrbanModel();
+        $rekapTarget = $pequrbanModel->getRekapPerCabang($tahun)['rekap'];
+
+        $penerimaanModel = new PenerimaanModel();
+        $terimaData = $penerimaanModel->select('cabang_id, SUM(sapi) as s_masuk, SUM(kambing) as k_masuk')
+            ->where('YEAR(created_at)', $tahun)
+            ->groupBy('cabang_id')
+            ->findAll();
+
+        $terimaMap = [];
+        foreach ($terimaData as $t) {
+            $terimaMap[$t['cabang_id']] = $t;
+        }
+
+        $data['comparison'] = [];
+        foreach ($rekapTarget as $target) {
+            $id = $target['id'];
+            $data['comparison'][] = array_merge($target, [
+                'sapi_masuk'    => (int)($terimaMap[$id]['s_masuk'] ?? 0),
+                'kambing_masuk' => (int)($terimaMap[$id]['k_masuk'] ?? 0),
+            ]);
+        }
+
+        echo view("pages/header");
+        echo view("pages/navbar", $header);
+        echo view("admin/penerimaan/perbandingan", $data);
+        echo view("pages/footer");
     }
 
     public function datasapi()
