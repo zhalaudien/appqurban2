@@ -287,7 +287,7 @@ class SuratController extends Controller
 
         $html = view("admin/surat/templatebesek", $data);
 
-        $dompdf = new \Dompdf\Dompdf();
+        $dompdf = new \Dompdf\Dompdf(['isRemoteEnabled' => true]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('F4', 'portrait');
         $dompdf->render();

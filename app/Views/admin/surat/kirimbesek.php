@@ -105,7 +105,6 @@
                                     <th>K Kambing</th>
                                     <th>KK Sapi</th>
                                     <th>KL Sapi</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -126,7 +125,6 @@
                                             <td><?= esc($r['R_K_KB']) ?></td>
                                             <td><?= esc($r['R_KK_S']) ?></td>
                                             <td><?= esc($r['R_KLS']) ?></td>
-                                            <td><?= esc($r['status']) ?></td>
                                             <td>
                                                 <div class="btn-group btn-group-sm shadow-sm">
                                                     <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $r['id'] ?>">
@@ -192,9 +190,6 @@
                                                                         <div class="col-md-6">
                                                                             <label class="form-label fw-bold">Status Pengiriman</label>
                                                                             <select name="status" class="form-select">
-                                                                                <option value="Proses" <?= ($r['status'] == 'Proses') ? 'selected' : '' ?>>Proses</option>
-                                                                                <option value="Dikirim" <?= ($r['status'] == 'Dikirim') ? 'selected' : '' ?>>Dikirim</option>
-                                                                                <option value="Pending" <?= ($r['status'] == 'Pending') ? 'selected' : '' ?>>Pending</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
