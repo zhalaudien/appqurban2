@@ -10,7 +10,7 @@ class BesekModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['date_input', 'ts', 'tk', 'a', 'os', 'ok'];
+    protected $allowedFields    = ['created_at', 'ts', 'tk', 'a', 'os', 'ok'];
 
     public function saveBesek($data)
     {
@@ -23,5 +23,4 @@ class BesekModel extends Model
         $query = $this->db->table($this->table)->update($data, array('id' => $id));
         return $query;
     }
-
 }

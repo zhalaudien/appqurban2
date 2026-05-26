@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\RealisasiModel;
 use App\Models\QurbanModel;
 use CodeIgniter\Controller;
 use App\Models\SapiModel;
@@ -13,6 +14,8 @@ use App\Models\BesekModel;
 use App\Models\K3Model;
 use App\Models\MuspikaModel;
 use App\Models\SettingModel;
+use App\Models\PequrbanModel;
+use App\Models\JadwalModel;
 use CodeIgniter\Commands\Database\Seed;
 
 class Home extends Controller
@@ -28,21 +31,27 @@ class Home extends Controller
         $userModel = new MuspikaModel();
         $data['jumlahmuspika'] = $userModel->get()->getNumRows();
 
-        $userModel = new QurbanModel();
-        $data['sapi_bumm'] = $userModel->selectSum('sapi_bumm')->get()->getRow()->sapi_bumm;
-        $data['sapib_bumm'] = $userModel->selectSum('sapib_bumm')->get()->getRow()->sapib_bumm;
-        $data['kambing_bumm'] = $userModel->selectSum('kambing_bumm')->get()->getRow()->kambing_bumm;
-        $data['sapi_mandiri'] = $userModel->selectSum('sapi_mandiri')->get()->getRow()->sapi_mandiri;
-        $data['kambing_mandiri'] = $userModel->selectSum('kambing_mandiri')->get()->getRow()->kambing_mandiri;
-        $data['t_ts'] = $userModel->selectSum('r_ts')->get()->getRow()->r_ts;
-        $data['t_tk'] = $userModel->selectSum('r_tk')->get()->getRow()->r_tk;
-        $data['t_a'] = $userModel->selectSum('r_a')->get()->getRow()->r_a;
-        $data['t_os'] = $userModel->selectSum('r_os')->get()->getRow()->r_os;
-        $data['t_ok'] = $userModel->selectSum('r_ok')->get()->getRow()->r_ok;
-        $data['t_ks'] = $userModel->selectSum('r_ks')->get()->getRow()->r_ks;
-        $data['t_kb'] = $userModel->selectSum('r_kb')->get()->getRow()->r_kb;
-        $data['t_kks'] = $userModel->selectSum('r_kks')->get()->getRow()->r_kks;
-        $data['t_kls'] = $userModel->selectSum('r_kls')->get()->getRow()->r_kls;
+        $pequrbanModel = new PequrbanModel();
+        $tahun = date('Y');
+        $data['sapib_bumm']      = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'sapi', 'sumber' => 'bumm'])->countAllResults() % 7;
+        $data['sapi_bumm']       = intdiv($pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'sapi', 'sumber' => 'bumm'])->countAllResults(), 7);
+        $data['kambing_bumm']    = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'kambing', 'sumber' => 'bumm'])->countAllResults();
+        $data['sapi_mandiri']    = intdiv($pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'sapi', 'sumber' => 'mandiri'])->countAllResults(), 7);
+        $data['kambing_mandiri'] = $pequrbanModel->where(['tahun' => $tahun, 'jenis_hewan' => 'kambing', 'sumber' => 'mandiri'])->countAllResults();
+
+        $realisasiModel = new RealisasiModel();
+        $realStats = $realisasiModel->selectSum('R_TS', 'ts')->selectSum('R_TK', 'tk')->selectSum('R_A', 'a')->selectSum('R_OS', 'os')->selectSum('R_OK', 'ok')
+            ->selectSum('R_K_S', 'ks')->selectSum('R_K_KB', 'kb')->selectSum('R_KK_S', 'kks')->selectSum('R_KLS', 'kls')->get()->getRow();
+
+        $data['t_ts'] = $realStats->ts ?? 0;
+        $data['t_tk'] = $realStats->tk ?? 0;
+        $data['t_a']  = $realStats->a ?? 0;
+        $data['t_os'] = $realStats->os ?? 0;
+        $data['t_ok'] = $realStats->ok ?? 0;
+        $data['t_ks'] = $realStats->ks ?? 0;
+        $data['t_kb'] = $realStats->kb ?? 0;
+        $data['t_kks'] = $realStats->kks ?? 0;
+        $data['t_kls'] = $realStats->kls ?? 0;
 
         $userModel = new PenerimaanModel();
         $data['viewpenerimaan'] = $userModel->orderBy('date_input', 'DESC')->findAll();
@@ -95,42 +104,58 @@ class Home extends Controller
             'active' => 'jadwal2'
         ];
 
-        $userModel = new SettingModel();
-        $data['s_jadwal'] = $userModel->select('jadwal')->get()->getRow()->jadwal;
+        $settingModel = new SettingModel();
+        $rowSetting = $settingModel->first();
+        $data['s_jadwal'] = $rowSetting['jadwal'] ?? '';
 
-        $userModel = new QurbanModel();
-        $data['jadwal'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $db = \Config\Database::connect();
+        $tahun = date('Y');
 
-        $keywords = ['H1', 'H2', 'H3', 'H4'];
-        foreach ($keywords as $keyword) {
-            $data[strtolower($keyword)] = $userModel->like('kirim_besek', $keyword)
-                ->orderBy('kirim_hewan', 'ASC')
-                ->findAll();
-        }
-
-        $qurbanModel = new QurbanModel();
-
-        // Daftar kategori dan tipe
-        $categories = [
-            'sapi_bumm' => 'sapi_bumm',
-            'sapib_bumm' => 'sapib_bumm',
-            'kambing_bumm' => 'kambing_bumm',
-            'sapi_mandiri' => 'sapi_mandiri',
-            'kambing_mandiri' => 'kambing_mandiri',
-        ];
-
-        // Daftar hari
         $days = ['h1', 'h2', 'h3', 'h4'];
+        foreach ($days as $day) {
+            $builder = $db->table('cabang c');
+            $builder->select('
+                c.nama_cabang as cabang,
+                j.kirim_hewan,
+                j.kirim_besek,
+                COALESCE(SUM(CASE WHEN p.jenis_hewan = \'sapi\' AND p.sumber = \'bumm\' THEN 1 ELSE 0 END), 0) as sapib_bumm_raw,
+                COALESCE(SUM(CASE WHEN p.jenis_hewan = \'kambing\' AND p.sumber = \'bumm\' THEN 1 ELSE 0 END), 0) as kambing_bumm,
+                COALESCE(SUM(CASE WHEN p.jenis_hewan = \'sapi\' AND p.sumber = \'mandiri\' THEN 1 ELSE 0 END), 0) as sapi_mandiri_raw,
+                COALESCE(SUM(CASE WHEN p.jenis_hewan = \'kambing\' AND p.sumber = \'mandiri\' THEN 1 ELSE 0 END), 0) as kambing_mandiri
+            ');
+            $builder->join('jadwal j', 'j.cabang_id = c.id', 'left');
+            $builder->join('pequrban p', 'p.cabang_id = c.id AND p.tahun = ' . $db->escape($tahun), 'left');
+            $builder->where('c.pusat', 7);
+            $builder->like('j.kirim_besek', $day);
+            $builder->groupBy('c.id, j.id');
+            $builder->orderBy('j.kirim_hewan', 'ASC');
 
-        // Loop untuk memproses data
-        foreach ($categories as $key => $column) {
-            foreach ($days as $day) {
-                $data[$key . '_' . $day] = $qurbanModel->selectSum($column)
-                    ->like('kirim_besek', $day)
-                    ->get()
-                    ->getRow()
-                    ->$column;
+            $results = $builder->get()->getResultArray();
+
+            $sapi_bumm_tot = 0;
+            $sapib_bumm_tot = 0;
+            $kambing_bumm_tot = 0;
+            $sapi_mandiri_tot = 0;
+            $kambing_mandiri_tot = 0;
+
+            foreach ($results as &$r) {
+                $r['sapi_bumm'] = intdiv($r['sapib_bumm_raw'], 7);
+                $r['sapib_bumm'] = $r['sapib_bumm_raw'] % 7;
+                $r['sapi_mandiri'] = intdiv($r['sapi_mandiri_raw'], 7);
+
+                $sapi_bumm_tot += $r['sapi_bumm'];
+                $sapib_bumm_tot += $r['sapib_bumm'];
+                $kambing_bumm_tot += $r['kambing_bumm'];
+                $sapi_mandiri_tot += $r['sapi_mandiri'];
+                $kambing_mandiri_tot += $r['kambing_mandiri'];
             }
+
+            $data[$day] = $results;
+            $data['sapi_bumm_' . $day] = $sapi_bumm_tot;
+            $data['sapib_bumm_' . $day] = $sapib_bumm_tot;
+            $data['kambing_bumm_' . $day] = $kambing_bumm_tot;
+            $data['sapi_mandiri_' . $day] = $sapi_mandiri_tot;
+            $data['kambing_mandiri_' . $day] = $kambing_mandiri_tot;
         }
 
         echo view("homepage/header", $header);
@@ -162,8 +187,18 @@ class Home extends Controller
             'active' => 'dataqurban'
         ];
 
-        $userModel = new QurbanModel();
-        $data['qurban'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $pequrbanModel = new PequrbanModel();
+        $tahun = date('Y');
+        $rekap = $pequrbanModel->getRekapPerCabang($tahun)['rekap'];
+
+        foreach ($rekap as &$r) {
+            $r['cabang'] = $r['nama_cabang'];
+            $total_sapi_bumm = $r['sapi_bumm'];
+            $r['sapi_bumm'] = intdiv($total_sapi_bumm, 7);
+            $r['sapib_bumm'] = $total_sapi_bumm % 7;
+            $r['sapi_mandiri'] = intdiv($r['sapi_mandiri'], 7);
+        }
+        $data['qurban'] = $rekap;
 
         echo view("homepage/header", $header);
         echo view("homepage/dataqurban", $data);
@@ -179,17 +214,43 @@ class Home extends Controller
             'auto_refresh' => 'true'
         ];
 
-        $userModel = new SettingModel();
-        $data['s_hari'] = $userModel->select('hari')->get()->getRow()->hari;
+        $settingModel = new SettingModel();
+        $rowSetting = $settingModel->select('hari')->first();
+        $s_hari = $rowSetting['hari'] ?? '';
+        $data['s_hari'] = $s_hari;
 
-        $userModel = new QurbanModel();
-        $data['realisasi'] = $userModel->orderBy('cabang', 'ASC')->findAll();
+        $db     = \Config\Database::connect();
+        $tahun  = date('Y');
 
-        $keywords = ['H1', 'H2', 'H3', 'H4'];
-        foreach ($keywords as $keyword) {
-            $data[strtolower($keyword)] = $userModel->like('kirim_besek', $keyword)
-                ->orderBy('antrian', 'ASC')
-                ->findAll();
+        $groups = explode(',', $s_hari);
+        foreach ($groups as $hari) {
+            $keyword = trim($hari);
+            if (empty($keyword)) continue;
+
+            // Query Manual untuk menggabungkan Cabang, Realisasi, dan Jadwal
+            // Pastikan filter tahun dilakukan pada join jadwal dan realisasi
+            $builder = $db->table('cabang c');
+            $builder->select('
+                c.nama_cabang as cabang,
+                COALESCE(r.R_TS, 0) as r_ts,
+                COALESCE(r.R_TK, 0) as r_tk,
+                COALESCE(r.R_A, 0) as r_a,
+                COALESCE(r.R_OS, 0) as r_os,
+                COALESCE(r.R_OK, 0) as r_ok,
+                COALESCE(r.R_K_S, 0) as r_ks,
+                COALESCE(r.R_K_KB, 0) as r_kb,
+                COALESCE(r.R_KK_S, 0) as r_kks,
+                COALESCE(r.R_KLS, 0) as r_kls,
+                j.antrian,
+                j.status
+            ');
+            $builder->join('realisasi r', 'r.cabang_id = c.id', 'left');
+            $builder->join('jadwal j', 'j.cabang_id = c.id', 'left');
+            $builder->where('c.pusat', 7);
+            $builder->like('j.kirim_besek', $keyword);
+            $builder->orderBy('j.antrian', 'ASC');
+
+            $data[$keyword] = $builder->get()->getResultArray();
         }
 
         echo view("homepage/header", $header);

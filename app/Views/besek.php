@@ -175,7 +175,7 @@
                                                             <td><?php echo $besek['a']; ?></td>
                                                             <td><?php echo $besek['os']; ?></td>
                                                             <td><?php echo $besek['ok']; ?></td>
-                                                            <td><?php echo $besek['date_input']; ?></td>
+                                                            <td><?php echo $besek['created_at']; ?></td>
                                                             <td>
                                                                 <a type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                                     data-bs-target="#hapusdata<?php echo $besek['id']; ?>">
@@ -190,7 +190,7 @@
                                                                             <div class="modal-body">
                                                                                 <h2 class="h2">Apakah anda yakin ?</h2>
                                                                                 <p>Menghapus data kandang
-                                                                                    <?php echo $besek['date_input']; ?>
+                                                                                    <?php echo $besek['created_at']; ?>
                                                                                 </p>
                                                                             </div>
                                                                             <div class="modal-footer">

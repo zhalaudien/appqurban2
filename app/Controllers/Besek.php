@@ -22,14 +22,14 @@ class Besek extends Controller
 
         // Load semua data besek
         $besekModel = new BesekModel();
-        $data['viewbesek'] = $besekModel->orderBy('date_input', 'DESC')->findAll();
+        $data['viewbesek'] = $besekModel->orderBy('created_at', 'DESC')->findAll();
 
         $today = date('Y-m-d');
 
         // Data Qurban yang Dikirim Hari Ini
         $qurbanModel = new QurbanModel();
         $kirim_today = $qurbanModel
-            ->where('DATE(date_input)', $today)
+            ->where('DATE(created_at)', $today)
             ->where('status', 'Dikirim')
             ->selectSum('r_ts')
             ->selectSum('r_tk')
@@ -47,7 +47,7 @@ class Besek extends Controller
         // Data permintaa yang Dikirim Hari Ini
         $qurbanModel = new PermintaanModel();
         $kirim_permintaan = $qurbanModel
-            ->where('DATE(date_input)', $today)
+            ->where('DATE(created_at)', $today)
             ->selectSum('ts')
             ->selectSum('tk')
             ->selectSum('a')
@@ -63,7 +63,7 @@ class Besek extends Controller
 
         // Data Besek Hari Ini
         $besek_today = $besekModel
-            ->where('DATE(date_input)', $today)
+            ->where('DATE(created_at)', $today)
             ->selectSum('ts')
             ->selectSum('tk')
             ->selectSum('a')
@@ -176,7 +176,7 @@ class Besek extends Controller
             $sheet->setCellValue('D' . $row, $item['a']);
             $sheet->setCellValue('E' . $row, $item['os']);
             $sheet->setCellValue('F' . $row, $item['ok']);
-            $sheet->setCellValue('G' . $row, $item['date_input']);
+            $sheet->setCellValue('G' . $row, $item['created_at']);
             $row++;
         }
 
