@@ -7,13 +7,13 @@
 
     <style>
         @page {
-            size: F4 portrait;
+            size: A4 portrait;
             margin: 10mm;
         }
 
         body {
             font-family: "Times New Roman", serif;
-            font-size: 16px;
+            font-size: 15px;
             color: #000;
             margin: 0;
             padding: 0;
@@ -21,11 +21,12 @@
 
         .page {
             width: 210mm;
-            min-height: 330mm;
+            height: 297mm;
             margin: auto;
             background: #fff;
-            padding: 10mm 10mm;
+            padding: 10mm 20mm;
             box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+            box-sizing: border-box;
             page-break-after: always;
         }
 
@@ -45,31 +46,37 @@
             line-height: 1.3;
         }
 
+        .header img {
+            max-width: 100%;
+            height: auto;
+            max-height: 90px;
+        }
+
         .title {
             text-align: center;
             font-weight: bold;
-            font-size: 18px;
-            margin: 15px 0;
+            font-size: 17px;
+            margin: 10px 0;
             text-decoration: underline;
         }
 
         .content {
-            margin-top: 20px;
-            font-size: 16px;
-            line-height: 1.7;
+            margin-top: 10px;
+            font-size: 15px;
+            line-height: 1.5;
         }
 
         table {
-            width: 50%;
+            width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         table th,
         table td {
             border: 1px solid #000;
-            padding: 8px 12px;
-            font-size: 16px;
+            padding: 4px 10px;
+            font-size: 14px;
         }
 
         table th {
@@ -79,19 +86,19 @@
         .signature {
             width: 350px;
             margin-left: auto;
-            margin-top: 40px;
+            margin-top: 20px;
             text-align: center;
         }
 
         .signature-space {
-            height: 70px;
+            height: 60px;
         }
 
         .arabic {
-            font-size: 22px;
+            font-size: 20px;
             direction: rtl;
             text-align: center;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .mt-20 {
@@ -238,43 +245,43 @@
                         </tr>
 
                         <tr>
-                            <td class="text-center">3</td>
+                            <td class="text-center">4</td>
                             <td>M</td>
                             <td><?= $m ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">4</td>
+                            <td class="text-center">5</td>
                             <td>OS</td>
                             <td><?= $os ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">5</td>
+                            <td class="text-center">6</td>
                             <td>OK</td>
                             <td><?= $ok ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">6</td>
+                            <td class="text-center">7</td>
                             <td>Kepala Sapi</td>
                             <td><?= $ks ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">7</td>
+                            <td class="text-center">8</td>
                             <td>Kaki Sapi</td>
                             <td><?= $kks ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">8</td>
+                            <td class="text-center">9</td>
                             <td>Kulit Sapi</td>
                             <td><?= $kls ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">9</td>
+                            <td class="text-center">10</td>
                             <td>Kepala Kambing</td>
                             <td><?= $kb ?></td>
                         </tr>
@@ -348,43 +355,43 @@
                         </tr>
 
                         <tr>
-                            <td class="text-center">3</td>
+                            <td class="text-center">4</td>
                             <td>M</td>
                             <td><?= $m ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">4</td>
+                            <td class="text-center">5</td>
                             <td>OS</td>
                             <td><?= $os ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">5</td>
+                            <td class="text-center">6</td>
                             <td>OK</td>
                             <td><?= $ok ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">6</td>
+                            <td class="text-center">7</td>
                             <td>Kepala Sapi</td>
                             <td><?= $ks ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">7</td>
+                            <td class="text-center">8</td>
                             <td>Kaki Sapi</td>
                             <td><?= $kks ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">8</td>
+                            <td class="text-center">9</td>
                             <td>Kulit Sapi</td>
                             <td><?= $kls ?></td>
                         </tr>
 
                         <tr>
-                            <td class="text-center">9</td>
+                            <td class="text-center">10</td>
                             <td>Kepala Kambing</td>
                             <td><?= $kb ?></td>
                         </tr>
@@ -425,7 +432,7 @@
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: [210, 330], // Ukuran F4 dalam mm
+                    format: 'a4',
                     orientation: 'portrait'
                 },
                 pagebreak: {

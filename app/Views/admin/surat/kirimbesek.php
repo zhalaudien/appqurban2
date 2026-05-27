@@ -236,6 +236,67 @@
             </div>
         </div>
 
+        <!-- Data Daftar Permintaan Besek -->
+        <div class="col-12 col-lg-12">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0"><i class="bi bi-list-ul me-2"></i>Daftar Permintaan Besek (Amprah)</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 datatables-custom">
+                            <thead class="table-light border-bottom">
+                                <tr class="small text-uppercase fw-bold">
+                                    <th style="width: 50px">No</th>
+                                    <th>Cabang</th>
+                                    <th>TS</th>
+                                    <th>TK</th>
+                                    <th>A</th>
+                                    <th>OS</th>
+                                    <th>OK</th>
+                                    <th>K Sapi</th>
+                                    <th>K Kambing</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $noP = 1; ?>
+                                <?php if (!empty($permintaan)): ?>
+                                    <?php foreach ($permintaan as $p): ?>
+                                        <tr>
+                                            <td><?= $noP++; ?></td>
+                                            <td class="fw-bold"><?= esc($p['cabang']) ?></td>
+                                            <td><?= esc($p['ts']) ?></td>
+                                            <td><?= esc($p['tk']) ?></td>
+                                            <td><?= esc($p['a']) ?></td>
+                                            <td><?= esc($p['os']) ?></td>
+                                            <td><?= esc($p['ok']) ?></td>
+                                            <td><?= esc($p['ks']) ?></td>
+                                            <td><?= esc($p['kb']) ?></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="<?= base_url('/kirimbesek/print_permintaan/' . $p['id']) ?>" class="btn btn-outline-info" target="_blank" title="Cetak Surat Pengantar">
+                                                        <i class="bi bi-printer"></i>
+                                                    </a>
+                                                    <a href="<?= base_url('/kirimbesek/hapuspermintaan/' . $p['id']) ?>" class="btn btn-outline-danger" onclick="return confirm('Hapus permintaan ini?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="10" class="text-center py-3">Belum ada data permintaan.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     </main>
     <!--end::App Main-->

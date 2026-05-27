@@ -30,6 +30,10 @@ class SuratController extends Controller
             ->orderBy('cabang.nama_cabang', 'ASC')
             ->findAll();
 
+        // Mengambil data permintaan besek terbaru
+        $permintaanModel = new PermintaanModel();
+        $data['permintaan'] = $permintaanModel->orderBy('id', 'DESC')->findAll();
+
         echo view("admin/surat/kirimbesek", $data, $header,);
     }
 
@@ -37,7 +41,7 @@ class SuratController extends Controller
     {
         $model = new PermintaanModel(); // Corrected model
         $data = array(
-            'cabang_id' => $this->request->getPost('cabang'),
+            'cabang' => $this->request->getPost('cabang'),
             'ts' => $this->request->getPost('ts'),
             'tk' => $this->request->getPost('tk'),
             'a' => $this->request->getPost('a'),
@@ -245,13 +249,44 @@ class SuratController extends Controller
             'ts'     => $row['R_TS'],
             'tk'     => $row['R_TK'],
             'm'      => $row['R_M'],
-            'a'      => $row['R_A'],  // Menggunakan R_M untuk baris label 'M' di template
+            'a'      => $row['R_A'],
             'os'     => $row['R_OS'],
             'ok'     => $row['R_OK'],
             'ks'     => $row['R_K_S'],
             'kks'    => $row['R_KK_S'],
             'kls'    => $row['R_KLS'],
             'kb'     => $row['R_K_KB'],
+            'date'   => $date
+        ];
+
+        echo view("admin/surat/templatebesek", $data);
+    }
+
+    public function print_permintaan($id)
+    {
+        $model = new PermintaanModel();
+        $row = $model->find($id);
+
+        if (!$row) {
+            return "Data tidak ditemukan.";
+        }
+
+        $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE, 'Asia/Jakarta');
+        $date = $formatter->format(new \DateTime());
+
+        // Mapping data agar sesuai dengan templatebesek.php
+        $data = [
+            'cabang' => $row['cabang'],
+            'ts'     => $row['ts'],
+            'tk'     => $row['tk'],
+            'm'      => $row['a'], // Karena di form input name="a" adalah label Besek M
+            'a'      => 0,         // Diset 0 karena di form permintaan tidak ada input Besek A
+            'os'     => $row['os'],
+            'ok'     => $row['ok'],
+            'ks'     => $row['ks'],
+            'kks'    => $row['kks'],
+            'kls'    => $row['kls'],
+            'kb'     => $row['kb'],
             'date'   => $date
         ];
 
@@ -276,7 +311,8 @@ class SuratController extends Controller
             'cabang' => $row['nama_cabang'],
             'ts'     => $row['R_TS'],
             'tk'     => $row['R_TK'],
-            'a'      => $row['R_M'],
+            'a'      => $row['R_A'],
+            'm'      => $row['R_M'],
             'os'     => $row['R_OS'],
             'ok'     => $row['R_OK'],
             'ks'     => $row['R_K_S'],
@@ -290,7 +326,7 @@ class SuratController extends Controller
 
         $dompdf = new \Dompdf\Dompdf(['isRemoteEnabled' => true]);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('F4', 'portrait');
+        $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("Surat_Jalan_" . $row['nama_cabang'] . ".pdf", ["Attachment" => 1]);
     }
