@@ -66,6 +66,15 @@
                                 <label for="kls" class="form-label">kulit Sapi</label>
                                 <input type="text" class="form-control" name="kls">
                             </div>
+                            <div class="col-md-2">
+                                <label for="status" class="form-label">Status Pengiriman</label>
+                                <select class="form-select" name="status">
+                                    <option value="Proses">Proses</option>
+                                    <option value="Dikirim">Dikirim</option>
+                                    <option value="Selesai">Selesai</option>
+                                    <option value="Tertunda">Tertunda</option>
+                                </select>
+                            </div>
                             <!--end::Col-->
                         </div>
                         <!--end::Row-->
@@ -105,6 +114,7 @@
                                     <th>K Kambing</th>
                                     <th>KK Sapi</th>
                                     <th>KL Sapi</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -125,6 +135,11 @@
                                             <td><?= esc($r['R_K_KB']) ?></td>
                                             <td><?= esc($r['R_KK_S']) ?></td>
                                             <td><?= esc($r['R_KLS']) ?></td>
+                                            <td>
+                                                <span class="badge <?= (($r['status_jadwal'] ?? '') == 'Selesai') ? 'bg-success' : 'bg-warning' ?>">
+                                                    <?= esc($r['status_jadwal'] ?? 'Belum Ada') ?>
+                                                </span>
+                                            </td>
                                             <td>
                                                 <div class="btn-group btn-group-sm shadow-sm">
                                                     <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $r['id'] ?>">
@@ -190,6 +205,10 @@
                                                                         <div class="col-md-6">
                                                                             <label class="form-label fw-bold">Status Pengiriman</label>
                                                                             <select name="status" class="form-select">
+                                                                                <option value="Proses" <?= (($r['status_jadwal'] ?? '') == 'Proses') ? 'selected' : '' ?>>Proses</option>
+                                                                                <option value="Dikirim" <?= (($r['status_jadwal'] ?? '') == 'Dikirim') ? 'selected' : '' ?>>Dikirim</option>
+                                                                                <option value="Selesai" <?= (($r['status_jadwal'] ?? '') == 'Selesai') ? 'selected' : '' ?>>Selesai</option>
+                                                                                <option value="Tertunda" <?= (($r['status_jadwal'] ?? '') == 'Tertunda') ? 'selected' : '' ?>>Tertunda</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>

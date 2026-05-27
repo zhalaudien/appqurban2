@@ -46,7 +46,7 @@ class RealisasiModel extends Model
             SUM(CASE WHEN p.jenis_hewan='sapi' THEN 1 ELSE 0 END) as TS,
             SUM(CASE WHEN p.jenis_hewan='kambing' THEN 1 ELSE 0 END) as TK,
 
-            FLOOR(SUM(CASE WHEN p.jenis_hewan='sapi' THEN 1 ELSE 0 END)/7) as jumlah_sapi,
+            (SUM(CASE WHEN p.jenis_hewan='sapi' THEN 1 ELSE 0 END) / 7) as jumlah_sapi,
             SUM(CASE WHEN p.jenis_hewan='kambing' THEN 1 ELSE 0 END) as jumlah_kambing
         ")
             ->join('pequrban p', 'p.cabang_id = c.id', 'left')

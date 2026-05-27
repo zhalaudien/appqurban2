@@ -159,7 +159,7 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
     $routes->group('kirimbesek', function ($routes) {
         $routes->get('/', 'Admin\Surat\SuratController::index');
         $routes->post('create', 'Admin\Surat\SuratController::create');
-        $routes->post('update/(:num)', 'Admin\Surat\SuratController::update/$1');
+        $routes->post('edit/(:num)', 'Admin\Surat\SuratController::edit/$1');
         $routes->get('delete/(:num)', 'Admin\Surat\SuratController::delete/$1');
         $routes->get('export', 'Admin\Surat\SuratController::export');
         $routes->get('print/(:num)', 'Admin\Surat\SuratController::print/$1');

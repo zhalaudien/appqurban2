@@ -24,8 +24,9 @@ class SuratController extends Controller
         ];
 
         $userModel = new RealisasiModel();
-        $data['realisasi'] = $userModel->select('realisasi.*, cabang.nama_cabang as cabang')
+        $data['realisasi'] = $userModel->select('realisasi.*, cabang.nama_cabang as cabang, jadwal.status as status_jadwal')
             ->join('cabang', 'cabang.id = realisasi.cabang_id', 'left')
+            ->join('jadwal', 'jadwal.cabang_id = realisasi.cabang_id', 'left')
             ->orderBy('cabang.nama_cabang', 'ASC')
             ->findAll();
 
