@@ -6,7 +6,7 @@ use App\Models\QurbanModel;
 use App\Models\RealisasiModel;
 use App\Models\PermintaanModel; // Added PermintaanModel
 use App\Models\CabangModel;
-
+use App\Models\JadwalModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -62,6 +62,7 @@ class SuratController extends Controller
     public function edit()
     {
         $userModel = new RealisasiModel(); // Changed from QurbanModel to RealisasiModel
+        $jadwalModel = new JadwalModel();
         $id = $this->request->getPost('id');
         if (!$id) {
             echo '<script>
@@ -70,21 +71,38 @@ class SuratController extends Controller
                 </script>';
             return;
         }
+
+        // Ambil data realisasi untuk mendapatkan cabang_id yang akan diupdate status jadwalnya
+        $realisasi = $userModel->find($id);
+        $cabang_id = $realisasi['cabang_id'] ?? null;
+
         $data = [
-            'r_ts' => $this->request->getPost('r_ts'),
-            'r_tk' => $this->request->getPost('r_tk'),
-            'r_a' => $this->request->getPost('r_a'),
-            'r_ok' => $this->request->getPost('r_ok'),
-            'r_os' => $this->request->getPost('r_os'),
-            'r_ks' => $this->request->getPost('r_ks'),
-            'r_kb' => $this->request->getPost('r_kb'),
-            'r_kks' => $this->request->getPost('r_kks'),
-            'r_kls' => $this->request->getPost('r_kls'),
-            'status' => $this->request->getPost('status'),
-            'date_input' => $this->request->getPost('date_input'),
+            'R_TS'   => $this->request->getPost('r_ts'),
+            'R_TK'   => $this->request->getPost('r_tk'),
+            'R_A'    => $this->request->getPost('r_a'),
+            'R_OK'   => $this->request->getPost('r_ok'),
+            'R_OS'   => $this->request->getPost('r_os'),
+            'R_K_S'  => $this->request->getPost('r_ks'),
+            'R_K_KB' => $this->request->getPost('r_kb'),
+            'R_KK_S' => $this->request->getPost('r_kks'),
+            'R_KLS'  => $this->request->getPost('r_kls'),
         ];
 
-        $userModel->updateQurban($data, $id);
+        // Bersihkan array dari nilai null agar tidak menimpa data yang sudah ada (khusus jika modal hanya edit status)
+        $data = array_filter($data, fn($value) => !is_null($value));
+
+        if (!empty($data)) {
+            $userModel->update($id, $data);
+        }
+
+        // Update status pengiriman di tabel jadwal berdasarkan cabang_id dan tahun berjalan
+        if ($cabang_id) {
+            $jadwalModel->where('cabang_id', $cabang_id)
+                ->where('tahun', date('Y'))
+                ->set(['status' => $this->request->getPost('status')])
+                ->update();
+        }
+
         echo '<script>
                 alert("Sukses Edit Data Realaisasi");
                 window.location="' . base_url('/kirimbesek') . '"
@@ -147,13 +165,13 @@ class SuratController extends Controller
             </script>';
     }
 
-    public function editjadwal()
+    public function updatejadwal()
     {
-        $model = new QurbanModel();
+        $model = new JadwalModel();
         $id = $this->request->getPost('id');
         $data = [
-            'cabang' => $this->request->getPost('cabang'),
-            'antrian' => $this->request->getPost('antrian'),
+            'cabang_id' => $this->request->getPost('cabang_id'),
+            'status' => $this->request->getPost('status'),
             'kirim_hewan' => $this->request->getPost('kirim_hewan'),
             'kirim_besek' => $this->request->getPost('kirim_besek'),
         ];

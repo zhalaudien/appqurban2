@@ -166,42 +166,6 @@
                                                                     <input type="hidden" name="id" value="<?= $r['id'] ?>">
                                                                     <input type="hidden" name="date_input" value="<?= date('Y-m-d H:i:s') ?>">
                                                                     <div class="row g-3">
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Besek TS</label>
-                                                                            <input type="text" class="form-control" name="r_ts" value="<?= esc($r['R_TS']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Besek TK</label>
-                                                                            <input type="text" class="form-control" name="r_tk" value="<?= esc($r['R_TK']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Besek M</label>
-                                                                            <input type="text" class="form-control" name="r_a" value="<?= esc($r['R_A']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Besek OS</label>
-                                                                            <input type="text" class="form-control" name="r_os" value="<?= esc($r['R_OS']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Besek OK</label>
-                                                                            <input type="text" class="form-control" name="r_ok" value="<?= esc($r['R_OK']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Kepala Sapi</label>
-                                                                            <input type="text" class="form-control" name="r_ks" value="<?= esc($r['R_K_S']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Kepala Kambing</label>
-                                                                            <input type="text" class="form-control" name="r_kb" value="<?= esc($r['R_K_KB']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Kaki Sapi</label>
-                                                                            <input type="text" class="form-control" name="r_kks" value="<?= esc($r['R_KK_S']) ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label class="form-label fw-bold text-muted small">Kulit Sapi</label>
-                                                                            <input type="text" class="form-control" name="r_kls" value="<?= esc($r['R_KLS']) ?>">
-                                                                        </div>
                                                                         <div class="col-md-6">
                                                                             <label class="form-label fw-bold">Status Pengiriman</label>
                                                                             <select name="status" class="form-select">
