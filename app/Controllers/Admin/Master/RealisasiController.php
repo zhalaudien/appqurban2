@@ -6,16 +6,20 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\RealisasiModel;
 use App\Models\SettingModel;
+use App\Models\JadwalModel;
 
 class RealisasiController extends BaseController
 {
     protected $realisasiModel;
     protected $settingModel;
+    protected $jadwalModel;
+
 
     public function __construct()
     {
         $this->realisasiModel = new RealisasiModel();
         $this->settingModel = new SettingModel();
+        $this->jadwalModel = new JadwalModel();
     }
 
     public function index()
@@ -23,25 +27,30 @@ class RealisasiController extends BaseController
 
         $tahun = $this->request->getGet('year') ?? date('Y');
 
-        $header = [
-            'title' => 'Data Realisasi Besek Cabang',
-            'navbar' => 'qurban',
-            'active' => 'realisasi'
-        ];
+        $header = [];
 
         $realisasi  = $this->realisasiModel->getRealisasi($tahun);
         $perkiraan  = $this->realisasiModel->getDataLengkap();
         $setting    = $this->settingModel->first();
 
+        // Ambil data jadwal pengiriman untuk mendapatkan kolom kirim_besek yang akurat
+        $jadwal = $this->jadwalModel->findAll();
+        $mapJadwal = [];
+        foreach ($jadwal as $j) {
+            $mapJadwal[$j['cabang_id']] = $j['kirim_besek'];
+        }
+
         /*
-    Index perkiraan berdasarkan cabang_id
-*/
+            Index perkiraan berdasarkan cabang_id
+        */
         $mapPerkiraan = [];
         foreach ($perkiraan as $p) {
             $mapPerkiraan[$p['id']] = $p;
         }
 
         foreach ($realisasi as &$r) {
+            // Ambil jadwal kirim besek dari data jadwal pengiriman
+            $r['kirim_besek'] = trim($mapJadwal[$r['cabang_id']] ?? '') ?: 'Belum Terjadwal';
 
             $p = $mapPerkiraan[$r['cabang_id']] ?? null;
 
@@ -62,14 +71,29 @@ class RealisasiController extends BaseController
             }
         }
 
+        // Kelompokkan berdasarkan jadwal kirim besek
+        $grouped = [];
+        foreach ($realisasi as $r) {
+            $key = trim($r['kirim_besek'] ?? '') ?: 'Belum Terjadwal';
+            $grouped[$key][] = $r;
+        }
+
+        // Urutkan jadwal: H1, H2... dan "Belum Terjadwal" di akhir
+        uksort($grouped, function ($a, $b) {
+            if ($a === 'Belum Terjadwal') return 1;
+            if ($b === 'Belum Terjadwal') return -1;
+            return strnatcmp($a, $b);
+        });
+
         $data = [
-            'realisasi' => $realisasi
+            'grouped_realisasi' => $grouped,
+            'year'              => $tahun,
+            'title' => 'Data Realisasi Besek Cabang',
+            'navbar' => 'qurban',
+            'active' => 'realisasi'
         ];
 
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view('admin/master/realisasi/index', $data, $header);
-        echo view("pages/footer");
+        echo view('admin/master/realisasi/index', $data);
     }
 
     public function update($id)
