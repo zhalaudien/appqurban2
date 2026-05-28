@@ -136,20 +136,27 @@ $routes->group('', ['filter' => 'role:1'], function ($routes) {
         $routes->get('print/(:num)', 'Admin\Penerimaan\SapiController::print/$1');
     });
 
+    $routes->group('k3', function ($routes) {
+        $routes->get('/', 'Admin\K3Controller::index');
+        $routes->post('create', 'Admin\K3Controller::create');
+        $routes->post('update/(:num)', 'Admin\K3Controller::update/$1');
+        $routes->get('delete/(:num)', 'Admin\K3Controller::delete/$1');
+        $routes->get('export', 'Admin\K3Controller::export');
+    });
+
     $routes->group('kandang', function ($routes) {
         $routes->get('/', 'Admin\KandangController::index');
         $routes->post('create', 'Admin\KandangController::create');
-        $routes->post('update/(:num)', 'Admin\KandangController::update/$1');
         $routes->get('delete/(:num)', 'Admin\KandangController::delete/$1');
         $routes->get('export', 'Admin\KandangController::export');
     });
 
     $routes->group('besek', function ($routes) {
-        $routes->get('/', 'Besek::index');
-        $routes->post('create', 'Besek::create');
-        $routes->post('update/(:num)', 'Besek::update/$1');
-        $routes->get('delete/(:num)', 'Besek::delete/$1');
-        $routes->get('export', 'Besek::export');
+        $routes->get('/', 'Admin\BesekController::index');
+        $routes->post('create', 'Admin\BesekController::create');
+        $routes->post('update/(:num)', 'Admin\BesekController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\BesekController::delete/$1');
+        $routes->get('export', 'Admin\BesekController::export');
     });
 
 

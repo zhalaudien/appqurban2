@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\BesekModel;
 use CodeIgniter\Controller;
@@ -10,26 +10,29 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\RealisasiModel;
 
-class Besek extends Controller
+class BesekController extends Controller
 {
     public function index()
     {
+        $tahun = $this->request->getGet('year') ?? date('Y');
+
         $header = [
             'title' => 'Data Besek',
             'navbar' => 'besek',
-            'active' => 'besek'
+            'active' => 'besek',
+            'year' => $tahun
         ];
 
         // Load semua data besek
         $besekModel = new BesekModel();
-        $data['viewbesek'] = $besekModel->orderBy('created_at', 'DESC')->findAll();
+        $data['viewbesek'] = $besekModel->where('YEAR(date_input)', $tahun)->orderBy('date_input', 'DESC')->findAll();
 
         $today = date('Y-m-d');
 
         // Data Qurban yang Dikirim Hari Ini
         $qurbanModel = new QurbanModel();
         $kirim_today = $qurbanModel
-            ->where('DATE(created_at)', $today)
+            ->where('DATE(date_input)', $today)
             ->where('status', 'Dikirim')
             ->selectSum('r_ts')
             ->selectSum('r_tk')
@@ -47,7 +50,7 @@ class Besek extends Controller
         // Data permintaa yang Dikirim Hari Ini
         $qurbanModel = new PermintaanModel();
         $kirim_permintaan = $qurbanModel
-            ->where('DATE(created_at)', $today)
+            ->where('DATE(date_input)', $today)
             ->selectSum('ts')
             ->selectSum('tk')
             ->selectSum('a')
@@ -63,7 +66,7 @@ class Besek extends Controller
 
         // Data Besek Hari Ini
         $besek_today = $besekModel
-            ->where('DATE(created_at)', $today)
+            ->where('DATE(date_input)', $today)
             ->selectSum('ts')
             ->selectSum('tk')
             ->selectSum('a')
@@ -79,6 +82,7 @@ class Besek extends Controller
 
         // Data Total Produksi besek
         $total = $besekModel
+            ->where('YEAR(date_input)', $tahun)
             ->selectSum('ts')
             ->selectSum('tk')
             ->selectSum('a')
@@ -95,10 +99,7 @@ class Besek extends Controller
         $data['total_besek'] = $data['total_ts'] + $data['total_tk'] + $data['total_os'] + $data['total_ok'] + $data['total_a'];
 
         // Load views
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
-        echo view("besek", $data, $header);
-        echo view("pages/footer");
+        return view("admin/besek", array_merge($data, $header));
     }
 
 
@@ -149,8 +150,10 @@ class Besek extends Controller
 
     public function export()
     {
+        $tahun = $this->request->getGet('year') ?? date('Y');
+
         $model = new BesekModel();
-        $data = $model->findAll();
+        $data = $model->where('YEAR(date_input)', $tahun)->findAll();
         $date = date('Y-m-d');
 
         $spreadsheet = new Spreadsheet();
@@ -176,12 +179,12 @@ class Besek extends Controller
             $sheet->setCellValue('D' . $row, $item['a']);
             $sheet->setCellValue('E' . $row, $item['os']);
             $sheet->setCellValue('F' . $row, $item['ok']);
-            $sheet->setCellValue('G' . $row, $item['created_at']);
+            $sheet->setCellValue('G' . $row, $item['date_input']);
             $row++;
         }
 
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Besek ' . $date;
+        $fileName = 'Data Besek ' . $tahun . ' - ' . $date;
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
