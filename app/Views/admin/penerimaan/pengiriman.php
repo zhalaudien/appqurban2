@@ -69,72 +69,76 @@ $sapiBumm    = array_filter($prices, fn($p) => $p['jenis_hewan'] === 'sapi');
                     $total_k_masuk = 0;
                     ?>
                     <?php if (!empty($rekap)): ?>
-                        <?php foreach ($rekap as $c): ?>
-                            <?php
-                            // Lewati data BUMM Sragen karena kita hanya fokus pada perbandingan hewan Mandiri cabang
-                            if ($c['nama_cabang'] == 'BUMM Sragen') continue;
-
-                            $isLengkap = ($c['sapi_kurang'] <= 0 && $c['kambing_kurang'] <= 0);
-
-                            // Akumulasi total
-                            $total_s_target += $c['sapi_mandiri'];
-                            $total_s_masuk  += $c['sapi_masuk'];
-                            $total_k_target += $c['kambing_mandiri'];
-                            $total_k_masuk  += $c['kambing_masuk'];
-                            ?>
-                            <tr>
-                                <td class="text-muted"><?= esc($no++) ?></td>
-                                <td class="text-start">
-                                    <div class="fw-bold text-dark"><?= esc($c['nama_cabang']) ?></div>
-                                </td>
-
-                                <!-- Sapi -->
-                                <td>
-                                    <div class="fw-bold"><?= esc($c['sapi_mandiri']) ?> <span class="fw-normal text-muted small">Org</span></div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">≈ <?= number_format($c['sapi_mandiri'] / 7, 1) ?> ekor</div>
-                                </td>
-                                <td class="text-primary fw-bold bg-light-subtle"><?= esc($c['sapi_masuk']) ?></td>
-                                <td>
-                                    <?php if ($c['sapi_kurang'] > 0): ?>
-                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
-                                            -<?= number_format($c['sapi_kurang'], 1) ?>
-                                        </span>
-                                    <?php elseif ($c['sapi_kurang'] < 0): ?>
-                                        <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
-                                            +<?= number_format(abs($c['sapi_kurang']), 1) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <i class="bi bi-check2 text-success"></i>
-                                    <?php endif; ?>
-                                </td>
-
-                                <!-- Kambing -->
-                                <td>
-                                    <div class="fw-bold"><?= esc($c['kambing_mandiri']) ?> <span class="fw-normal text-muted small">Ekr</span></div>
-                                </td>
-                                <td class="text-success fw-bold bg-light-subtle"><?= esc($c['kambing_masuk']) ?></td>
-                                <td>
-                                    <?php if ($c['kambing_kurang'] > 0): ?>
-                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
-                                            -<?= $c['kambing_kurang'] ?>
-                                        </span>
-                                    <?php elseif ($c['kambing_kurang'] < 0): ?>
-                                        <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
-                                            +<?= abs($c['kambing_kurang']) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <i class="bi bi-check2 text-success"></i>
-                                    <?php endif; ?>
-                                </td>
-
-                                <td>
-                                    <?php if ($isLengkap): ?>
-                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Lengkap</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3">Proses</span>
-                                    <?php endif; ?>
+                        <?php foreach ($rekap as $hari => $cabangList): ?>
+                            <tr class="table-light">
+                                <td colspan="9" class="text-start fw-bold py-2 ps-3 bg-secondary-subtle">
+                                    <i class="bi bi-calendar-event-fill me-2 text-secondary"></i> JADWAL PENGIRIMAN: <span class="text-primary"><?= esc($hari) ?></span>
                                 </td>
                             </tr>
+                            <?php foreach ($cabangList as $c): ?>
+                                <?php
+                                $isLengkap = ($c['sapi_kurang'] <= 0 && $c['kambing_kurang'] <= 0);
+
+                                // Akumulasi total
+                                $total_s_target += $c['sapi_mandiri'];
+                                $total_s_masuk  += $c['sapi_masuk'];
+                                $total_k_target += $c['kambing_mandiri'];
+                                $total_k_masuk  += $c['kambing_masuk'];
+                                ?>
+                                <tr>
+                                    <td class="text-muted"><?= esc($no++) ?></td>
+                                    <td class="text-start">
+                                        <div class="fw-bold text-dark"><?= esc($c['nama_cabang']) ?></div>
+                                    </td>
+
+                                    <!-- Sapi -->
+                                    <td>
+                                        <div class="fw-bold"><?= esc($c['sapi_mandiri']) ?> <span class="fw-normal text-muted small">Org</span></div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">≈ <?= number_format($c['sapi_mandiri'] / 7, 1) ?> ekor</div>
+                                    </td>
+                                    <td class="text-primary fw-bold bg-light-subtle"><?= esc($c['sapi_masuk']) ?></td>
+                                    <td>
+                                        <?php if ($c['sapi_kurang'] > 0): ?>
+                                            <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
+                                                -<?= number_format($c['sapi_kurang'], 1) ?>
+                                            </span>
+                                        <?php elseif ($c['sapi_kurang'] < 0): ?>
+                                            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
+                                                +<?= number_format(abs($c['sapi_kurang']), 1) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <i class="bi bi-check2 text-success"></i>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <!-- Kambing -->
+                                    <td>
+                                        <div class="fw-bold"><?= esc($c['kambing_mandiri']) ?> <span class="fw-normal text-muted small">Ekr</span></div>
+                                    </td>
+                                    <td class="text-success fw-bold bg-light-subtle"><?= esc($c['kambing_masuk']) ?></td>
+                                    <td>
+                                        <?php if ($c['kambing_kurang'] > 0): ?>
+                                            <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
+                                                -<?= $c['kambing_kurang'] ?>
+                                            </span>
+                                        <?php elseif ($c['kambing_kurang'] < 0): ?>
+                                            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
+                                                +<?= abs($c['kambing_kurang']) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <i class="bi bi-check2 text-success"></i>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td>
+                                        <?php if ($isLengkap): ?>
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Lengkap</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3">Proses</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
                         <?php endforeach ?>
                     <?php else: ?>
                         <tr>

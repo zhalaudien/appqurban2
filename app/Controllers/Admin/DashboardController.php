@@ -74,11 +74,11 @@ class DashboardController extends BaseController
         $stokKambing = $terimaKambingTotal - $sembelihKambing;
 
         // 6. Produksi Besek (Total agregat produksi)
-        $prod = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('os', 'os')->selectSum('ok', 'ok')->where("YEAR(created_at)", $tahun)->get()->getRow();
+        $prod = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('os', 'os')->selectSum('ok', 'ok')->where("YEAR(date_input)", $tahun)->get()->getRow();
 
         // Produksi Besek Harian (Hari ini)
         $harian = $besekModel->selectSum('ts', 'ts')->selectSum('tk', 'tk')->selectSum('a', 'a')->selectSum('os', 'os')->selectSum('ok', 'ok')
-            ->where('DATE(created_at)', date('Y-m-d'))
+            ->where('DATE(date_input)', date('Y-m-d'))
             ->get()->getRow();
 
         // 7. Distribusi Besek (Realisasi pengiriman ke cabang)

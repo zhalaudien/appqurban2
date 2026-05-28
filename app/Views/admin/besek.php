@@ -42,40 +42,41 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Form-->
-                        <form class="needs-validation" action="/besek/tambah" method="post" novalidate>
+                        <form class="needs-validation" action="/besek/create" method="post" novalidate>
+                            <?= csrf_field() ?>
                             <!--begin::Body-->
                             <div class="card-body">
                                 <!--begin::Row-->
-                                <div class="row">
+                                <div class="row g-3">
                                     <!--begin::Col-->
                                     <div class="col-md-4">
                                         <label for="ts" class="form-label">TS</label>
-                                        <input type="text" class="form-control" name="ts">
+                                        <input type="number" class="form-control" name="ts" min="0" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="tk" class="form-label">TK</label>
-                                        <input type="text" class="form-control" name="tk">
+                                        <input type="number" class="form-control" name="tk" min="0" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="a" class="form-label">M</label>
-                                        <input type="text" class="form-control" name="a">
+                                        <input type="number" class="form-control" name="a" min="0" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="os" class="form-label">OS</label>
-                                        <input type="text" class="form-control" name="os">
+                                        <input type="number" class="form-control" name="os" min="0" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="ok" class="form-label">OK</label>
-                                        <input type="text" class="form-control" name="ok">
+                                        <input type="number" class="form-control" name="ok" min="0" required>
                                     </div>
                                 </div>
                                 <!--end::Row-->
                             </div>
                             <!--end::Body-->
                             <!--begin::Footer-->
-                            <div class="card-footer">
-                                <button class="btn btn-info" type="submit">Save Data</button>
-                                <a href="<?= base_url('besek/export') ?>?year=<?= $year ?>" class="btn btn-success">Export Excel</a>
+                            <div class="card-footer text-end">
+                                <button class="btn btn-info" type="submit"><i class="bi bi-save me-1"></i> Simpan Data</button>
+                                <a href="<?= base_url('besek/export') ?>?year=<?= $year ?>" class="btn btn-success"><i class="bi bi-file-earmark-excel me-1"></i> Export Excel</a>
                             </div>
                             <!--end::Footer-->
                         </form>
@@ -90,15 +91,15 @@
                             <h6 class="mb-0">Produksi Dan Stock Besek Hari Ini (<?= date('d-m-Y') ?>)</h6>
                         </div>
                         <div class="card-body p-2">
-                            <table class="table table-striped">
-                                <thead>
+                            <table class="table table-sm table-bordered mb-0 text-center">
+                                <thead class="table-light">
                                     <tr>
                                         <th>Besek</th>
-                                        <th>TS</th>
-                                        <th>TK</th>
-                                        <th>M</th>
-                                        <th>OS</th>
-                                        <th>OK</th>
+                                        <th width="15%">TS</th>
+                                        <th width="15%">TK</th>
+                                        <th width="15%">M</th>
+                                        <th width="15%">OS</th>
+                                        <th width="15%">OK</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,39 +112,39 @@
                                         <td><?= $today_ok ?></td>
                                     </tr>
                                     <tr class="align-middle">
-                                        <td>Besek Dikirim</td>
-                                        <td><?= $kirim_ts + $permintaan_ts ?></td>
-                                        <td><?= $kirim_tk + $permintaan_tk ?></td>
-                                        <td><?= $kirim_a + $permintaan_a ?></td>
-                                        <td><?= $kirim_os + $permintaan_os ?></td>
-                                        <td><?= $kirim_ok + $permintaan_ok ?></td>
+                                        <td class="text-danger">Keluar</td>
+                                        <td class="text-danger"><?= $kirim_ts + $permintaan_ts ?></td>
+                                        <td class="text-danger"><?= $kirim_tk + $permintaan_tk ?></td>
+                                        <td class="text-danger"><?= $kirim_a + $permintaan_a ?></td>
+                                        <td class="text-danger"><?= $kirim_os + $permintaan_os ?></td>
+                                        <td class="text-danger"><?= $kirim_ok + $permintaan_ok ?></td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
+                                <tfoot class="table-light">
+                                    <tr class="fw-bold">
                                         <th>Stock</th>
-                                        <th><?= $today_ts - ($kirim_ts + $permintaan_ts) ?></th>
-                                        <th><?= $today_tk - ($kirim_tk + $permintaan_tk) ?></th>
-                                        <th><?= $today_a - ($kirim_a + $permintaan_a) ?></th>
-                                        <th><?= $today_os - ($kirim_os + $permintaan_os) ?></th>
-                                        <th><?= $today_ok - ($kirim_ok + $permintaan_ok) ?></th>
+                                        <td class="text-primary"><?= $today_ts - ($kirim_ts + $permintaan_ts) ?></td>
+                                        <td class="text-primary"><?= $today_tk - ($kirim_tk + $permintaan_tk) ?></td>
+                                        <td class="text-primary"><?= $today_a - ($kirim_a + $permintaan_a) ?></td>
+                                        <td class="text-primary"><?= $today_os - ($kirim_os + $permintaan_os) ?></td>
+                                        <td class="text-primary"><?= $today_ok - ($kirim_ok + $permintaan_ok) ?></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!--end::Small Box Widget 1-->
                 </div>
                 <!--end::Col-->
+
+                <!-- Total Produksi -->
                 <div class="col-12 col-lg-6">
-                    <div class="card border-primary shadow-sm">
+                    <div class="card border-primary shadow-sm h-100">
                         <div class="card-header bg-primary text-white">
                             <h6 class="mb-0">Total Produksi Besek Tahun <?= esc($year) ?></h6>
                         </div>
-                        <div class="card-body p-2">
-                            <table class="table table-striped">
-                                <thead>
+                        <div class="card-body d-flex align-items-center">
+                            <table class="table table-sm table-bordered mb-0 text-center">
+                                <thead class="table-light">
                                     <tr>
                                         <th>TS</th>
                                         <th>TK</th>
@@ -154,13 +155,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="align-middle">
-                                        <td><?= $total_ts ?></td>
-                                        <td><?= $total_tk ?></td>
-                                        <td><?= $total_a ?></td>
-                                        <td><?= $total_os ?></td>
-                                        <td><?= $total_ok ?></td>
-                                        <td><?= $total_besek ?></td>
+                                    <tr class="align-middle fw-bold">
+                                        <td class="text-primary"><?= number_format($total_ts) ?></td>
+                                        <td class="text-primary"><?= number_format($total_tk) ?></td>
+                                        <td class="text-primary"><?= number_format($total_a) ?></td>
+                                        <td class="text-primary"><?= number_format($total_os) ?></td>
+                                        <td class="text-primary"><?= number_format($total_ok) ?></td>
+                                        <td class="bg-primary text-white"><?= number_format($total_besek) ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -177,65 +178,65 @@
                                     <h6 class="mb-0 text-white">Riwayat Input Besek Tahun <?= esc($year) ?></h6>
                                 </div>
                                 <div class="card-body p-2">
-                                    <table id="datatablesSimple"
-                                        class="table table-striped table-responsive table-hover text-left"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 10px">No</th>
-                                                <th>Besek TS</th>
-                                                <th>Besek TK</th>
-                                                <th>Besek M</th>
-                                                <th>Besek OS</th>
-                                                <th>Besek OK</th>
-                                                <th>Tanggal Input</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $no = 1; ?>
-                                            <?php if ($viewbesek): ?>
-                                                <?php foreach ($viewbesek as $besek): ?>
-                                                    <tr class="align-middle">
-                                                        <td><?= $no++; ?></td>
-                                                        <td><?php echo $besek['ts']; ?></td>
-                                                        <td><?php echo $besek['tk']; ?></td>
-                                                        <td><?php echo $besek['a']; ?></td>
-                                                        <td><?php echo $besek['os']; ?></td>
-                                                        <td><?php echo $besek['ok']; ?></td>
-                                                        <td><?php echo $besek['date_input']; ?></td>
-                                                        <td>
-                                                            <a type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                                data-bs-target="#hapusdata<?php echo $besek['id']; ?>">
-                                                                Hapus
-                                                            </a>
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="hapusdata<?php echo $besek['id']; ?>"
-                                                                tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <h2 class="h2">Apakah anda yakin ?</h2>
-                                                                            <p>Menghapus data kandang
-                                                                                <?php echo $besek['date_input']; ?>
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-warning"
-                                                                                data-bs-dismiss="modal">Batal</button>
-                                                                            <a href="<?= base_url('/besek/hapus/' . $besek['id']) ?>"
-                                                                                type="button" class="btn btn-danger">Hapus</a>
+                                    <div class="table-responsive">
+                                        <table id="datatablesSimple" class="table table-hover table-striped align-middle text-center mb-0" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">No</th>
+                                                    <th>Besek TS</th>
+                                                    <th>Besek TK</th>
+                                                    <th>Besek M</th>
+                                                    <th>Besek OS</th>
+                                                    <th>Besek OK</th>
+                                                    <th>Tanggal Input</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $no = 1; ?>
+                                                <?php if ($viewbesek): ?>
+                                                    <?php foreach ($viewbesek as $besek): ?>
+                                                        <tr class="align-middle">
+                                                            <td><?= $no++; ?></td>
+                                                            <td><?php echo $besek['ts']; ?></td>
+                                                            <td><?php echo $besek['tk']; ?></td>
+                                                            <td><?php echo $besek['a']; ?></td>
+                                                            <td><?php echo $besek['os']; ?></td>
+                                                            <td><?php echo $besek['ok']; ?></td>
+                                                            <td><small class="text-muted"><?php echo date('d/m/Y H:i', strtotime($besek['date_input'])); ?></small></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#hapusdata<?php echo $besek['id']; ?>">
+                                                                    <i class="bi bi-trash"></i> Hapus
+                                                                </button>
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="hapusdata<?php echo $besek['id']; ?>"
+                                                                    tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-body">
+                                                                                <h4 class="fw-bold">Apakah anda yakin?</h4>
+                                                                                <p class="text-muted">Menghapus data produksi besek tanggal
+                                                                                    <strong><?php echo date('d/m/Y', strtotime($besek['date_input'])); ?></strong>
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-warning"
+                                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                                <a href="<?= base_url('besek/delete/' . $besek['id']) ?>"
+                                                                                    type="button" class="btn btn-danger">Hapus</a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

@@ -103,7 +103,7 @@ class BesekController extends Controller
     }
 
 
-    public function tambah()
+    public function create()
     {
         $model = new BesekModel;
         $data = array(
@@ -120,7 +120,7 @@ class BesekController extends Controller
             </script>';
     }
 
-    public function edit()
+    public function update()
     {
         $model = new BesekModel;
         $id = $this->request->getPost('id');
@@ -138,7 +138,7 @@ class BesekController extends Controller
             </script>';
     }
 
-    public function hapus($id = null)
+    public function delete($id = null)
     {
         $model = new BesekModel();
         $data['user'] = $model->where('id', $id)->delete($id);
