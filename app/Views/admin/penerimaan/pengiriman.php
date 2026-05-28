@@ -99,6 +99,10 @@ $sapiBumm    = array_filter($prices, fn($p) => $p['jenis_hewan'] === 'sapi');
                                         <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
                                             -<?= number_format($c['sapi_kurang'], 1) ?>
                                         </span>
+                                    <?php elseif ($c['sapi_kurang'] < 0): ?>
+                                        <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
+                                            +<?= number_format(abs($c['sapi_kurang']), 1) ?>
+                                        </span>
                                     <?php else: ?>
                                         <i class="bi bi-check2 text-success"></i>
                                     <?php endif; ?>
@@ -113,6 +117,10 @@ $sapiBumm    = array_filter($prices, fn($p) => $p['jenis_hewan'] === 'sapi');
                                     <?php if ($c['kambing_kurang'] > 0): ?>
                                         <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2">
                                             -<?= $c['kambing_kurang'] ?>
+                                        </span>
+                                    <?php elseif ($c['kambing_kurang'] < 0): ?>
+                                        <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2">
+                                            +<?= abs($c['kambing_kurang']) ?>
                                         </span>
                                     <?php else: ?>
                                         <i class="bi bi-check2 text-success"></i>
@@ -142,10 +150,30 @@ $sapiBumm    = array_filter($prices, fn($p) => $p['jenis_hewan'] === 'sapi');
                             <td colspan="2" class="text-end py-3">TOTAL KESELURUHAN</td>
                             <td><?= $total_s_target ?> <small class="fw-normal text-muted">Org</small></td>
                             <td class="text-primary"><?= $total_s_masuk ?> <small class="fw-normal text-muted">Ekr</small></td>
-                            <td class="text-danger"><?= ($total_s_target / 7) - $total_s_masuk > 0 ? number_format(($total_s_target / 7) - $total_s_masuk, 1) : '-' ?></td>
+                            <td>
+                                <?php
+                                $diff_s = ($total_s_target / 7) - $total_s_masuk;
+                                if ($diff_s > 0): ?>
+                                    <span class="text-danger">-<?= number_format($diff_s, 1) ?></span>
+                                <?php elseif ($diff_s < 0): ?>
+                                    <span class="text-primary">+<?= number_format(abs($diff_s), 1) ?></span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
                             <td><?= $total_k_target ?> <small class="fw-normal text-muted">Ekr</small></td>
                             <td class="text-success"><?= $total_k_masuk ?> <small class="fw-normal text-muted">Ekr</small></td>
-                            <td class="text-danger"><?= $total_k_target - $total_k_masuk > 0 ? $total_k_target - $total_k_masuk : '-' ?></td>
+                            <td>
+                                <?php
+                                $diff_k = $total_k_target - $total_k_masuk;
+                                if ($diff_k > 0): ?>
+                                    <span class="text-danger">-<?= $diff_k ?></span>
+                                <?php elseif ($diff_k < 0): ?>
+                                    <span class="text-primary">+<?= abs($diff_k) ?></span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
                             <td></td>
                         </tr>
                     </tfoot>
