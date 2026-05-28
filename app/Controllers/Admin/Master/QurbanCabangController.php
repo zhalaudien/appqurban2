@@ -20,19 +20,17 @@ class QurbanCabangController extends BaseController
         $tahun = $this->request->getGet('year') ?? date('Y');
         $rekapData = $this->pequrbanModel->getRekapPerCabang($tahun);
 
-        $header = [
-            'title' => 'Data Hewan Qurban per Cabang',
-            'navbar' => 'qurban',
-            'active' => 'qurbancabang'
-        ];
 
         $data = [
+            'title' => 'Data Hewan Qurban per Cabang',
+            'navbar' => 'qurban',
+            'active' => 'qurbancabang',
             'year'  => $tahun,
             'rekap'  => $rekapData['rekap'],
             'prices' => $rekapData['prices'],
         ];
 
 
-        echo view('admin/master/dataqurbancabang/index', $data, $header);
+        echo view('admin/master/dataqurbancabang/index', $data);
     }
 }

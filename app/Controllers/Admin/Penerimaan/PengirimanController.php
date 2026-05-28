@@ -54,7 +54,7 @@ class pengirimanController extends BaseController
             'rekap'  => $rekap,
             'prices' => $rekapResult['prices'],
             'navbar' => 'pengiriman',
-            'active' => 'pengiriman',
+            'active' => 'pengiriman'
         ];
 
         echo view('admin/penerimaan/pengiriman', $data);

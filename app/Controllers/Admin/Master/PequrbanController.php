@@ -31,19 +31,12 @@ class PequrbanController extends BaseController
                 ->where('cabang.pusat', $idpusat)
                 ->where('pequrban.tahun', $tahun)
                 ->orderBy('pequrban.updated_at', 'DESC')
-                ->findAll()
-        ];
-
-        $header = [
-            'title' => 'Data Pequrban',
+                ->findAll(),
             'navbar' => 'qurban',
             'active' => 'pequrban'
         ];
 
-        echo view("pages/header");
-        echo view("pages/navbar", $header);
         echo view('admin/master/datapequrban/index', $data);
-        echo view("pages/footer");
     }
 
     public function create()
