@@ -114,10 +114,7 @@ class BesekController extends Controller
             'ok' => $this->request->getPost('ok'),
         );
         $model->save($data);
-        echo '<script>
-                alert("Sukses Tambah Data Besek");
-                window.location="' . base_url('besek') . '"
-            </script>';
+        return redirect()->to(base_url('besek'))->with('success', 'Sukses Tambah Data Produksi Besek');
     }
 
     public function update()
@@ -132,20 +129,14 @@ class BesekController extends Controller
             'ok' => $this->request->getPost('ok'),
         );
         $model->update($id, $data);
-        echo '<script>
-                alert("Sukses Edit Data Besek");
-                window.location="' . base_url('besek') . '"
-            </script>';
+        return redirect()->to(base_url('besek'))->with('success', 'Sukses Edit Data Produksi Besek');
     }
 
     public function delete($id = null)
     {
         $model = new BesekModel();
-        $data['user'] = $model->where('id', $id)->delete($id);
-        echo '<script>
-                alert("Sukses Hapus Data Besek");
-                window.location="' . base_url('besek') . '"
-            </script>';
+        $model->delete($id);
+        return redirect()->to(base_url('besek'))->with('success', 'Sukses Hapus Data Produksi Besek');
     }
 
     public function export()

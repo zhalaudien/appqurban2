@@ -116,6 +116,46 @@ class PequrbanModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | MASTER GRAND TOTAL - GABUNGAN PEQURBAN, AMPRAH, REALISASI, JADWAL
+    |--------------------------------------------------------------------------
+    */
+    public function getMasterRekap($tahun = null)
+    {
+        $tahun = $tahun ?? date('Y');
+        $user  = session()->get('user');
+        $pusat = $user['pusat'] ?? null;
+
+        $builder = $this->db->table('cabang c');
+        $builder->select("
+            c.id,
+            c.nama_cabang,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS target_sapi_mandiri,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'kambing' AND p.sumber = 'mandiri' THEN 1 ELSE 0 END), 0) AS target_kambing_mandiri,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'sapi' AND p.sumber = 'bumm' THEN 1 ELSE 0 END), 0) AS target_sapi_bumm,
+            COALESCE(SUM(CASE WHEN p.jenis_hewan = 'kambing' AND p.sumber = 'bumm' THEN 1 ELSE 0 END), 0) AS target_kambing_bumm,
+            a.TS AS amprah_ts, a.TK AS amprah_tk, a.A AS amprah_a, a.M AS amprah_m, a.OS AS amprah_os, a.OK AS amprah_ok,
+            a.K_S AS amprah_ks, a.K_KB AS amprah_kb, a.KK_S AS amprah_kks, a.KLS AS amprah_kls,
+            r.id AS realisasi_id, r.R_TS AS real_ts, r.R_TK AS real_tk, r.R_A AS real_a, r.R_M AS real_m, r.R_OS AS real_os, r.R_OK AS real_ok,
+            r.R_K_S AS real_ks, r.R_K_KB AS real_kb, r.R_KK_S AS real_kks, r.R_KLS AS real_kls,
+            j.antrian, j.kirim_hewan, j.kirim_besek, j.status AS status_jadwal
+        ", false);
+
+        $builder->join('pequrban p', "p.cabang_id = c.id AND p.tahun = " . $this->db->escape($tahun), 'left');
+        $builder->join('jadwal j', "j.id = (SELECT id FROM jadwal WHERE cabang_id = c.id ORDER BY id DESC LIMIT 1)", 'left');
+        $builder->join('amprah a', "a.cabang_id = c.id", 'left');
+        $builder->join('realisasi r', "r.cabang_id = c.id", 'left');
+
+        if ($pusat) {
+            $builder->where('c.pusat', $pusat);
+        }
+        $builder->groupBy('c.id, j.id, a.id, r.id');
+        $builder->orderBy('c.nama_cabang', 'ASC');
+
+        return $builder->get()->getResultArray();
+    }
+
 
     /*
     |--------------------------------------------------------------------------

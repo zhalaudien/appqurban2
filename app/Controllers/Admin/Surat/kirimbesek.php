@@ -2,39 +2,7 @@
 <?= $this->section('content') ?>
 
 <!--begin::Container-->
-<div class="container-fluid py-2">
-    <!-- Header & Filter -->
-    <div class="row align-items-center mb-3">
-        <div class="col-sm-6">
-            <h4 class="fw-bold mb-0">Surat Pengiriman Besek</h4>
-            <small class="text-muted">Manajemen Realisasi & Amprah Besek Tahun <?= esc($year) ?></small>
-        </div>
-        <div class="col-sm-6 text-end">
-            <form action="" method="get" class="d-flex align-items-center justify-content-end gap-2">
-                <label class="small text-muted mb-0">Pilih Tahun</label>
-                <select name="year" onchange="this.form.submit()" class="form-select form-select-sm shadow-sm" style="width:120px">
-                    <?php for ($y = date('Y'); $y >= 2020; $y--): ?>
-                        <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
-                    <?php endfor ?>
-                </select>
-            </form>
-        </div>
-    </div>
-
-    <!-- Flash Messages -->
-    <?php if (session()->getFlashdata('success')) : ?>
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('success') ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-    <?php if (session()->getFlashdata('error')) : ?>
-        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-
+<div class="container-fluid py-3">
     <div class="row g-4">
         <!-- Form Input Permintaan -->
         <div class="col-12 col-lg-12">
@@ -46,7 +14,6 @@
                 <!--end::Header-->
                 <!--begin::Form-->
                 <form class="needs-validation" action="/kirimbesek/tambah" method="post" novalidate>
-                    <?= csrf_field() ?>
                     <!--begin::Body-->
                     <div class="card-body">
                         <!--begin::Row-->
@@ -57,47 +24,47 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="ts" class="form-label">Besek TS</label>
-                                <input type="number" class="form-control" name="ts" min="0">
+                                <input type="text" class="form-control" name="ts">
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-md-2">
                                 <label for="tk" class="form-label">Besek TK</label>
-                                <input type="number" class="form-control" name="tk" min="0">
+                                <input type="text" class="form-control" name="tk">
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-md-2">
                                 <label for="a" class="form-label">Besek M</label>
-                                <input type="number" class="form-control" name="a" min="0">
+                                <input type="text" class="form-control" name="a">
                             </div>
                             <div class="col-md-2">
                                 <label for="os" class="form-label">Besek OS</label>
-                                <input type="number" class="form-control" name="os" min="0">
+                                <input type="text" class="form-control" name="os">
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-md-2">
                                 <label for="ok" class="form-label">Besek OK</label>
-                                <input type="number" class="form-control" name="ok" min="0">
+                                <input type="text" class="form-control" name="ok">
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
                             <div class="col-md-2">
                                 <label for="ks" class="form-label">Kepala Sapi</label>
-                                <input type="number" class="form-control" name="ks" min="0">
+                                <input type="text" class="form-control" name="ks">
                             </div>
                             <div class="col-md-2">
                                 <label for="kb" class="form-label">Kepala Kambing</label>
-                                <input type="number" class="form-control" name="kb" min="0">
+                                <input type="text" class="form-control" name="kb">
                             </div>
                             <div class="col-md-2">
                                 <label for="kks" class="form-label">Kaki Sapi</label>
-                                <input type="number" class="form-control" name="kks" min="0">
+                                <input type="text" class="form-control" name="kks">
                             </div>
                             <div class="col-md-2">
                                 <label for="kls" class="form-label">kulit Sapi</label>
-                                <input type="number" class="form-control" name="kls" min="0">
+                                <input type="text" class="form-control" name="kls">
                             </div>
                             <div class="col-md-2">
                                 <label for="status" class="form-label">Status Pengiriman</label>
@@ -164,70 +131,73 @@
                                             <tr class="align-middle">
                                                 <td class="text-muted"><?= $no++; ?></td>
                                                 <td class="text-start fw-bold text-dark"><?= esc($r['cabang'] ?? 'BUMM/Pusat') ?></td>
-                                                <td><?= esc($r['R_TS'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_TK'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_A'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_M'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_OS'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_OK'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_K_S'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_K_KB'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_KK_S'] ?? 0) ?></td>
-                                                <td><?= esc($r['R_KLS'] ?? 0) ?></td>
+                                                <td><?= esc($r['R_TS']) ?></td>
+                                                <td><?= esc($r['R_TK']) ?></td>
+                                                <td><?= esc($r['R_A']) ?></td>
+                                                <td><?= esc($r['R_M']) ?></td>
+                                                <td><?= esc($r['R_OS']) ?></td>
+                                                <td><?= esc($r['R_OK']) ?></td>
+                                                <td><?= esc($r['R_K_S']) ?></td>
+                                                <td><?= esc($r['R_K_KB']) ?></td>
+                                                <td><?= esc($r['R_KK_S']) ?></td>
+                                                <td><?= esc($r['R_KLS']) ?></td>
                                                 <td>
                                                     <span class="badge <?= (($r['status_jadwal'] ?? '') == 'Selesai') ? 'bg-success text-white' : 'bg-warning text-dark' ?>">
                                                         <?= esc($r['status_jadwal'] ?? 'Belum Ada') ?>
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <?php if (!empty($r['id'])): ?>
-                                                        <div class="btn-group btn-group-sm shadow-sm">
-                                                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $r['id'] ?>">
-                                                                <i class="bi bi-pencil-square"></i>
-                                                            </button>
-                                                            <a href="<?= base_url('/kirimbesek/print/' . $r['id']) ?>" class="btn btn-outline-success" target="_blank">
-                                                                <i class="bi bi-printer"></i>
-                                                            </a>
-                                                            <a href="<?= base_url('/kirimbesek/pdf/' . $r['id']) ?>" class="btn btn-outline-danger" title="Export PDF">
-                                                                <i class="bi bi-file-pdf"></i>
-                                                            </a>
-                                                        </div>
-
-                                                        <!-- Modal Edit Realisasi -->
-                                                        <div class="modal fade" id="edit<?= $r['id'] ?>" tabindex="-1" aria-labelledby="editLabel<?= $r['id'] ?>" aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content text-start">
-                                                                    <div class="modal-header bg-warning text-dark">
-                                                                        <h5 class="modal-title" id="editLabel<?= $r['id'] ?>"><i class="bi bi-pencil-square me-2"></i>Edit Status Pengiriman: <?= esc($r['cabang'] ?? 'BUMM/Pusat') ?></h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <form action="<?= base_url('/kirimbesek/edit') ?>" method="post">
-                                                                        <?= csrf_field() ?>
-                                                                        <div class="modal-body">
-                                                                            <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                                                                            <div class="row g-3">
-                                                                                <div class="col-md-12 mb-2">
-                                                                                    <label class="form-label fw-bold">Status Pengiriman Pada Jadwal</label>
-                                                                                    <select name="status" class="form-select shadow-sm border-warning">
-                                                                                        <option value="Proses" <?= (($r['status_jadwal'] ?? '') == 'Proses') ? 'selected' : '' ?>>Proses</option>
-                                                                                        <option value="Dikirim" <?= (($r['status_jadwal'] ?? '') == 'Dikirim') ? 'selected' : '' ?>>Dikirim</option>
-                                                                                        <option value="Selesai" <?= (($r['status_jadwal'] ?? '') == 'Selesai') ? 'selected' : '' ?>>Selesai</option>
-                                                                                        <option value="Tertunda" <?= (($r['status_jadwal'] ?? '') == 'Tertunda') ? 'selected' : '' ?>>Tertunda</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer bg-light">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                                            <button type="submit" class="btn btn-warning fw-bold">Simpan Perubahan</button>
-                                                                        </div>
-                                                                    </form>
+                                                    <div class="btn-group btn-group-sm shadow-sm">
+                                                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $r['id'] ?>">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </button>
+                                                        <a href="<?= base_url('/kirimbesek/print/' . $r['id']) ?>" class="btn btn-outline-success" target="_blank">
+                                                            <i class="bi bi-printer"></i>
+                                                        </a>
+                                                        <a href="<?= base_url('/kirimbesek/pdf/' . $r['id']) ?>" class="btn btn-outline-danger" title="Export PDF">
+                                                            <i class="bi bi-file-pdf"></i>
+                                                        </a>
+                                                    </div>
+                                                    <!-- Modal Edit Realisasi -->
+                                                    <div class="modal fade" id="edit<?= $r['id'] ?>" tabindex="-1" aria-labelledby="editLabel<?= $r['id'] ?>" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content text-start">
+                                                                <div class="modal-header bg-warning text-dark">
+                                                                    <h5 class="modal-title" id="editLabel<?= $r['id'] ?>"><i class="bi bi-pencil-square me-2"></i>Update Data & Status: <?= esc($r['cabang'] ?? 'BUMM/Pusat') ?></h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
+                                                                <form action="<?= base_url('/kirimbesek/edit') ?>" method="post">
+                                                                    <?= csrf_field() ?>
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                                                                        <div class="row g-3">
+                                                                            <div class="col-md-12 mb-2">
+                                                                                <label class="form-label fw-bold">Status Pengiriman Pada Jadwal</label>
+                                                                                <select name="status" class="form-select shadow-sm border-warning">
+                                                                                    <option value="Proses" <?= (($r['status_jadwal'] ?? '') == 'Proses') ? 'selected' : '' ?>>Proses</option>
+                                                                                    <option value="Dikirim" <?= (($r['status_jadwal'] ?? '') == 'Dikirim') ? 'selected' : '' ?>>Dikirim</option>
+                                                                                    <option value="Selesai" <?= (($r['status_jadwal'] ?? '') == 'Selesai') ? 'selected' : '' ?>>Selesai</option>
+                                                                                    <option value="Tertunda" <?= (($r['status_jadwal'] ?? '') == 'Tertunda') ? 'selected' : '' ?>>Tertunda</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-3"><label class="small">R_TS</label><input type="number" name="r_ts" class="form-control form-control-sm" value="<?= $r['R_TS'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">R_TK</label><input type="number" name="r_tk" class="form-control form-control-sm" value="<?= $r['R_TK'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">R_A</label><input type="number" name="r_a" class="form-control form-control-sm" value="<?= $r['R_A'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">R_M</label><input type="number" name="r_m" class="form-control form-control-sm" value="<?= $r['R_M'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">R_OS</label><input type="number" name="r_os" class="form-control form-control-sm" value="<?= $r['R_OS'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">R_OK</label><input type="number" name="r_ok" class="form-control form-control-sm" value="<?= $r['R_OK'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">K Sapi</label><input type="number" name="r_ks" class="form-control form-control-sm" value="<?= $r['R_K_S'] ?>"></div>
+                                                                            <div class="col-md-3"><label class="small">K Kambing</label><input type="number" name="r_kb" class="form-control form-control-sm" value="<?= $r['R_K_KB'] ?>"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer bg-light">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-warning fw-bold">Simpan Perubahan</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
-                                                    <?php else: ?>
-                                                        <span class="text-muted small">Input Realisasi Terlebih Dahulu</span>
-                                                    <?php endif; ?>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -264,8 +234,6 @@
                                     <th>OK</th>
                                     <th>K Sapi</th>
                                     <th>K Kambing</th>
-                                    <th>KK Sapi</th>
-                                    <th>KL Sapi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -283,8 +251,6 @@
                                             <td><?= esc($p['ok']) ?></td>
                                             <td><?= esc($p['ks']) ?></td>
                                             <td><?= esc($p['kb']) ?></td>
-                                            <td><?= esc($p['kks']) ?></td>
-                                            <td><?= esc($p['kls']) ?></td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
                                                     <a href="<?= base_url('/kirimbesek/print_permintaan/' . $p['id']) ?>" class="btn btn-outline-info" target="_blank" title="Cetak Surat Pengantar">

@@ -7,6 +7,7 @@ use App\Models\RealisasiModel;
 use App\Models\PermintaanModel; // Added PermintaanModel
 use App\Models\CabangModel;
 use App\Models\JadwalModel;
+use App\Models\PequrbanModel;
 use CodeIgniter\Controller;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -17,24 +18,59 @@ class SuratController extends Controller
     // Realaisasi kontroler
     public function index()
     {
+        $tahun = $this->request->getGet('year') ?? date('Y');
         $header = [
             'title' => 'Surat Kirim Besek',
             'navbar' => 'surat',
-            'active' => 'kirimbesek'
+            'active' => 'kirimbesek',
+            'year' => $tahun
         ];
 
-        $userModel = new RealisasiModel();
-        $data['realisasi'] = $userModel->select('realisasi.*, cabang.nama_cabang as cabang, jadwal.status as status_jadwal')
-            ->join('cabang', 'cabang.id = realisasi.cabang_id', 'left')
-            ->join('jadwal', 'jadwal.cabang_id = realisasi.cabang_id', 'left')
-            ->orderBy('cabang.nama_cabang', 'ASC')
-            ->findAll();
+        $pequrbanModel = new PequrbanModel();
+        $rawMaster = $pequrbanModel->getMasterRekap($tahun);
+
+        // Map data agar sesuai dengan variabel di view (R_TS, R_TK, dll)
+        $rawRealisasi = [];
+        foreach ($rawMaster as $m) {
+            $rawRealisasi[] = [
+                'id'            => $m['realisasi_id'], // ID Realisasi untuk Modal
+                'cabang'        => $m['nama_cabang'],
+                'R_TS'          => $m['real_ts'],
+                'R_TK'          => $m['real_tk'],
+                'R_A'           => $m['real_a'],
+                'R_M'           => $m['real_m'],
+                'R_OS'          => $m['real_os'],
+                'R_OK'          => $m['real_ok'],
+                'R_K_S'         => $m['real_ks'],
+                'R_K_KB'        => $m['real_kb'],
+                'R_KK_S'        => $m['real_kks'],
+                'R_KLS'         => $m['real_kls'],
+                'status_jadwal' => $m['status_jadwal'],
+                'kirim_besek'   => $m['kirim_besek'],
+            ];
+        }
+
+        // Kelompokkan berdasarkan jadwal pengiriman besek
+        $grouped = [];
+        foreach ($rawRealisasi as $r) {
+            $hari = trim($r['kirim_besek'] ?? '') ?: 'Belum Terjadwal';
+            $grouped[$hari][] = $r;
+        }
+
+        // Urutkan grup secara natural (H1, H2, dst)
+        uksort($grouped, function ($a, $b) {
+            if ($a === 'Belum Terjadwal') return 1;
+            if ($b === 'Belum Terjadwal') return -1;
+            return strnatcmp($a, $b);
+        });
+
+        $data['realisasi'] = $grouped;
 
         // Mengambil data permintaan besek terbaru
         $permintaanModel = new PermintaanModel();
         $data['permintaan'] = $permintaanModel->orderBy('id', 'DESC')->findAll();
 
-        echo view("admin/surat/kirimbesek", $data, $header,);
+        echo view("admin/surat/kirimbesek", array_merge($data, $header));
     }
 
     public function tambah()
@@ -53,10 +89,7 @@ class SuratController extends Controller
             'kls' => $this->request->getPost('kls'),
         );
         $model->save($data); // Assuming save method in PermintaanModel
-        echo '<script>
-                alert("Sukses Tambah Data Permintaan"); // Changed message
-                window.location="' . base_url('/kirimbesek') . '"
-            </script>';
+        return redirect()->to(base_url('kirimbesek'))->with('success', 'Sukses Tambah Data Permintaan Besek');
     }
 
     public function edit()
@@ -65,58 +98,34 @@ class SuratController extends Controller
         $jadwalModel = new JadwalModel();
         $id = $this->request->getPost('id');
         if (!$id) {
-            echo '<script>
-                    alert("ID tidak ditemukan.");
-                    window.location="' . base_url('/kirimbesek') . '"
-                </script>';
-            return;
+            return redirect()->to(base_url('kirimbesek'))->with('error', 'ID Realisasi tidak ditemukan');
         }
 
         // Ambil data realisasi untuk mendapatkan cabang_id yang akan diupdate status jadwalnya
         $realisasi = $userModel->find($id);
         $cabang_id = $realisasi['cabang_id'] ?? null;
 
-        $data = [
-            'R_TS'   => $this->request->getPost('r_ts'),
-            'R_TK'   => $this->request->getPost('r_tk'),
-            'R_A'    => $this->request->getPost('r_a'),
-            'R_OK'   => $this->request->getPost('r_ok'),
-            'R_OS'   => $this->request->getPost('r_os'),
-            'R_K_S'  => $this->request->getPost('r_ks'),
-            'R_K_KB' => $this->request->getPost('r_kb'),
-            'R_KK_S' => $this->request->getPost('r_kks'),
-            'R_KLS'  => $this->request->getPost('r_kls'),
-        ];
-
-        // Bersihkan array dari nilai null agar tidak menimpa data yang sudah ada (khusus jika modal hanya edit status)
-        $data = array_filter($data, fn($value) => !is_null($value));
-
-        if (!empty($data)) {
-            $userModel->update($id, $data);
-        }
-
-        // Update status pengiriman di tabel jadwal berdasarkan cabang_id dan tahun berjalan
+        // Update status pengiriman di tabel jadwal berdasarkan cabang_id (ambil record terbaru)
         if ($cabang_id) {
-            $jadwalModel->where('cabang_id', $cabang_id)
-                ->where('tahun', date('Y'))
-                ->set(['status' => $this->request->getPost('status')])
-                ->update();
+            $lastJadwal = $jadwalModel->where('cabang_id', $cabang_id)
+                ->orderBy('id', 'DESC')
+                ->first();
+
+            if ($lastJadwal) {
+                $jadwalModel->update($lastJadwal['id'], [
+                    'status' => $this->request->getPost('status')
+                ]);
+            }
         }
 
-        echo '<script>
-                alert("Sukses Edit Data Realaisasi");
-                window.location="' . base_url('/kirimbesek') . '"
-            </script>';
+        return redirect()->to(base_url('kirimbesek'))->with('success', 'Status pengiriman berhasil diperbarui');
     }
 
-    public function hapusrealaisasi($id)
+    public function delete($id)
     {
-        $model = new QurbanModel();
-        $data['user'] = $model->where('id', $id)->delete($id);
-        echo '<script>
-                alert("Sukses Hapus Data Realaisasi");
-                window.location="' . base_url('/realisasi') . '"
-            </script>';
+        $model = new RealisasiModel();
+        $model->delete($id);
+        return redirect()->to(base_url('kirimbesek'))->with('success', 'Data Realisasi Berhasil Dihapus');
     }
 
     // Jadwal kontroler
@@ -416,10 +425,7 @@ class SuratController extends Controller
     public function hapuspermintaan($id)
     {
         $model = new PermintaanModel();
-        $data['user'] = $model->where('id', $id)->delete($id);
-        echo '<script>
-                alert("Sukses Hapus Data Permintaan");
-                window.location="' . base_url('/kirimbesek') . '"
-            </script>';
+        $model->delete($id);
+        return redirect()->to(base_url('kirimbesek'))->with('success', 'Data Permintaan Berhasil Dihapus');
     }
 }
